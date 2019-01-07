@@ -1,0 +1,110 @@
+.borderless-image-button {
+    -fx-border-style: none;
+}
+
+.label.heading {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-text-fill: #606060;
+}
+
+.label.larger {
+    -fx-font-size: 20;
+}
+
+.label.littlelarger {
+    -fx-font-size: 16;
+}
+
+.step-cell-editor {
+    -fx-background-color: #f7f7f7;
+    -fx-background-radius: 5;
+    -fx-background-insets: 5;
+
+    -fx-border-color: lightgray;
+    -fx-border-radius: 5;
+    -fx-border-insets: 5;
+}
+
+.editing-container {
+    -fx-text-fill: black;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-color: darkgray;
+    -fx-background: WhiteSmoke;
+    -fx-padding: 5;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+.table-cell.error {
+    -fx-text-fill: #FF0000;
+    -fx-font-weight: bold;
+}
+
+.table-cell.success {
+    -fx-text-fill: #008000;
+    -fx-font-weight: bold;
+}
+
+.table-cell {
+    -fx-text-fill: #000000;
+}
+
+/* Make the default border highlight green?  Doesn't look great. Leaving as is, for now
+.text-input {
+    -fx-focus-color: #04d316;
+}
+*/
+
+.tag-label {
+    -fx-text-fill: black;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-border-color: darkgray;
+    -fx-background-color: whitesmoke;
+    -fx-padding: 0 10 0 10;
+}
+
+.metadata-label {
+    -fx-text-fill: black;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-border-color: darkgray;
+    -fx-background-color: whitesmoke;
+    -fx-padding: 0 5 0 5;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+.choice-box:error {
+    -fx-border-color: #d35244;
+    -fx-focus-color: #d35244;
+
+    -fx-highlight-fill: -fx-accent;
+    -fx-highlight-text-fill: white;
+    /*noinspection CssInvalidFunction*/
+    -fx-background-color:
+        -fx-focus-color,
+        -fx-control-inner-background,
+        -fx-faint-focus-color,
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: -0.2, 1, -1.4, 3;
+    -fx-background-radius: 3, 2, 4, 0;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+.text-input:error {
+    -fx-focus-color: #d35244;
+    -fx-faint-focus-color: #d3524422;
+
+    -fx-highlight-fill: -fx-accent;
+    -fx-highlight-text-fill: white;
+    /*noinspection CssInvalidFunction*/
+    -fx-background-color:
+        -fx-focus-color,
+        -fx-control-inner-background,
+        -fx-faint-focus-color,
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: -0.2, 1, -1.4, 3;
+    -fx-background-radius: 3, 2, 4, 0;
+    /*-fx-prompt-text-fill: transparent;*/
+}

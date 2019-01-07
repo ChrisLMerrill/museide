@@ -1,0 +1,34 @@
+.step-default {
+    -fx-padding: 1;
+}
+
+.step-running {
+    -fx-border-radius: 5;
+    -fx-border-color: black;
+    -fx-background-color: #FFFF77;
+    -fx-background-radius: 5;
+    -fx-padding: 0;
+}
+
+.step-complete {
+    -fx-text-fill: lightgray;
+    -fx-padding: 1;
+}
+
+.step-incomplete {
+    -fx-text-fill: grey;
+    -fx-border-radius: 5;
+    -fx-border-color: grey;
+    -fx-background-color: #F4F4F4;
+    -fx-background-radius: 5;
+    -fx-padding: 0;
+}
+
+.step-paused {
+    -fx-text-fill: black;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-color: darkgray;
+    -fx-background: lightcyan;
+    -fx-padding: 0;
+}

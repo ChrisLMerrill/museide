@@ -1,0 +1,64 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'antlr'
+}
+
+group = 'org.musetest'
+version = 0.11
+
+dependencies
+    {
+    compile 'org.slf4j:slf4j-api:1.7.12'
+    compile "org.antlr:antlr4:4.5" // while the antlr step below is sufficient to compile the parser, without this compile dependency, dependent projects must also declare ANTLR
+
+    antlr "org.antlr:antlr4:4.5"
+
+    testCompile 'junit:junit:4.12'
+    }
+
+repositories
+    {
+    mavenCentral()
+    jcenter()
+    }
+
+generateGrammarSource
+    {
+    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/musetest/parsing/valuesource/antlr".toString())   // update *.g files if you change this
+    }
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            artifact sourcesJar
+            artifact javadocJar
+            artifact jar
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+    }
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+    }
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    }
+
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+javadoc.options.addStringOption('Xdoclint:none', '-html5')
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.9'
+}

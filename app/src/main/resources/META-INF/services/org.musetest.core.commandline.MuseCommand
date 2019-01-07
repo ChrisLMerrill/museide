@@ -1,0 +1,3 @@
+org.musetest.ui.ide.commandline.EditResourceCommand
+org.musetest.ui.ide.commandline.NavigateProjectCommand
+org.musetest.ui.ide.commandline.OpenIdeCommand

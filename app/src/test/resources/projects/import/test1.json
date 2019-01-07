@@ -1,0 +1,16 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "scope",
+    "children" : [ {
+      "type" : "log-message",
+      "sources" : {
+        "message" : {
+          "value" : "replace this with some useful steps",
+          "type" : "string"
+        }
+      }
+    } ]
+  },
+  "tags" : [ ]
+}

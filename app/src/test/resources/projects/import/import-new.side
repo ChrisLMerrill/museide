@@ -1,0 +1,26 @@
+{"id":"6423bde0-f882-4e1b-bd88-230f17b39987",
+"name":"TestProject",
+"url":"https://the-internet.herokuapp.com",
+"tests":[
+  {"id":"7e6bb643-7452-4e34-a5f9-178a3e7572b9",
+  "name":"Login-Logout",
+  "commands":
+  	[{"id":"1ba24fa2-15e0-46db-8471-5828e2dcafda",
+  		"comment":"",
+  		"command":"open",
+  		"target":"/",
+  		"value":""},
+	 {"id":"a61d4985-ff49-4734-b803-76ae394b4767",
+	 	"comment":"",
+	 	"command":"clickAt",
+	 	"target":"css=a.close","value":"9,8"}
+	]}
+],
+"suites":[
+	{"id":"8a56811b-4c95-4eda-996b-ca9e7e204b03",
+	"name":"Default Suite",
+	"tests":["7e6bb643-7452-4e34-a5f9-178a3e7572b9"]
+	}
+],
+	"urls":["https://the-internet.herokuapp.com"]
+}

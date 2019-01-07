@@ -1,0 +1,106 @@
+plugins {
+    id 'java-library'
+    id 'application'
+    id 'maven-publish'
+}
+
+group 'org.musetest'
+version '0.15'
+
+dependencies
+    {
+    implementation 'org.musetest:muse-core:0.15'
+    implementation 'org.musetest:muse-selenium:0.15'
+    implementation 'org.musetest:muse-seleniumide:0.15'
+    implementation 'org.musetest:muse-commandline:0.15'
+    implementation 'org.musetest:muse-extensions:0.3'
+
+    implementation 'org.musetest:ide-extend:0.2'
+    implementation 'org.musetest:ide-step-test-editor:0.3'
+    implementation 'org.musetest:ide-editors:0.3'
+    implementation 'org.musetest:ide-valuesource:0.5'
+    implementation 'net.christophermerrill:FancyFxTree:3.2'
+    implementation 'net.christophermerrill:ShadowboxFx:1.2'
+    implementation 'com.ide4selenium:ws-shared:0.9'
+
+    implementation 'org.controlsfx:controlsfx:9.0.0'
+    implementation files('lib/openjfx-dialogs-1.0.3.jar')
+    //implementation 'com.github.alexbodogit:AnchorFX:master'
+    implementation files('lib/AnchorFX-master.jar')
+    implementation 'de.jensd:fontawesomefx-commons:9.1.2'
+    implementation 'de.jensd:fontawesomefx-controls:9.1.2'
+    implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
+    implementation 'de.jensd:fontawesomefx-icons525:4.2.0-9.1.2'
+
+    implementation 'org.glassfish.jersey.core:jersey-client:2.25.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
+    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.6'
+
+    testImplementation 'net.christophermerrill:TestFxUtils:1.2'
+    testImplementation 'org.mockito:mockito-core:2.7.9'
+    testImplementation 'org.testfx:openjfx-monocle:jdk-9+181'
+    }
+
+repositories
+    {
+    mavenLocal()
+    jcenter()
+    }
+
+mainClassName = 'org.musetest.ui.ide.IdeApplication'
+applicationName = 'museide'
+
+distributions
+    {
+    main
+        {
+        baseName = 'museide'
+        }
+    }
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+    }
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+    }
+
+task installDeps {
+	dependsOn gradle.includedBuilds*.task(':publishToMavenLocal')
+}
+    
+publishing {
+    repositories {
+        mavenLocal()
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            artifact sourcesJar
+            artifact javadocJar
+            artifact jar
+        }
+    }
+}
+
+artifacts
+    {
+    archives sourcesJar
+    archives javadocJar
+    }
+
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+javadoc.options.addStringOption('Xdoclint:none', '-html5')
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.9'
+}
