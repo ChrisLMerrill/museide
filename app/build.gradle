@@ -32,7 +32,7 @@ dependencies
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
     implementation 'de.jensd:fontawesomefx-icons525:4.2.0-9.1.2'
 
-    implementation 'org.glassfish.jersey.core:jersey-client:2.25.1'
+    implementation 'org.glassfish.jersey.core:jersey-client:2.27'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.6'
 
