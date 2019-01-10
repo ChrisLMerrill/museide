@@ -7,13 +7,12 @@ import javafx.scene.layout.*;
 import javafx.stage.*;
 import net.christophermerrill.ShadowboxFx.*;
 import org.controlsfx.control.*;
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
-import org.musetest.extensions.*;
 import org.musetest.ui.extend.actions.*;
 import org.musetest.ui.extend.components.*;
 import org.musetest.ui.extend.glyphs.*;
-import org.musetest.ui.extensions.*;
 import org.musetest.ui.ide.*;
 import org.musetest.ui.ide.navigation.resources.actions.*;
 import org.musetest.ui.seideimport.*;
@@ -75,6 +74,20 @@ public class ProjectNavigator
         button_bar.add(edit_buttons, button_bar.getChildren().size(), 0);
         GridPane.setHgrow(edit_buttons, Priority.ALWAYS);
 
+        Button add_button = createAddResourceButton();
+        edit_buttons.getChildren().add(add_button);
+
+        Button import_button = createImportButton();
+        edit_buttons.getChildren().add(import_button);
+
+        for (ProjectNavigatorAdditionalButtonProvider provider : BUTTON_PROVIDERS)
+            for (Button button : provider.getButtons(_project, getNode()))
+                edit_buttons.getChildren().add(button);
+        }
+
+    @NotNull
+    private Button createAddResourceButton()
+        {
         Button add_button = new Button("Add", Glyphs.create("FA:PLUS"));
         add_button.setTooltip(new Tooltip("Add new resource to project"));
         add_button.setOnAction(event ->
@@ -107,8 +120,12 @@ public class ProjectNavigator
                 };
             popper.show(add_button);
             });
-        edit_buttons.getChildren().add(add_button);
+        return add_button;
+        }
 
+    @NotNull
+    private Button createImportButton()
+        {
         Button import_button = new Button("Import", Glyphs.create("FA:SIGN_IN"));
         import_button.setTooltip(new Tooltip("Import a SeleniumIDE test"));
         import_button.setOnAction(event ->
@@ -150,36 +167,9 @@ public class ProjectNavigator
                     }
                 });
             });
-        edit_buttons.getChildren().add(import_button);
-
-        Button extensions_button = new Button("Extensions...");
-        extensions_button.setOnAction(event ->
-            {
-            List<ExtensionInfo> list = new ArrayList<>();  // TODO go get the list(s)
-            ExtensionInfo info1 = createExtension("1");
-            list.add(info1);
-            ExtensionInfo info2 = createExtension("2");
-            list.add(info2);
-
-            ManageExtensionsPane pane = new ManageExtensionsPane(_project);
-            pane.getNode().getStyleClass().add("dialog-pane");
-            ShadowboxPane shadowbox = ShadowboxPane.findFromNode(getNode());
-            shadowbox.showOverlayOnShadowbox(pane.getNode());
-            pane.setButtonListener(shadowbox::removeOverlay);
-            });
-        edit_buttons.getChildren().add(extensions_button);
+        return import_button;
         }
-
-    public static ExtensionInfo createExtension(String extra_id)
-        {
-        final String ext_name = "Extension " + extra_id;
-        final String ver_name = "version-" + extra_id;
-        final String description = "description of the extension: " + extra_id;
-        final ExtensionInfo info = new ExtensionInfo(1L, ext_name, "Joe Developer", 2L, ver_name);
-        info.setExtensionDesc(description);
-        return info;
-        }
-
+    
     private void showAndEditResource(ResourceToken token)
         {
         ProjectNode root = _tree.getRootNode();
@@ -203,4 +193,11 @@ public class ProjectNavigator
     private ProjectResourceTree _tree;
 
     private final static Logger LOG = LoggerFactory.getLogger(ProjectNavigator.class);
+
+    private final static List<ProjectNavigatorAdditionalButtonProvider> BUTTON_PROVIDERS = new ArrayList<>();
+
+    public static void addButtonProvider(ProjectNavigatorAdditionalButtonProvider provider)
+        {
+        BUTTON_PROVIDERS.add(provider);
+        }
     }

@@ -6,7 +6,6 @@ import javafx.stage.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.ui.extend.components.*;
-import org.musetest.ui.i4s.*;
 import org.musetest.ui.ide.*;
 import org.musetest.ui.settings.*;
 import org.slf4j.*;
@@ -34,10 +33,6 @@ public abstract class MuseApplication extends Application
             }
 
         _project = ProjectFactory.create(project_file, new HashMap<>()); // TODO pass CL options
-
-        I4sClient.get();  // startup the site client, which will also record usage.
-        if (!I4sClient.get().ping())
-            System.out.println("cannot contact the site :(");
         }
 
     protected void showApplicationWindow(Stage stage, Scene scene, String name)

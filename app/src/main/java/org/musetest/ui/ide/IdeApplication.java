@@ -1,7 +1,7 @@
 package org.musetest.ui.ide;
 
+import ch.qos.logback.classic.*;
 import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.Level;
 import com.anchorage.docks.stations.*;
 import com.anchorage.system.*;
 import javafx.application.*;
@@ -10,10 +10,9 @@ import javafx.scene.control.*;
 import javafx.stage.*;
 import net.christophermerrill.ShadowboxFx.*;
 import org.musetest.ui.extend.components.*;
-import org.musetest.ui.i4s.*;
 import org.musetest.ui.ide.navigation.*;
 import org.musetest.ui.settings.*;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
 import java.util.concurrent.atomic.*;
 
@@ -53,28 +52,26 @@ public class IdeApplication extends Application
         stage.show();
 
         stage.setOnCloseRequest(event ->
-        {
-        if (_editors.hasUnsavedChanges())
             {
-            final AtomicReference<String> error = new AtomicReference<>();
-            boolean close = SaveChangesDialog.createShowAndWait(
-                () -> error.set(_editors.saveAllChanges()),
-                _editors::revertAllChanges);
-
-
-            if (!close || error.get() != null)
+            if (_editors.hasUnsavedChanges())
                 {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Unable to save a resource");
-                alert.setContentText(error.get());
-                alert.showAndWait();
-                event.consume();
-                }
-            }
-        });
+                final AtomicReference<String> error = new AtomicReference<>();
+                boolean close = SaveChangesDialog.createShowAndWait(
+                    () -> error.set(_editors.saveAllChanges()),
+                    _editors::revertAllChanges);
 
-        I4sClient.get();  // initialize the webservices client.
+
+                if (!close || error.get() != null)
+                    {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Unable to save a resource");
+                    alert.setContentText(error.get());
+                    alert.showAndWait();
+                    event.consume();
+                    }
+                }
+            });
         }
 
     private void determineVersionNumber()

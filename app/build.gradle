@@ -1,4 +1,5 @@
 plugins {
+    id 'java'
     id 'java-library'
     id 'application'
     id 'maven-publish'
@@ -13,7 +14,6 @@ dependencies
     implementation 'org.musetest:muse-selenium:0.15'
     implementation 'org.musetest:muse-seleniumide:0.15'
     implementation 'org.musetest:muse-commandline:0.15'
-    implementation 'org.musetest:muse-extensions:0.3'
 
     implementation 'org.musetest:ide-extend:0.2'
     implementation 'org.musetest:ide-step-test-editor:0.3'
@@ -21,7 +21,6 @@ dependencies
     implementation 'org.musetest:ide-valuesource:0.5'
     implementation 'net.christophermerrill:FancyFxTree:3.2'
     implementation 'net.christophermerrill:ShadowboxFx:1.2'
-    implementation 'com.ide4selenium:ws-shared:0.9'
 
     implementation 'org.controlsfx:controlsfx:9.0.0'
     implementation files('lib/openjfx-dialogs-1.0.3.jar')
@@ -32,7 +31,6 @@ dependencies
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
     implementation 'de.jensd:fontawesomefx-icons525:4.2.0-9.1.2'
 
-    implementation 'org.glassfish.jersey.core:jersey-client:2.27'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.6'
 
@@ -45,6 +43,7 @@ repositories
     {
     mavenLocal()
     jcenter()
+    maven { url "https://mvnrepository.com/artifact/com.github.alexbodogit/AnchorFX/master" }    
     }
 
 mainClassName = 'org.musetest.ui.ide.IdeApplication'
@@ -60,7 +59,7 @@ distributions
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Gradle Quickstart',
+        attributes 'Implementation-Title': 'MuseIDE',
                    'Implementation-Version': version
     }
 }
@@ -78,16 +77,20 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 task installDeps {
 	dependsOn gradle.includedBuilds*.task(':publishToMavenLocal')
 }
-    
+
+task cleanAll {
+	dependsOn gradle.includedBuilds*.task(':clean')
+}
+
 publishing {
     repositories {
         mavenLocal()
     }
     publications {
         mavenJava(MavenPublication) {
+            from components.java
             artifact sourcesJar
             artifact javadocJar
-            artifact jar
         }
     }
 }
