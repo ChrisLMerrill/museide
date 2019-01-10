@@ -9,12 +9,12 @@ version = 0.11
 
 dependencies
     {
-    compile 'org.slf4j:slf4j-api:1.7.12'
-    compile "org.antlr:antlr4:4.5" // while the antlr step below is sufficient to compile the parser, without this compile dependency, dependent projects must also declare ANTLR
+    implementation 'org.slf4j:slf4j-api:1.7.12'
+    implementation "org.antlr:antlr4:4.5" // while the antlr step below is sufficient to compile the parser, without this compile dependency, dependent projects must also declare ANTLR
 
     antlr "org.antlr:antlr4:4.5"
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     }
 
 repositories
@@ -34,9 +34,9 @@ publishing {
     }
     publications {
         mavenJava(MavenPublication) {
+            from components.java
             artifact sourcesJar
             artifact javadocJar
-            artifact jar
         }
     }
 }

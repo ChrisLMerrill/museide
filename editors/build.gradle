@@ -15,7 +15,7 @@ dependencies {
     implementation 'org.musetest:ide-step-test-editor:0.2'
 
     // external
-    implementation 'org.fxmisc.richtext:richtextfx:0.6.10'
+    implementation 'org.fxmisc.richtext:richtextfx:0.9.2'
     implementation 'net.christophermerrill:ShadowboxFx:1.2'
 
     // test
