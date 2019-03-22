@@ -7,7 +7,7 @@ group 'org.musetest'
 version '0.2'
 
 dependencies {
-    api 'org.musetest:muse-core:0.14+'
+    api 'org.musetest:muse-core:0.15+'
 
     api 'org.controlsfx:controlsfx:9.0.0'
     implementation 'de.jensd:fontawesomefx-commons:9.1.2'

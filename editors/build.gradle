@@ -8,8 +8,8 @@ version '0.3'
 
 dependencies {
     // muse project
-    api 'org.musetest:muse-core:0.14+'
-    implementation 'org.musetest:muse-selenium:0.14+'
+    api 'org.musetest:muse-core:0.15+'
+    implementation 'org.musetest:muse-selenium:0.15+'
     implementation 'org.musetest:ide-extend:0.2'
     implementation 'org.musetest:ide-valuesource:0.3'
     implementation 'org.musetest:ide-step-test-editor:0.2'
