@@ -1,6 +1,7 @@
 package org.musetest.ui.steptest;
 
 import javafx.application.*;
+import javafx.event.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -9,6 +10,7 @@ import javafx.scene.paint.*;
 import org.controlsfx.control.*;
 import org.controlsfx.control.action.*;
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
@@ -208,6 +210,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTestPro
         if (state.equals(InteractiveTestState.STARTING))
             {
             TestRunner runner = _controller.getTestRunner();
+            _context = runner.getExecutionContext();
             Platform.runLater(StepTestEditor.this::showEventLog);
             }
         else if (state.equals(InteractiveTestState.IDLE))
@@ -215,29 +218,37 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTestPro
             // show the notifier - tell the user that the test is over, but leave the step tree in the running state (so they can review if desired) and give the user a reset button
             Platform.runLater(() ->
                 {
-                TestResult result = _controller.getResult();
-                if (result != null)
-	                {
-	                NotificationPane notifier = getNotifier();
-	                notifier.getActions().clear();
-	                notifier.getActions().add(new Action("Reset Editor", event ->
-	                    {
-	                    event.consume();
-	                    notifier.hide();
-	                    hideEventLog();
-	                    }));
-	                if (result.isPass())
-		                {
-		                notifier.setText("Test passed.");
-		                notifier.setGraphic(Glyphs.create("FA:CHECK", Color.GREEN));
-		                }
-	                else
-		                {
-		                notifier.setText(result.getSummary());
-		                notifier.setGraphic(Glyphs.create("FA:REMOVE", Color.RED));
-		                }
-	                notifier.show();
-	                }
+                TestResult result = TestResult.find(_context);
+                NotificationPane notifier = getNotifier();
+                notifier.getActions().clear();
+                notifier.setOnHidden(event ->
+                    {
+                    event.consume();
+                    notifier.hide();
+                    hideEventLog();
+                    });
+                notifier.getActions().add(new Action("Reset Editor", event ->
+                    {
+                    event.consume();
+                    notifier.hide();
+                    hideEventLog();
+                    }));
+                if (result == null)
+                    {
+                    notifier.setText("Test stopped (cannot find result to evaluate).");
+                    notifier.setGraphic(Glyphs.create("FA:POWER_OFF", Color.BLACK));
+                    }
+                else if (result.isPass())
+                    {
+                    notifier.setText("Test passed.");
+                    notifier.setGraphic(Glyphs.create("FA:CHECK", Color.GREEN));
+                    }
+                else
+                    {
+                    notifier.setText(result.getSummary());
+                    notifier.setGraphic(Glyphs.create("FA:REMOVE", Color.RED));
+                    }
+                notifier.show();
                 });
             }
         }
@@ -255,6 +266,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTestPro
         }
 
     private SteppedTest _test;
+    private TestExecutionContext _context = null;
 
     private SplitPane _splitter;
     private StepTree2 _step_tree;
