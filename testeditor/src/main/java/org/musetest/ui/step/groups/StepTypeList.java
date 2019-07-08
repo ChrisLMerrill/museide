@@ -38,7 +38,7 @@ public class StepTypeList implements StepTypeGroup
             int dot = group_name.indexOf('.');
             if (dot >= 0)
                 {
-                sub_group_name = group_name.substring(0, dot - 1);
+                sub_group_name = group_name.substring(0, dot);
                 remaining_name = group_name.substring(dot + 1);
                 }
 
