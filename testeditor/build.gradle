@@ -15,7 +15,7 @@ dependencies {
 
     api 'net.christophermerrill:FancyFxTree:3.2'
 
-    testImplementation 'net.christophermerrill:TestFxUtils:1.2'
+    testImplementation 'net.christophermerrill:TestFxUtils:1.3+'
     testImplementation 'org.mockito:mockito-core:2.7.9'
 }
 
