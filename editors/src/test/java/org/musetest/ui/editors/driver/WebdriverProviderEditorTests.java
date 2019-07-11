@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
 import org.junit.*;
-import org.musetest.core.util.*;
+import org.musetest.core.util.OperatingSystem;
 import org.musetest.selenium.providers.*;
 import org.musetest.ui.extend.actions.*;
 
