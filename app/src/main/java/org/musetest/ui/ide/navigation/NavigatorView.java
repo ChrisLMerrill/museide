@@ -1,8 +1,5 @@
 package org.musetest.ui.ide.navigation;
 
-import com.anchorage.docks.node.*;
-import com.anchorage.docks.stations.*;
-import com.anchorage.system.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -23,9 +20,10 @@ import java.util.*;
  */
 public class NavigatorView
     {
-    public NavigatorView(ResourceEditors editors)
+    public NavigatorView(ResourceEditors editors, Stage stage)
         {
         _editors = editors;
+        _stage = stage;
         activateInitialUI();
         }
 
@@ -46,7 +44,7 @@ public class NavigatorView
             if (projects.size() > 0)
                 chooser.setInitialDirectory(new File(projects.get(0).getLocation()).getParentFile());
 
-            File folder = chooser.showDialog(_station.getStationWindow());
+            File folder = chooser.showDialog(_stage.getOwner());
             if (folder != null)
                 openProject(folder);
             });
@@ -59,7 +57,7 @@ public class NavigatorView
 
     void openProject(File folder)
         {
-        _project = new SimpleProject(new FolderIntoMemoryResourceStorage(folder), folder.getName());
+        _project = new SimpleProject(new FolderIntoMemoryResourceStorage(folder, "com.webperformance.muse.measurements"), folder.getName());
         _project.open();
         activateNavigationUI();
         RecentProjectSettings.get().addProject(folder.getPath());
@@ -76,20 +74,8 @@ public class NavigatorView
         return _root;
         }
 
-    public void dockInDefaultLocation(DockStation station)
-        {
-        DockNode docknode = AnchorageSystem.createDock("Project", getNode());
-        docknode.closeableProperty().setValue(false);
-        docknode.maximizableProperty().setValue(false);
-        docknode.floatableProperty().setValue(false);
-        docknode.dock(station, DockNode.DockPosition.LEFT, 0.25);
-        _station = station;
-        }
-
+    private Stage _stage;
     private final ResourceEditors _editors;
     private final BorderPane _root = new BorderPane();
-    private DockStation _station;
     private MuseProject _project = null;
     }
-
-

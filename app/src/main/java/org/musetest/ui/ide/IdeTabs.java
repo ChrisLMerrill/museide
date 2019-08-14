@@ -1,10 +1,5 @@
 package org.musetest.ui.ide;
 
-import com.anchorage.docks.node.*;
-import com.anchorage.docks.stations.*;
-import com.anchorage.system.*;
-import javafx.application.*;
-import javafx.scene.*;
 import javafx.scene.control.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
@@ -21,50 +16,20 @@ import java.util.concurrent.atomic.*;
  */
 public class IdeTabs implements ResourceEditors
     {
-    public IdeTabs(DockStation station)
+    IdeTabs(TabPane tabs)
         {
-        _station = station;
-        installPlaceholder();
-        }
-
-    private void installPlaceholder()
-        {
-        if (_placeholder_node == null)
-            {
-            _placeholder_node = AnchorageSystem.createDock("Editor", new Label("Double-click a resource\n(in the project tree on the left)\nto edit it here"));
-            _placeholder_node.floatableProperty().setValue(false);
-            _placeholder_node.closeableProperty().setValue(false);
-            _placeholder_node.maximizableProperty().setValue(false);
-            _placeholder_node.dock(_station, DockNode.DockPosition.RIGHT, 0.25);
-            }
-        }
-
-    private void removePlaceholder()
-        {
-        if (_placeholder_node != null)
-            {
-            _placeholder_node.undock();
-            _placeholder_node = null;
-            }
+        _tabs = tabs;
         }
 
     @Override
     public boolean editResource(ResourceToken token, MuseProject project)
         {
-        pruneUndockedEditors();
         MuseResource resource = project.getResourceStorage().getResource(token);
-        DockNode existing_docked = findExistingEditor(resource);
-        if (existing_docked != null)
+        Tab existing_tab = findExistingEditor(resource);
+        if (existing_tab != null)
             {
-            try
-                {
-                existing_docked.ensureVisibility();
-                return true;
-                }
-            catch (Exception e)
-                {
-                // couldn't re-show it...so contine and open new
-                }
+            _tabs.getSelectionModel().select(existing_tab);
+            return true;
             }
 
         MuseResourceEditor editor = EditorSelector.get(project).get(resource);
@@ -72,13 +37,15 @@ public class IdeTabs implements ResourceEditors
             return false;
         editor.editResource(project, resource);
 
-        DockNode docked_editor = AnchorageSystem.createDock(resource.getId(), editor.getNode());
-        docked_editor.floatableProperty().setValue(false);
-        DockNode dock_over = findAnyEditorNode();
-        docked_editor.dock(dock_over, DockNode.DockPosition.CENTER);
-        _editors.add(new ResourceEditorToken(resource, editor, docked_editor));
+        Tab new_tab = new Tab();
+        new_tab.setContent(editor.getNode());
+        new_tab.setText(resource.getId());
+        _tabs.getTabs().add(new_tab);
+        _tabs.getSelectionModel().select(new_tab);
 
-        docked_editor.setCloseRequestHandler(() ->
+        _editors.add(new ResourceEditorToken(resource, editor, new_tab));
+
+        new_tab.setOnClosed((event) ->
             {
             AtomicBoolean allow_close = new AtomicBoolean(true);
             if (editor.isChanged())
@@ -91,51 +58,12 @@ public class IdeTabs implements ResourceEditors
 
             if (allow_close.get())
                 {
-                removeEditorFromList(docked_editor);
-                if (_editors.size() == 0)
-                    Platform.runLater(this::installPlaceholder);
+                removeEditorFromList(new_tab);
                 editor.dispose();
                 }
-
-            return allow_close.get();
             });
-
-        removePlaceholder();
 
         return true;
-        }
-
-    public void showInTab(Node viewer, String name)
-        {
-        pruneUndockedEditors();
-
-        DockNode docked_node = AnchorageSystem.createDock(name, viewer);
-        DockNode dock_over = findAnyEditorNode();
-        docked_node.dock(dock_over, DockNode.DockPosition.CENTER);
-
-/*
-        docked_node.setCloseRequestHandler(() ->
-            {
-            AtomicBoolean allow_close = new AtomicBoolean(true);
-            if (editor.isChanged())
-                {
-                allow_close.set(SaveChangesDialog.createShowAndWait(
-                    editor::saveChanges,
-                    editor::revertChanges
-                    ));
-                }
-
-            if (allow_close.get())
-                {
-                removeEditorFromList(docked_node);
-                if (_editors.size() == 0)
-                    Platform.runLater(this::installPlaceholder);
-                editor.dispose();
-                }
-
-            return allow_close.get();
-            });
-*/
         }
 
     @Override
@@ -168,66 +96,39 @@ public class IdeTabs implements ResourceEditors
                 editor._editor.revertChanges();
         }
 
-    private void removeEditorFromList(DockNode to_remove)
+    private void removeEditorFromList(Tab to_remove)
         {
         for (ResourceEditorToken editor : _editors)
-            if (editor._docked == to_remove)
+            if (editor._tab == to_remove)
                 {
                 _editors.remove(editor);
                 return;
                 }
         }
 
-    private DockNode findExistingEditor(MuseResource resource)
+    private Tab findExistingEditor(MuseResource resource)
         {
-        pruneUndockedEditors();
         for (ResourceEditorToken editor : _editors)
             if (editor._resource == resource)
-                return editor._docked;
+                return editor._tab;
         return null;
         }
 
-    private DockNode findAnyEditorNode()
-        {
-        pruneUndockedEditors();
-        if (_editors.size() > 0)
-            return _editors.get(0)._docked;
-        else
-            {
-            installPlaceholder();
-            return _placeholder_node;
-            }
-        }
-
-    private void pruneUndockedEditors()
-        {
-        int i = 0;
-        while (i < _editors.size())
-            {
-            ResourceEditorToken token = _editors.get(i);
-            if (token._docked.getParentContainer() == null)
-                _editors.remove(i);
-            else
-                i++;
-            }
-        }
-
-    private final DockStation _station;
+    private final TabPane _tabs;
     private final List<ResourceEditorToken> _editors = new ArrayList<>();
-    private DockNode _placeholder_node;
 
     class ResourceEditorToken
         {
-        public ResourceEditorToken(MuseResource resource, MuseResourceEditor editor, DockNode docked)
+        ResourceEditorToken(MuseResource resource, MuseResourceEditor editor, Tab tab)
             {
             _resource = resource;
             _editor = editor;
-            _docked = docked;
+            _tab = tab;
             }
 
         MuseResource _resource;
         MuseResourceEditor _editor;
-        DockNode _docked;
+        Tab _tab;
         }
     }
 

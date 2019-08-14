@@ -1,9 +1,7 @@
 package org.musetest.ui.ide;
 
-import ch.qos.logback.classic.*;
 import ch.qos.logback.classic.Logger;
-import com.anchorage.docks.stations.*;
-import com.anchorage.system.*;
+import ch.qos.logback.classic.*;
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -35,13 +33,13 @@ public class IdeApplication extends Application
         APP = this;
         determineVersionNumber();
 
-        DockStation station = AnchorageSystem.createCommonStation();
         ShadowboxPane shadowbox = new ShadowboxPane();
-        shadowbox.getChildren().add(station);
+        _splitter.setDividerPositions(0.25);
+        shadowbox.getChildren().add(_splitter);
 
-        _editors = new IdeTabs(station);
-        NavigatorView navigator = new NavigatorView(_editors);
-        navigator.dockInDefaultLocation(station);
+        NavigatorView navigator = new NavigatorView(_editors, stage);
+        _splitter.getItems().add(navigator.getNode());
+        _splitter.getItems().add(_editor_tabs);
 
         stage.setTitle("MuseIDE " + _version);
         IdeWindow.initIcons(stage);
@@ -106,7 +104,9 @@ public class IdeApplication extends Application
         return APP;
         }
 
-    private IdeTabs _editors;
+    private final TabPane _editor_tabs = new TabPane();
+    private final IdeTabs _editors = new IdeTabs(_editor_tabs);
+    private final SplitPane _splitter = new SplitPane();
     private String _version;
 
     private static IdeApplication APP = null;

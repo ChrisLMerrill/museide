@@ -25,8 +25,6 @@ dependencies
 
     implementation 'org.controlsfx:controlsfx:9.0.0'
     implementation files('lib/openjfx-dialogs-1.0.3.jar')
-    //implementation 'com.github.alexbodogit:AnchorFX:master'
-    implementation files('lib/AnchorFX-master.jar')
     implementation 'de.jensd:fontawesomefx-commons:9.1.2'
     implementation 'de.jensd:fontawesomefx-controls:9.1.2'
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
