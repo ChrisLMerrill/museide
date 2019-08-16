@@ -24,6 +24,7 @@ public abstract class BaseSettingsFile implements Closeable
                 {
                 BaseSettingsFile settings = mapper.readValue(instream, type);
                 settings.setFilename(filename);
+                settings.readComplete();
                 Closer.get().add(settings);
                 return settings;
                 }
@@ -63,6 +64,8 @@ public abstract class BaseSettingsFile implements Closeable
         {
         return DEFAULT_MAPPER;
         }
+
+    protected void readComplete() {}
 
     @Override
     public void close() throws IOException

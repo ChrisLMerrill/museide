@@ -34,12 +34,7 @@ public class IdeApplication extends Application
         determineVersionNumber();
 
         ShadowboxPane shadowbox = new ShadowboxPane();
-        _splitter.setDividerPositions(0.25);
         shadowbox.getChildren().add(_splitter);
-
-        NavigatorView navigator = new NavigatorView(_editors, stage);
-        _splitter.getItems().add(navigator.getNode());
-        _splitter.getItems().add(_editor_tabs);
 
         stage.setTitle("MuseIDE " + _version);
         IdeWindow.initIcons(stage);
@@ -47,10 +42,18 @@ public class IdeApplication extends Application
         scene.getStylesheets().add(getClass().getResource("/ide.css").toExternalForm());
         stage.setScene(scene);
         StageSettings.get("ide-main-stage.json").register(stage);
+
+        NavigatorView navigator = new NavigatorView(_editors, stage);
+        _splitter.getItems().add(navigator.getNode());
+        _splitter.getItems().add(_editor_tabs);
+        // if this is done immediately, the default position is used. Putting it on the UI thread fixes.
+        Platform.runLater(() -> _splitter.setDividerPositions(IdeAppSettings.get().getSplitterPosition()));
+
         stage.show();
 
         stage.setOnCloseRequest(event ->
             {
+            IdeAppSettings.get().setSplitterPosition(_splitter.getDividerPositions()[0]);
             if (_editors.hasUnsavedChanges())
                 {
                 final AtomicReference<String> error = new AtomicReference<>();
@@ -111,5 +114,3 @@ public class IdeApplication extends Application
 
     private static IdeApplication APP = null;
     }
-
-
