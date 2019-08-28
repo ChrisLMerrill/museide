@@ -51,7 +51,6 @@ public class StepTreeOperations extends FancyTreeOperationHandler<StepConfigurat
 	@Override
 	public boolean handleCopy(ObservableList<TreeItem<StepConfigurationFacade>> selected_items)
 		{
-LOG.info("COPY stuff");
 		List<StepConfiguration> to_copy = getSelectedConfigurations(selected_items);
 		List<StepConfiguration> copies = new ArrayList<>();
 		for (StepConfiguration target : to_copy)
@@ -138,7 +137,6 @@ LOG.info("COPY stuff");
 		StartDragInfo info = new StartDragInfo();
 		info._transfer_modes = TransferMode.ANY;
 		List<Long> ids = selected_items.stream().map(item -> item.getValue().getModelNode().getStepId()).collect(Collectors.toList());
-LOG.info(String.format("startDrag %d steps", ids.size()));
 		info.addContent(DataFormat.PLAIN_TEXT, ClipboardSerializer.listOfLongsToString(ids));
 		return info;
 		}
@@ -149,14 +147,6 @@ LOG.info(String.format("startDrag %d steps", ids.size()));
 		DragOverInfo info = new DragOverInfo();
 		if (dragboard.getContent(DataFormat.PLAIN_TEXT) != null)
 			{
-LOG.info("dragOver - about to get the nodes");
-            Object content = dragboard.getContent(DataFormat.PLAIN_TEXT);
-LOG.info("dragboard content is a " + content.getClass().getSimpleName());
-			List<Long> dropped_nodes = ClipboardSerializer.listOfLongsfromString((String) dragboard.getContent(DataFormat.PLAIN_TEXT));
-LOG.info(String.format("dragOver %d steps", dropped_nodes.size()));
-//			if (dropped_nodes.contains(onto_node.getModelNode().getStepId()))
-//				return info;
-
 			info = super.dragOver(dragboard, onto_node);
 			if (!_project.getStepDescriptors().get(onto_node.getModelNode()).isCompound())
                 info.removeDropLocation(DropLocation.ON);
@@ -170,11 +160,9 @@ LOG.info(String.format("dragOver %d steps", dropped_nodes.size()));
 	@Override
 	public boolean finishDrag(TransferMode transfer_mode, Dragboard dragboard, StepConfigurationFacade item, DropLocation location)
 		{
-LOG.info("finishDrag()");
 		if (dragboard.getContent(DataFormat.PLAIN_TEXT) != null)
 			{
             List<Long> dropped_step_ids = ClipboardSerializer.listOfLongsfromString((String) dragboard.getContent(DataFormat.PLAIN_TEXT));
-LOG.info(String.format("finishDrag %d steps",dropped_step_ids.size()));
 			List<StepConfiguration> dropped_steps = new ArrayList<>();
 			for (Long id : dropped_step_ids)
 				{
@@ -250,9 +238,5 @@ LOG.info(String.format("finishDrag %d steps",dropped_step_ids.size()));
 	private final UndoStack _undo;
 	private final StepConfiguration _root;
 
-	private final static DataFormat LIST_OF_STEP_IDS = new DataFormat("application/x-list-of-step-ids");
-
 	private final static Logger LOG = LoggerFactory.getLogger(StepTreeOperations.class);
 	}
-
-
