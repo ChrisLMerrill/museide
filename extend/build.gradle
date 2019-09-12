@@ -16,7 +16,7 @@ dependencies {
     implementation 'org.musetest:muse-core:0.15+'
 
     implementation 'org.openjfx:javafx-controls:12.0.2'
-    implementation 'org.controlsfx:controlsfx:9.0.0'
+    implementation 'org.controlsfx:controlsfx:11.0.0'
     implementation 'de.jensd:fontawesomefx-commons:9.1.2'
     implementation 'de.jensd:fontawesomefx-controls:9.1.2'
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
@@ -37,7 +37,6 @@ task sourcesJar(type: Jar) {
     }
 
 javadoc {
-    include 'com/company/project/pkg/*'
     options.addBooleanOption('html5', true)
 }
 
