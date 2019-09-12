@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.musetest'
-version = 0.11
+version = 0.12
 
 dependencies
     {
@@ -28,6 +28,25 @@ generateGrammarSource
     outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/musetest/parsing/valuesource/antlr".toString())   // update *.g files if you change this
     }
 
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+    }
+
+javadoc {
+    options.addBooleanOption('html5', true)
+}
+
+task javadocJar(type: Jar) {
+    archiveClassifier = 'javadoc'
+    from javadoc
+    }
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    }
+
 publishing {
     repositories {
         mavenLocal()
@@ -41,24 +60,6 @@ publishing {
     }
 }
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-    }
-
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-    }
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-    }
-
-javadoc.options.addStringOption('Xdoclint:none', '-quiet')
-javadoc.options.addStringOption('Xdoclint:none', '-html5')
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.9'
+wrapper {
+    gradleVersion = '5.6.2'
 }
