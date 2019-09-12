@@ -31,15 +31,15 @@ public class BrowserCapabilityEditorTests extends ComponentTest
         {
         setup();
 
-        fillFieldAndTabAway(id(BrowserCapabilitiesEditor.NAME_FIELD_ID), "newbrowser");
+        fillComboAndTabAway(id(BrowserCapabilitiesEditor.NAME_FIELD_ID), "newbrowser");
         Assert.assertEquals("newbrowser", _browser.getName());
         Assert.assertEquals(1, _editor.getUndoStack().getNumberOfUndoableActions());  // make sure there is not a bug where multiple (unnecesssary) changes are made for a single user change
 
-        fillFieldAndTabAway(id(BrowserCapabilitiesEditor.VERSION_FIELD_ID), "22");
+        fillComboAndTabAway(id(BrowserCapabilitiesEditor.VERSION_FIELD_ID), "22");
         Assert.assertEquals("22", _browser.getVersion());
         Assert.assertEquals(2, _editor.getUndoStack().getNumberOfUndoableActions());
 
-        fillFieldAndTabAway(id(BrowserCapabilitiesEditor.PLATFORM_FIELD_ID), "PalmOS");
+        fillComboAndTabAway(id(BrowserCapabilitiesEditor.PLATFORM_FIELD_ID), "PalmOS");
         Assert.assertEquals("PalmOS", _browser.getPlatform());
         Assert.assertEquals(3, _editor.getUndoStack().getNumberOfUndoableActions());
 
