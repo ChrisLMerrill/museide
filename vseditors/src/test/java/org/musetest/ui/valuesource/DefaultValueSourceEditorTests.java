@@ -117,9 +117,9 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify correct params displayed
-        Assert.assertNotNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))).query());
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))).query());
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.FORMAT_PARAM))).query());
+        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))));
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))));
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.FORMAT_PARAM))));
 
         // change the type
         clickOn(id(DefaultValueSourceEditor.TYPE_FIELD_ID));
@@ -130,9 +130,9 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         Assert.assertNotNull(source.getSource(DateFormatValueSource.FORMAT_PARAM));
 
         // verify correct params displayed
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))).query());
-        Assert.assertNotNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))).query());
-        Assert.assertNotNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.FORMAT_PARAM))).query());
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))));
+        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))));
+        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.FORMAT_PARAM))));
         }
 
     @Test
@@ -147,7 +147,7 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), "123");
 
         Assert.assertNotNull("value was not added", source.getValue());
-        Assert.assertNotNull("value field is not there", lookup(id(PrimitiveValueEditorField.INPUT_ID)).query());
+        Assert.assertTrue("value field is not there", exists(id(PrimitiveValueEditorField.INPUT_ID)));
         }
 
     @Test
@@ -161,7 +161,7 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         clickOn(id(PrimitiveValueOptionalField.DELETE_BUTTON_ID));
 
         Assert.assertNull("value was not nullified", source.getValue());
-        Assert.assertNull("value field is still showing", lookup(id(PrimitiveValueEditorField.INPUT_ID)).query());
+        Assert.assertFalse("value field is still showing", exists(id(PrimitiveValueEditorField.INPUT_ID)));
         }
 
 /*

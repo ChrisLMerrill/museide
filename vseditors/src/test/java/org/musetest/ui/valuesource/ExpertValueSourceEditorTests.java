@@ -98,14 +98,13 @@ public class ExpertValueSourceEditorTests extends ComponentTest
 
         // no subsource and no subsource editor
         Assert.assertNull(source.getSource());
-        Assert.assertNull(lookup(id(ExpertValueSourceEditor.SUBSOURCE_EDITOR_ID)).query());
+        Assert.assertFalse(exists(id(ExpertValueSourceEditor.SUBSOURCE_EDITOR_ID)));
 
         // add a subsource
         clickOn(id(ExpertValueSourceEditor.ADD_SUBSOURCE_ID));
 
         // subsource editor now present
-        Node subsource_field = lookup(id(ExpertValueSourceEditor.SUBSOURCE_EDITOR_ID)).query();
-        Assert.assertNotNull(subsource_field);
+        Assert.assertTrue(exists(id(ExpertValueSourceEditor.SUBSOURCE_EDITOR_ID)));
 
         // type something in subsource editor
         fillFieldAndTabAway(id(ExpertValueSourceEditor.SUBSOURCE_EDITOR_ID), "123");
@@ -146,7 +145,7 @@ public class ExpertValueSourceEditorTests extends ComponentTest
         Assert.assertEquals(_project.getValueSourceDescriptors().get(StringValueSource.TYPE_ID).getName(), ((MenuButton) chooser).getText());
 
         // and the breadcrumb should be displayed
-        Assert.assertNotNull(lookup(ExpertValueSourceEditor.SUBSOURCE_BREADCRUMB_LABEL).query());
+        Assert.assertTrue(exists(ExpertValueSourceEditor.SUBSOURCE_BREADCRUMB_LABEL));
 
         // now change the string value
         fillFieldAndTabAway(quoted("var1"), quoted("abc"));
@@ -182,7 +181,7 @@ public class ExpertValueSourceEditorTests extends ComponentTest
         Assert.assertEquals(_project.getValueSourceDescriptors().get(StringValueSource.TYPE_ID).getName(), ((MenuButton) chooser).getText());
 
         // and the breadcrumb should be displayed
-        Assert.assertNotNull(lookup(LogMessage.MESSAGE_PARAM).query());
+        Assert.assertTrue(exists(LogMessage.MESSAGE_PARAM));
 
         // now change the string value
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), newval);
@@ -220,7 +219,7 @@ public class ExpertValueSourceEditorTests extends ComponentTest
         Assert.assertEquals(_project.getValueSourceDescriptors().get(StringValueSource.TYPE_ID).getName(), ((MenuButton) chooser).getText());
 
         // and the breadcrumb should be displayed
-        Assert.assertNotNull(lookup("[0]").query());
+        Assert.assertTrue(exists("[0]"));
 
         // now change the string value
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), quoted(newval));

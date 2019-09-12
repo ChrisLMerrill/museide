@@ -87,8 +87,8 @@ public class DefaultInlineVSETests extends ComponentTest
     public void nonEditableSource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(NameValuePairSource.TYPE_ID);
-        source.addSource(NameValuePairSource.TYPE_ID, ValueSourceConfiguration.forValue("name1"));
-        source.addSource(NameValuePairSource.TYPE_ID, ValueSourceConfiguration.forValue("value1"));
+        source.addSource(NameValuePairSource.NAME_PARAM, ValueSourceConfiguration.forValue("name1"));
+        source.addSource(NameValuePairSource.VALUE_PARAM, ValueSourceConfiguration.forValue("value1"));
         _editor.setSource(source);
 
         TextField field = lookup("#" + DefaultInlineVSE.TEXT_ID).query();

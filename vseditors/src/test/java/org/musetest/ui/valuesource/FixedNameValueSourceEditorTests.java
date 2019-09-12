@@ -77,9 +77,9 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
             });
         waitForUiEvents();
 
-        Assert.assertNotNull("the edit field should be visible", lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-        Assert.assertNull("there should be no add button", lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query());
-        Assert.assertNull("there should be no delete button", lookup(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))).query());
+        Assert.assertTrue("the edit field should be visible", exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assert.assertFalse("there should be no add button", exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
+        Assert.assertFalse("there should be no delete button", exists(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))));
         }
 
     @Test
@@ -99,9 +99,9 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
             });
         waitForUiEvents();
 
-        Assert.assertNotNull("the edit field should be visible", lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-        Assert.assertNull("there should be no add button", lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query());
-        Assert.assertNull("there should be no delete button", lookup(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))).query());
+        Assert.assertTrue("the edit field should be visible", exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assert.assertFalse("there should be no add button", exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
+        Assert.assertFalse("there should be no delete button", exists(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))));
         }
 
     @Test
@@ -119,32 +119,24 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the editor is not visible
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-
-        // verify the Add button is visible
-        Node add_button = lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query();
-        Assert.assertNotNull(add_button);
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
 
         // press the add button
-        clickOn(add_button);
+        clickOn(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName())));
 
         // verify source added, editor visible, add button hidden
         Assert.assertNotNull(step.getSource(value_descriptor.getName()));
-        Assert.assertNotNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query());
-
-        // verify the Delete button is visible
-        Node delete_button = lookup(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))).query();
-        Assert.assertNotNull(delete_button);
+        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
 
         // press the delete button
-        clickOn(delete_button);
+        clickOn(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName())));
         waitForUiEvents();
 
         // verify source removed, editor removed, add button visible
         Assert.assertNull(step.getSource(value_descriptor.getName()));
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-        Assert.assertNotNull(lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query());
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
         }
 
     @Test
@@ -162,31 +154,24 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the editor is not visible
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-
-        // verify the Add button is visible
-        Node add_button = lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query();
-        Assert.assertNotNull(add_button);
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
 
         // press the add button
-        clickOn(add_button);
+        clickOn(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName())));
 
         // verify source added, editor visible, add button hidden
         Assert.assertNotNull(parent_source.getSource(value_descriptor.getName()));
-        Assert.assertNotNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query());
-
-        Node delete_button = lookup(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))).query();
-        Assert.assertNotNull("delete button is missing", delete_button);
+        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
 
         // press the delete button
-        clickOn(delete_button);
+        clickOn(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName())));
         waitForUiEvents();
 
         // verify source removed, editor hidden, add button visible
         Assert.assertNull(parent_source.getSource(value_descriptor.getName()));
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query());
-        Assert.assertNotNull(lookup(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))).query());
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
         }
 
     @Test
@@ -209,12 +194,8 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
                 }
             });
 
-        // verify the "more" link exists
-        Node link = lookup(id(FixedNameValueSourceEditor.getAdvancedLinkId(value_descriptor.getName()))).query();
-        Assert.assertNotNull(link);
-
         // click it
-        clickOn(link);
+        clickOn(id(FixedNameValueSourceEditor.getAdvancedLinkId(value_descriptor.getName())));
 
         // verify the editor stack was called
         Assert.assertTrue(pushed.get());
@@ -229,5 +210,4 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
     private GridPane _grid = new GridPane();
     private MuseProject _project = new SimpleProject();
     }
-
 
