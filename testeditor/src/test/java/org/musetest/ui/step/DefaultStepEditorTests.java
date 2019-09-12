@@ -137,7 +137,7 @@ public class DefaultStepEditorTests extends ComponentTest
         clickOn(id(FixedNameValueSourceEditor.getDeleteButtonId(subsource_name)));
 
         // verify edit field removed
-        Assert.assertNull(lookup(id(FixedNameValueSourceEditor.getValueFieldId(subsource_name))).query());
+        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(subsource_name))));
         }
 
     @Test

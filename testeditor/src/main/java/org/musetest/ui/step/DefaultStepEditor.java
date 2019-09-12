@@ -197,7 +197,7 @@ public class DefaultStepEditor implements StackableEditor
             setupStepTypeHelp(step_descriptor);
 
             createParamEditors(step, step_descriptor);
-            layoutControls();
+            Platform.runLater(this::layoutControls);
             }
         }
 

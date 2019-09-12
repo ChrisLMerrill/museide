@@ -32,7 +32,7 @@ public class InlineStepEditorContainerTests extends ComponentTest
     protected Node createComponentNode()
         {
         _step = new StepConfiguration(ReturnStep.TYPE_ID);
-        _step.addSource(ReturnStep.VALUE_PARAM, ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
+        _step.addSource(ReturnStep.VALUE_PARAM, ValueSourceConfiguration.forValue(""));
         final SimpleProject project = new SimpleProject();
         EditInProgress.NoopEdit edit = new EditInProgress.NoopEdit();
         UndoStack undo = new UndoStack();
