@@ -8,6 +8,7 @@ import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
+import org.testfx.service.query.*;
 
 import java.io.*;
 import java.util.*;
@@ -43,7 +44,15 @@ public class ImportCandidatesTableTests extends ComponentTest
             Assert.assertTrue("icon is incorrect", candidate.getStatus().getGlyphName().contains((nodeOfClass(FontAwesomeIconView.class, icon_cell)).getGlyphName()));
 
             TableCell import_enabled_cell = tableCell(id(ImportCandidatesTable.TABLE_ID), row, ImportCandidatesTable.IMPORT_ENABLED_COLUMN_NUM);
-            CheckBox import_enabled = nodeOfClass(CheckBox.class, import_enabled_cell);
+            CheckBox import_enabled;
+            try
+                {
+                import_enabled = nodeOfClass(CheckBox.class, import_enabled_cell);
+                }
+            catch (EmptyNodeQueryException e)
+                {
+                import_enabled = null;
+                }
             switch (candidate.getStatus())
                 {
                 case Ready:

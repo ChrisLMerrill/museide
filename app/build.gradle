@@ -1,12 +1,35 @@
 plugins {
-    id 'java'
     id 'java-library'
     id 'application'
     id 'maven-publish'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group 'org.musetest'
 version '0.16'
+
+application {
+    mainClassName = 'org.musetest.ui.ide.IdeApplication'
+    applicationName = 'museide'
+    applicationDefaultJvmArgs =  [
+        "--add-opens=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.scene.traversal=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/com.sun.javafx.text=ALL-UNNAMED",
+        "--add-opens=javafx.graphics/javafx.scene.text=ALL-UNNAMED",
+    ]
+}
+
+javafx {
+    version = "12.0.2"
+    modules = [ 'javafx.controls' ]
+}
+
+repositories
+    {
+    mavenLocal()
+    jcenter()
+    maven { url "https://mvnrepository.com/artifact/com.github.alexbodogit/AnchorFX/master" }
+    }
 
 dependencies
     {
@@ -16,14 +39,15 @@ dependencies
     implementation 'org.musetest:muse-commandline:0.15'
     implementation 'org.musetest:muse-extensions:0.3'
 
-    implementation 'org.musetest:ide-extend:0.2'
-    implementation 'org.musetest:ide-step-test-editor:0.3'
-    implementation 'org.musetest:ide-editors:0.3'
-    implementation 'org.musetest:ide-valuesource:0.5'
-    implementation 'net.christophermerrill:FancyFxTree:3.2'
-    implementation 'net.christophermerrill:ShadowboxFx:1.2'
+    implementation 'org.openjfx:javafx-controls:12.0.2'
+    implementation 'org.musetest:ide-extend:0.3'
+    implementation 'org.musetest:ide-step-test-editor:0.4'
+    implementation 'org.musetest:ide-editors:0.4'
+    implementation 'org.musetest:ide-valuesource:0.6'
+    implementation 'net.christophermerrill:FancyFxTree:3.4'
+    implementation 'net.christophermerrill:ShadowboxFx:1.3'
 
-    implementation 'org.controlsfx:controlsfx:9.0.0'
+    implementation 'org.controlsfx:controlsfx:11.0.0'
     implementation files('lib/openjfx-dialogs-1.0.3.jar')
     implementation 'de.jensd:fontawesomefx-commons:9.1.2'
     implementation 'de.jensd:fontawesomefx-controls:9.1.2'
@@ -33,27 +57,9 @@ dependencies
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.6'
 
-    testImplementation 'net.christophermerrill:TestFxUtils:1.3+'
+    testImplementation 'net.christophermerrill:TestFxUtils:1.5'
     testImplementation 'org.mockito:mockito-core:2.7.9'
-    testImplementation 'org.testfx:openjfx-monocle:jdk-9+181'
-    }
-
-repositories
-    {
-    mavenLocal()
-    jcenter()
-    maven { url "https://mvnrepository.com/artifact/com.github.alexbodogit/AnchorFX/master" }    
-    }
-
-mainClassName = 'org.musetest.ui.ide.IdeApplication'
-applicationName = 'museide'
-
-distributions
-    {
-    main
-        {
-        baseName = 'museide'
-        }
+    //testImplementation 'org.testfx:openjfx-monocle:jdk-9+181'
     }
 
 jar {
@@ -64,22 +70,25 @@ jar {
 }
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
     }
 
+javadoc {
+    options.addBooleanOption('html5', true)
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from javadoc.destinationDir
     }
 
-task installDeps {
-	dependsOn gradle.includedBuilds*.task(':publishToMavenLocal')
-}
-
-task cleanAll {
-	dependsOn gradle.includedBuilds*.task(':clean')
-}
+artifacts
+    {
+    archives sourcesJar
+    archives javadocJar
+    }
 
 publishing {
     repositories {
@@ -94,15 +103,10 @@ publishing {
     }
 }
 
-artifacts
-    {
-    archives sourcesJar
-    archives javadocJar
-    }
+task installDeps {
+	dependsOn gradle.includedBuilds*.task(':publishToMavenLocal')
+}
 
-javadoc.options.addStringOption('Xdoclint:none', '-quiet')
-javadoc.options.addStringOption('Xdoclint:none', '-html5')
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.9'
+wrapper {
+    gradleVersion = '5.6.2'
 }
