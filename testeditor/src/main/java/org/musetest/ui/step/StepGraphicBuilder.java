@@ -7,6 +7,7 @@ import org.musetest.core.step.descriptor.*;
 import org.musetest.core.util.*;
 import org.musetest.ui.extend.components.*;
 import org.musetest.ui.extend.glyphs.*;
+import org.musetest.ui.extend.javafx.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -30,7 +31,7 @@ public class StepGraphicBuilder
 
 		// if using something other than classpath lookup
 		if (!name.startsWith(StepGraphicBuilder.CLASS_RESOURCE + ":"))
-			return GraphicNodeBuilder.getInstance().getNode(name, descriptor.getIconColor());
+			return GraphicNodeBuilder.getInstance().getNode(name, Colors.from(descriptor.getIconColor()));
 		Class step_class = new TypeLocator(project).getClassForTypeId(descriptor.getType());
 
 		// already in the cache?
