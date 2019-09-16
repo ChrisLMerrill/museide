@@ -7,6 +7,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 import net.christophermerrill.ShadowboxFx.*;
+import org.jetbrains.annotations.*;
 import org.musetest.ui.extend.components.*;
 import org.musetest.ui.ide.navigation.*;
 import org.musetest.ui.settings.*;
@@ -36,7 +37,7 @@ public class IdeApplication extends Application
         ShadowboxPane shadowbox = new ShadowboxPane();
         shadowbox.getChildren().add(_splitter);
 
-        stage.setTitle("MuseIDE " + _version);
+        stage.setTitle(getTitle());
         IdeWindow.initIcons(stage);
         Scene scene = new Scene(shadowbox, 700, 500);
         scene.getStylesheets().add(getClass().getResource("/ide.css").toExternalForm());
@@ -73,6 +74,13 @@ public class IdeApplication extends Application
                     }
                 }
             });
+        }
+
+    @SuppressWarnings("WeakerAccess")
+    @NotNull
+    protected String getTitle()
+        {
+        return "MuseIDE " + _version;
         }
 
     private void determineVersionNumber()
