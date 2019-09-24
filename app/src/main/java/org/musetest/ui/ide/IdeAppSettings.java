@@ -1,6 +1,6 @@
 package org.musetest.ui.ide;
 
-import org.musetest.ui.settings.*;
+import org.musetest.settings.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

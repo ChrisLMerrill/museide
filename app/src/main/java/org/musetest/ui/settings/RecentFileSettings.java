@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.storage.*;
+import org.musetest.settings.*;
+import org.musetest.ui.extend.components.*;
 
 import java.io.*;
 import java.util.*;
@@ -58,7 +60,10 @@ public class RecentFileSettings extends BaseSettingsFile
     public static RecentFileSettings get()
         {
         if (SETTINGS == null)
+            {
             SETTINGS = (RecentFileSettings) load(RecentFileSettings.class, FILENAME, null);
+            Closer.get().add(SETTINGS);
+            }
         return SETTINGS;
         }
 

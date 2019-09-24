@@ -1,11 +1,15 @@
 package org.musetest.ui.settings;
 
+import org.musetest.settings.*;
+import org.musetest.ui.extend.components.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class EnvironmentSettings extends BaseSettingsFile
     {
     /**
+     *
      * This is required for Jackson support, but should not be used other than unit tests.
      * Instead, call EnvironmentSettings.get().
      */
@@ -54,7 +58,10 @@ public class EnvironmentSettings extends BaseSettingsFile
     public static EnvironmentSettings get()
         {
         if (SETTINGS == null)
+            {
             SETTINGS = (EnvironmentSettings) load(EnvironmentSettings.class, FILENAME, null);
+            Closer.get().add(SETTINGS);
+            }
         return SETTINGS;
         }
 

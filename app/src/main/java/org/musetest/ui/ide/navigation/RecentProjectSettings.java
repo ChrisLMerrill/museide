@@ -1,6 +1,6 @@
 package org.musetest.ui.ide.navigation;
 
-import org.musetest.ui.settings.*;
+import org.musetest.settings.*;
 
 import java.util.*;
 

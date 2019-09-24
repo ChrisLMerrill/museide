@@ -1,5 +1,8 @@
 package org.musetest.ui.settings;
 
+import org.musetest.settings.*;
+import org.musetest.ui.extend.components.*;
+
 import java.util.*;
 
 /**
@@ -36,7 +39,10 @@ public class UserSettings extends BaseSettingsFile
     public static UserSettings get()
         {
         if (SETTINGS == null)
+            {
             SETTINGS = (UserSettings) load(UserSettings.class, FILENAME, null);
+            Closer.get().add(SETTINGS);
+            }
         return SETTINGS;
         }
 

@@ -1,6 +1,7 @@
 package org.musetest.ui.settings;
 
 import javafx.stage.*;
+import org.musetest.settings.*;
 import org.musetest.ui.extend.components.*;
 
 import java.io.*;
@@ -100,6 +101,7 @@ public class StageSettings extends BaseSettingsFile
         if (settings == null)
             {
             settings = (StageSettings) load(StageSettings.class, name, null);
+            Closer.get().add(settings);
             SETTINGS.put(name, settings);
             }
         return settings;
