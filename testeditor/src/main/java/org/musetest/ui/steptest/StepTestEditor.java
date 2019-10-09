@@ -200,8 +200,11 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTestPro
 
     private void hideEventLog()
         {
-        _divider_pos = _splitter.getDividerPositions()[0];
-        _splitter.getItems().remove(1);
+        if (_splitter.getItems().size() > 1)
+            {
+            _divider_pos = _splitter.getDividerPositions()[0];
+            _splitter.getItems().remove(_splitter.getItems().size() - 1);
+            }
         }
 
     @Override
