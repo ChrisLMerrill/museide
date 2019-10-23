@@ -1,7 +1,10 @@
 package org.musetest.ui.ide.navigation;
 
+import com.fasterxml.jackson.annotation.*;
 import org.musetest.settings.*;
+import org.musetest.ui.extend.components.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -13,11 +16,15 @@ public class RecentProjectSettings extends BaseSettingsFile
         {
         int index = findProject(path);
         if (index == -1)
-             _projects.add(0, new RecentProject(path));
+            {
+            _projects.add(0, new RecentProject(path));
+            _changed = true;
+            }
         else if (index > 0)
             {
             RecentProject project = _projects.remove(index);
             _projects.add(0, project); // move to beginning of list
+            _changed = true;
             }
 
         if (_projects.size() > 10)  // if list getting too long, prune one from the end.
@@ -41,6 +48,11 @@ public class RecentProjectSettings extends BaseSettingsFile
         return _projects;
         }
 
+    protected boolean shouldSave()
+        {
+        return _changed;
+        }
+
     /**
      * Required for JSON serialization. Don't call directly.
      */
@@ -58,11 +70,15 @@ public class RecentProjectSettings extends BaseSettingsFile
     public static RecentProjectSettings get(String name)
         {
         if (SETTINGS == null)
+            {
             SETTINGS = (RecentProjectSettings) load(RecentProjectSettings.class, name, null);
+            Closer.get().add(SETTINGS);
+            }
         return SETTINGS;
         }
 
     private List<RecentProject> _projects = new ArrayList<>();
+    private boolean _changed = false;
 
     private static RecentProjectSettings SETTINGS;
     private final static String FILENAME = "recent-projects.json";
