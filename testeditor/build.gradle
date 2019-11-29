@@ -13,8 +13,8 @@ javafx {
 }
 
 dependencies {
-    implementation 'org.musetest:muse-core:0.15'
-    implementation 'org.musetest:muse-selenium:0.15'
+    implementation 'org.musetest:muse-core:[0.15,)'
+    implementation 'org.musetest:muse-selenium:[0.15,)'
 
     implementation 'org.musetest:ide-extend:0.3'
     implementation 'org.musetest:ide-valuesource:0.6'

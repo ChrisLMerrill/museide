@@ -33,11 +33,11 @@ repositories
 
 dependencies
     {
-    implementation 'org.musetest:muse-core:0.15'
-    implementation 'org.musetest:muse-selenium:0.15'
-    implementation 'org.musetest:muse-seleniumide:0.15'
-    implementation 'org.musetest:muse-commandline:0.15'
-    implementation 'org.musetest:muse-extensions:0.3'
+    implementation 'org.musetest:muse-core:[0.15,)'
+    implementation 'org.musetest:muse-selenium:[0.15,)'
+    implementation 'org.musetest:muse-seleniumide:[0.15,)'
+    implementation 'org.musetest:muse-commandline:[0.15,)'
+    implementation 'org.musetest:muse-extensions:[0.5,)'
 
     implementation 'org.openjfx:javafx-controls:12.0.2'
     implementation 'org.musetest:ide-extend:0.3'
@@ -56,6 +56,10 @@ dependencies
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.6'
+
+    // keep these in sync with muse-core!!
+    implementation 'ch.qos.logback:logback-classic:1.1.9'
+    implementation 'ch.qos.logback:logback-core:1.1.9'
 
     testImplementation 'net.christophermerrill:TestFxUtils:1.5'
     testImplementation 'org.mockito:mockito-core:2.7.9'
