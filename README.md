@@ -3,7 +3,7 @@ MuseIDE is a visual development environment for the [Muse Test Framework](https:
 
 # Binary releases
 
-Binary releases of this software are [available for Windows](http://ide4selenium.com/download). If you just want to run the software, the binary releases are recommended. That build also includes automatic updates and a UI for installation of projects extensions.
+Binary releases of this software are [available for Windows and MacOS](http://ide4selenium.com/download.html). If you just want to run the software, the binary releases are recommended. That build also includes automatic updates and a UI for installation of project extensions.
 
 # Building from source
 
