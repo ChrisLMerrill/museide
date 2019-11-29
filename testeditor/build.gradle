@@ -16,7 +16,7 @@ dependencies {
     implementation 'org.musetest:muse-core:[0.15,)'
     implementation 'org.musetest:muse-selenium:[0.15,)'
 
-    implementation 'org.musetest:ide-extend:0.3'
+    implementation 'org.musetest:ide-extend:[0.4,)'
     implementation 'org.musetest:ide-valuesource:0.6'
     implementation 'net.christophermerrill:FancyFxTree:3.5'
     implementation 'org.openjfx:javafx-controls:12.0.2'
