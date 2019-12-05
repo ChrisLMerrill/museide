@@ -80,12 +80,23 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
         {
         if (selected_items.size() == 0)
             return true;
-        List<ResourceToken> to_delete = new ArrayList<>();
-        for (TreeItem<ResourceTreeNodeFacade> item : selected_items)
-            if (item.getValue().getModelNode() instanceof ResourceNode)
-                to_delete.add(((ResourceNode)item.getValue().getModelNode()).getResourceToken());
 
-        return DeleteResourceAction.create(to_delete, _project).execute(_undo);
+        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, String.format("Do you want to delete %d resource(s)?", selected_items.size()));
+        dialog.setTitle("Confirm delete");
+        dialog.setHeaderText(null);
+        dialog.initStyle(StageStyle.UTILITY);
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK)
+            {
+            List<ResourceToken> to_delete = new ArrayList<>();
+            for (TreeItem<ResourceTreeNodeFacade> item : selected_items)
+                if (item.getValue().getModelNode() instanceof ResourceNode)
+                    to_delete.add(((ResourceNode)item.getValue().getModelNode()).getResourceToken());
+
+            return DeleteResourceAction.create(to_delete, _project).execute(_undo);
+            }
+
+        return false;
         }
 
     @Override
