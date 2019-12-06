@@ -13,7 +13,7 @@ javafx {
 }
 
 dependencies {
-    api 'org.musetest:muse-core:[0.15,)'
+    api 'org.musetest:muse-core:[0.19,)'
     api 'org.musetest:ide-extend:[0.4,)'
     implementation 'org.musetest:muse-parser:0.12'
     implementation 'org.openjfx:javafx-controls:12.0.2'
