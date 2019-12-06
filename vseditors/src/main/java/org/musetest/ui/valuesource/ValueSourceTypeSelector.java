@@ -8,6 +8,8 @@ import org.musetest.core.*;
 import org.musetest.core.values.descriptor.*;
 import org.musetest.ui.valuesource.groups.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -25,14 +27,18 @@ public class ValueSourceTypeSelector
 
     private void addMenuEntries(ObservableList<MenuItem> item, ValueSourceTypeGroup types, MuseProject project)   // for future use, the project is needed to lookup icons (see StepTypeSelector).
         {
-        for (ValueSourceTypeGroup subgroup : types.getSubGroups())
+        List<ValueSourceTypeGroup> subgroups = types.getSubGroups();
+        subgroups.sort(Comparator.comparing(ValueSourceTypeGroup::getName));
+        for (ValueSourceTypeGroup subgroup : subgroups)
             {
             Menu submenu = new Menu(subgroup.getName());
             addMenuEntries(submenu.getItems(), subgroup, project);
             item.add(submenu);
             }
 
-        for (ValueSourceDescriptor descriptor : types.getValueSourceTypes())
+        List<ValueSourceDescriptor> vs_types = types.getValueSourceTypes();
+        vs_types.sort(Comparator.comparing(ValueSourceDescriptor::getName));
+        for (ValueSourceDescriptor descriptor : vs_types)
             {
             MenuItem sub_item = new MenuItem(descriptor.getName());
             sub_item.setOnAction(event -> typeSelected(descriptor));
