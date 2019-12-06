@@ -8,6 +8,8 @@ import org.musetest.core.step.descriptor.*;
 import org.musetest.ui.step.groups.*;
 import org.musetest.ui.extend.glyphs.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -39,14 +41,18 @@ public abstract class StepTypeSelector
         {
         item.clear();
 
-        for (StepTypeGroup subgroup : types.getSubGroups())
+        List<StepTypeGroup> step_groups = types.getSubGroups();
+        step_groups.sort(Comparator.comparing(StepTypeGroup::getName));
+        for (StepTypeGroup subgroup : step_groups)
             {
             Menu submenu = new Menu(subgroup.getName());
             addMenuEntries(submenu.getItems(), subgroup, project);
             item.add(submenu);
             }
 
-        for (StepDescriptor descriptor : types.getStepTypes())
+        List<StepDescriptor> step_types = types.getStepTypes();
+        step_types.sort(Comparator.comparing(StepDescriptor::getName));
+        for (StepDescriptor descriptor : step_types)
             {
             MenuItem sub_item = new MenuItem(descriptor.getName(), StepGraphicBuilder.getInstance().getStepIcon(descriptor, project));
             sub_item.setOnAction(event -> typeSelected(descriptor));
