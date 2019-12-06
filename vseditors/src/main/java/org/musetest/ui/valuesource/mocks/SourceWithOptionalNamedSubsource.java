@@ -8,6 +8,7 @@ import org.musetest.core.values.descriptor.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("test-swons")
+@MuseValueSourceHidden
 @MuseSubsourceDescriptor(displayName = "value1", description = "a primitive value", type = SubsourceDescriptor.Type.Named, name = SourceWithOptionalNamedSubsource.OPT_PARAM, optional = true)
 public class SourceWithOptionalNamedSubsource implements MuseValueSource
     {

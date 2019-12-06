@@ -8,6 +8,7 @@ import org.musetest.core.values.descriptor.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("test-swrss")
+@MuseValueSourceHidden
 @MuseSubsourceDescriptor(displayName = "Subsource", description = "the only subsource", type = SubsourceDescriptor.Type.Single)
 public class SourceWithRequiredSubsource implements MuseValueSource
     {
