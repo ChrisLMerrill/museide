@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.musetest'
-version '0.4'
+version '0.5'
 
 javafx {
     version = "12.0.2"
@@ -17,8 +17,8 @@ dependencies {
     api 'org.musetest:muse-core:[0.15,)'
     implementation 'org.musetest:muse-selenium:[0.15,)'
     implementation 'org.musetest:ide-extend:[0.4,)'
-    implementation 'org.musetest:ide-valuesource:0.6'
-    implementation 'org.musetest:ide-step-test-editor:0.4'
+    implementation 'org.musetest:ide-valuesource:[0.6,)'
+    implementation 'org.musetest:ide-step-test-editor:[0.4,)'
 
     // external
     implementation 'org.openjfx:javafx-controls:12.0.2'
