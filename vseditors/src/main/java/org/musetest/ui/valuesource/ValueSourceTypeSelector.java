@@ -9,12 +9,14 @@ import org.musetest.core.values.descriptor.*;
 import org.musetest.ui.valuesource.groups.*;
 
 import java.util.*;
+import java.util.stream.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class ValueSourceTypeSelector
     {
+    @SuppressWarnings("WeakerAccess")  // public API
     public ValueSourceTypeSelector(MuseProject project)
         {
         _button = new MenuButton();
@@ -38,6 +40,7 @@ public class ValueSourceTypeSelector
 
         List<ValueSourceDescriptor> vs_types = types.getValueSourceTypes();
         vs_types.sort(Comparator.comparing(ValueSourceDescriptor::getName));
+        vs_types = vs_types.stream().filter(descriptor -> !descriptor.hideFromUI()).collect(Collectors.toList());
         for (ValueSourceDescriptor descriptor : vs_types)
             {
             MenuItem sub_item = new MenuItem(descriptor.getName());
