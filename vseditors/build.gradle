@@ -60,13 +60,10 @@ publishing {
     }
 }
 
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-      tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-      }
-    }
-  }
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 javadoc.options.addStringOption('Xdoclint:none', '-html5')
