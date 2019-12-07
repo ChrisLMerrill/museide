@@ -60,6 +60,11 @@ publishing {
     }
 }
 
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 wrapper {
     gradleVersion = '6.0.1'
 }
