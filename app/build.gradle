@@ -74,7 +74,7 @@ jar {
 }
 
 task sourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
+    archiveClassifier.set('sources')
     from sourceSets.main.allSource
     }
 
@@ -84,7 +84,7 @@ javadoc {
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier = 'javadoc'
+    archiveClassifier.set('javadoc')
     from javadoc.destinationDir
     }
 
@@ -109,6 +109,11 @@ publishing {
 
 task installDeps {
 	dependsOn gradle.includedBuilds*.task(':publishToMavenLocal')
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 wrapper {
