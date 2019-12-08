@@ -36,9 +36,8 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
     }
 
-javadoc {
-    options.addBooleanOption('html5', true)
-}
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+javadoc.options.addStringOption('Xdoclint:none', '-html5')
 
 task javadocJar(type: Jar) {
     archiveClassifier.set('javadoc')
@@ -49,6 +48,11 @@ artifacts {
     archives sourcesJar
     archives javadocJar
     }
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 publishing {
     repositories {
