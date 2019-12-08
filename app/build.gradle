@@ -61,7 +61,7 @@ dependencies
     implementation 'ch.qos.logback:logback-classic:1.1.9'
     implementation 'ch.qos.logback:logback-core:1.1.9'
 
-    testImplementation 'net.christophermerrill:TestFxUtils:1.5'
+    testImplementation 'net.christophermerrill:TestFxUtils:[1.5,)'
     testImplementation 'org.mockito:mockito-core:2.7.9'
     //testImplementation 'org.testfx:openjfx-monocle:jdk-9+181'
     }
@@ -112,5 +112,5 @@ task installDeps {
 }
 
 wrapper {
-    gradleVersion = '5.6.2'
+    gradleVersion = '6.0.1'
 }
