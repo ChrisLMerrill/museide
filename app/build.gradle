@@ -36,7 +36,7 @@ dependencies
     implementation 'org.musetest:muse-core:[0.20,)'
     implementation 'org.musetest:muse-selenium:[0.20,)'
     implementation 'org.musetest:muse-seleniumide:[0.19,)'
-    implementation 'org.musetest:muse-commandline:[0.29,)'
+    implementation 'org.musetest:muse-commandline:[0.20,)'
     implementation 'org.musetest:muse-extensions:[0.6,)'
 
     implementation 'org.musetest:ide-extend:[0.5,)'
