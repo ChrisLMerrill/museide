@@ -33,16 +33,16 @@ repositories
 
 dependencies
     {
-    implementation 'org.musetest:muse-core:[0.15,)'
-    implementation 'org.musetest:muse-selenium:[0.15,)'
-    implementation 'org.musetest:muse-seleniumide:[0.18,)'
-    implementation 'org.musetest:muse-commandline:[0.15,)'
-    implementation 'org.musetest:muse-extensions:[0.5,)'
+    implementation 'org.musetest:muse-core:[0.20,)'
+    implementation 'org.musetest:muse-selenium:[0.20,)'
+    implementation 'org.musetest:muse-seleniumide:[0.19,)'
+    implementation 'org.musetest:muse-commandline:[0.29,)'
+    implementation 'org.musetest:muse-extensions:[0.6,)'
 
-    implementation 'org.musetest:ide-extend:[0.4,)'
-    implementation 'org.musetest:ide-step-test-editor:[0.4,)'
-    implementation 'org.musetest:ide-editors:[0.4,)'
-    implementation 'org.musetest:ide-valuesource:[0.7,)'
+    implementation 'org.musetest:ide-extend:[0.5,)'
+    implementation 'org.musetest:ide-step-test-editor:[0.6,)'
+    implementation 'org.musetest:ide-editors:[0.6,)'
+    implementation 'org.musetest:ide-valuesource:[0.8,)'
     implementation 'net.christophermerrill:FancyFxTree:[3.5,)'
     implementation 'net.christophermerrill:ShadowboxFx:[1.3,)'
 
