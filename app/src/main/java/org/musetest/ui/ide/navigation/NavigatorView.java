@@ -14,6 +14,7 @@ import org.musetest.ui.ide.navigation.resources.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -66,6 +67,29 @@ public class NavigatorView
     private void activateNavigationUI()
         {
         ProjectNavigator navigator = new ProjectNavigator(_project, _editors);
+        navigator.setProjectCloser(() ->
+            {
+            if (_editors.hasUnsavedChanges())
+                {
+                final AtomicReference<String> error = new AtomicReference<>();
+                boolean close = SaveChangesDialog.createShowAndWait(
+                    () -> error.set(_editors.saveAllChanges()),
+                    _editors::revertAllChanges);
+
+                if (!close || error.get() != null)
+                    {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Unable to save a resource");
+                    alert.setContentText(error.get());
+                    alert.showAndWait();
+                    return;
+                    }
+                }
+            _editors.closeAll();
+            _project = null;
+            activateInitialUI();
+            });
         _root.setCenter(navigator.getNode());
         }
 
@@ -78,4 +102,9 @@ public class NavigatorView
     private final ResourceEditors _editors;
     private final BorderPane _root = new BorderPane();
     private MuseProject _project = null;
+
+    public interface ProjectCloser
+        {
+        void close();
+        }
     }

@@ -114,6 +114,13 @@ public class IdeTabs implements ResourceEditors
         return null;
         }
 
+    @Override
+    public void closeAll()
+        {
+        _tabs.getTabs().clear();
+        _editors.clear();
+        }
+
     private final TabPane _tabs;
     private final List<ResourceEditorToken> _editors = new ArrayList<>();
 

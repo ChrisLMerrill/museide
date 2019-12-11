@@ -12,8 +12,10 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.ui.extend.actions.*;
 import org.musetest.ui.extend.components.*;
+import org.musetest.ui.extend.edit.*;
 import org.musetest.ui.extend.glyphs.*;
 import org.musetest.ui.ide.*;
+import org.musetest.ui.ide.navigation.*;
 import org.musetest.ui.ide.navigation.resources.actions.*;
 import org.musetest.ui.seideimport.*;
 import org.musetest.ui.settings.*;
@@ -83,6 +85,21 @@ public class ProjectNavigator
         for (ProjectNavigatorAdditionalButtonProvider provider : BUTTON_PROVIDERS)
             for (Button button : provider.getButtons(_project, getNode()))
                 edit_buttons.getChildren().add(button);
+
+        if (_project_closer != null)
+            {
+            Button close_button = Buttons.createCancel(20);
+            close_button.setTooltip(new Tooltip("Close Project"));
+            button_bar.add(close_button, button_bar.getChildren().size(), 0);
+            GridPane.setHgrow(close_button, Priority.NEVER);
+            GridPane.setHalignment(close_button, HPos.RIGHT);
+            GridPane.setMargin(close_button, new Insets(5));
+            close_button.setOnAction((event) ->
+                {
+                LOG.info("Close the project!");
+                _project_closer.close();
+                });
+            }
         }
 
     @NotNull
@@ -179,6 +196,11 @@ public class ProjectNavigator
         _editors.editResource(token, _project);
         }
 
+    public void setProjectCloser(NavigatorView.ProjectCloser project_closer)
+        {
+        _project_closer = project_closer;
+        }
+
     public void requestFocus()
         {
         _tree.requestFocus();
@@ -191,6 +213,7 @@ public class ProjectNavigator
     private Scene _scene;
     private NotificationPane _node;
     private ProjectResourceTree _tree;
+    private NavigatorView.ProjectCloser _project_closer = null;
 
     private final static Logger LOG = LoggerFactory.getLogger(ProjectNavigator.class);
 

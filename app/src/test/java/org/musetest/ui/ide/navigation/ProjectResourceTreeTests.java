@@ -98,6 +98,12 @@ public class ProjectResourceTreeTests extends ComponentTest
 
             }
 
+        @Override
+        public void closeAll()
+            {
+
+            }
+
         ResourceToken _resource_edited;
         MuseProject _project_edited;
         }

@@ -15,6 +15,8 @@ public interface ResourceEditors
     boolean hasUnsavedChanges();
     String saveAllChanges();
     void revertAllChanges();
+
+    void closeAll();
     }
 
 

@@ -50,6 +50,12 @@ public class MultiWindowResourceEditors implements ResourceEditors
         {
         // TODO
         }
+
+    @Override
+    public void closeAll()
+        {
+        // TODO
+        }
     }
 
 

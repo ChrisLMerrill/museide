@@ -62,7 +62,6 @@ public class IdeApplication extends Application
                     () -> error.set(_editors.saveAllChanges()),
                     _editors::revertAllChanges);
 
-
                 if (!close || error.get() != null)
                     {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
