@@ -10,10 +10,12 @@ import org.controlsfx.control.*;
 import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.ui.extend.actions.*;
 import org.musetest.ui.extend.components.*;
 import org.musetest.ui.extend.edit.*;
 import org.musetest.ui.extend.glyphs.*;
+import org.musetest.ui.extend.javafx.*;
 import org.musetest.ui.ide.*;
 import org.musetest.ui.ide.navigation.*;
 import org.musetest.ui.ide.navigation.resources.actions.*;
@@ -60,9 +62,38 @@ public class ProjectNavigator
             _tree = new ProjectResourceTree(_project, ops_handler);
             border_pane.setCenter(_tree.getNode());
 
+            Label project_label = new Label(" " + _project.getName());
+            project_label.setTooltip(new Tooltip("Project location: " + ((FolderIntoMemoryResourceStorage)_project.getResourceStorage()).getBaseLocation().getAbsolutePath()));
+            Styles.addStyle(project_label, "heading");
+
+            GridPane label_box = new GridPane();
+            label_box.getChildren().add(project_label);
+            GridPane.setHgrow(project_label, Priority.ALWAYS);
+            GridPane.setHalignment(project_label, HPos.LEFT);
+
+            if (_project_closer != null)
+                {
+                Button close_button = Buttons.createCancel(20);
+                close_button.setTooltip(new Tooltip("Close Project"));
+                label_box.add(close_button, label_box.getChildren().size(), 0);
+                GridPane.setHgrow(close_button, Priority.NEVER);
+                GridPane.setHalignment(close_button, HPos.RIGHT);
+                GridPane.setMargin(close_button, new Insets(5));
+                close_button.setOnAction((event) ->
+                    {
+                    LOG.info("Close the project!");
+                    _project_closer.close();
+                    });
+                }
+
             GridPane button_bar = new GridPane();
             createButtons(button_bar);
-            border_pane.setTop(button_bar);
+
+            VBox header = new VBox();
+            header.getChildren().add(label_box);
+            header.getChildren().add(button_bar);
+
+            border_pane.setTop(header);
             }
         return _node;
         }
@@ -85,21 +116,6 @@ public class ProjectNavigator
         for (ProjectNavigatorAdditionalButtonProvider provider : BUTTON_PROVIDERS)
             for (Button button : provider.getButtons(_project, getNode()))
                 edit_buttons.getChildren().add(button);
-
-        if (_project_closer != null)
-            {
-            Button close_button = Buttons.createCancel(20);
-            close_button.setTooltip(new Tooltip("Close Project"));
-            button_bar.add(close_button, button_bar.getChildren().size(), 0);
-            GridPane.setHgrow(close_button, Priority.NEVER);
-            GridPane.setHalignment(close_button, HPos.RIGHT);
-            GridPane.setMargin(close_button, new Insets(5));
-            close_button.setOnAction((event) ->
-                {
-                LOG.info("Close the project!");
-                _project_closer.close();
-                });
-            }
         }
 
     @NotNull
