@@ -17,6 +17,7 @@ public class ProjectResourceTree
         _root_node = new ProjectNode(project);
         _tree_view.setRoot(new ResourceTreeNodeFacade(_root_node));
         _tree_view.getRoot().setExpanded(true);
+        _tree_view.setShowRoot(false);
         }
 
     public Node getNode()
