@@ -22,6 +22,10 @@ public class Buttons
         {
         return createImageButton("FA:TIMES_CIRCLE", Color.DARKRED, CANCEL_ID, "Cancel");
         }
+    public static Button createCancel(Integer size)
+        {
+        return createImageButton("FA:TIMES_CIRCLE", Color.DARKRED, CANCEL_ID, "Cancel", size);
+        }
     public final static String CANCEL_ID = "cancel";
 
     public static Button createClose(@Nullable Integer size)
