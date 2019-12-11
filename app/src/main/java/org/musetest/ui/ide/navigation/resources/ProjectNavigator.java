@@ -146,7 +146,10 @@ public class ProjectNavigator
                         if (created)
                             showAndEditResource(action.getToken());
                         else
-                        	LOG.error("Cannot create resource: " + action.getErrorMessage());
+                            {
+                            LOG.error("Cannot create resource: " + action.getErrorMessage());
+                            return false;
+                            }
                         }
                     return true;
                     }

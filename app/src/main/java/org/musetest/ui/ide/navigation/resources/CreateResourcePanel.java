@@ -6,6 +6,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.musetest.core.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.ui.extend.actions.*;
 import org.musetest.ui.extend.components.*;
@@ -124,7 +125,9 @@ public class CreateResourcePanel
             setError("Id already exists in project");
             }
 
-        //TODO, is a valid ID for the ResourceStorage...e.g. filesystem limitations)
+        // it does not already exist, but is it valid for the storage method?  (currently only files...)
+        if (valid)
+            valid = new FilenameValidator().isValid(id);
 
         InputValidation.setValid(_id_field, valid);
         if (_dialog != null)
