@@ -68,6 +68,7 @@ class ResourceGroupNode extends ResourceTreeNode
             {
             _children = new ArrayList<>();
             List<ResourceToken> resources = _project.getResourceStorage().findResources(new ResourceQueryParameters(_type));
+            resources.sort(Comparator.comparing(ResourceInfo::getId));
             for (ResourceToken resource : resources)
                 _children.add(new ResourceNode(resource, _project));
             }
