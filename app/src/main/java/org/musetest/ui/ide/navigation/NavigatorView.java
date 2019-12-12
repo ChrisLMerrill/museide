@@ -1,5 +1,6 @@
 package org.musetest.ui.ide.navigation;
 
+import javafx.application.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -7,6 +8,7 @@ import javafx.scene.layout.*;
 import javafx.stage.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.ui.extend.glyphs.*;
 import org.musetest.ui.ide.*;
@@ -91,6 +93,34 @@ public class NavigatorView
             activateInitialUI();
             });
         _root.setCenter(navigator.getNode());
+
+        detectAndWarnFileExtensionChange();
+        }
+
+    // TODO This can be removed in the future (a few months after Dec 2019?)
+    // TODO Not before FromJsonFileResourceFactory is changed to stop reading .json files.
+    private void detectAndWarnFileExtensionChange()
+        {
+        int count = 0;
+        List<ResourceToken> tokens = _project.getResourceStorage().findResources(ResourceQueryParameters.forAllResources());
+        for (ResourceToken token : tokens)
+            {
+            Object meta = token.metadata().getMetadataField("filename");
+            if (meta != null && meta.toString().endsWith(".json"))
+                count++;
+            }
+        if (count > 0)
+            {
+            final int info_count = count;
+            Platform.runLater(() ->
+                {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Notice");
+                alert.setHeaderText(info_count + " resources found with .json extension in filename");
+                alert.setContentText("Muse files will be moving from the .json filename extension to .muse.\nNew items created in MuseIDE will use the new extension.\nSoon, project resources will no longer be read from .json files.\nUse these commands to rename all the files in a folder:\n- Windows: ren *.json *.muse\n- Mac: for f in *.json; do mv $f `basename $f .json`.muse; done;");
+                alert.show();
+                });
+            }
         }
 
     public Node getNode()
