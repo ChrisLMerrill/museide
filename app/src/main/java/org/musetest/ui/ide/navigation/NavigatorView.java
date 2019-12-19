@@ -60,6 +60,8 @@ public class NavigatorView
 
     void openProject(File folder)
         {
+        for (ProjectOpenListener listener : OPEN_LISTENERS)
+            listener.projectWillBeOpened(folder);
         _project = new SimpleProject(new FolderIntoMemoryResourceStorage(folder, "com.webperformance.muse.measurements"), folder.getName());
         _project.open();
         activateNavigationUI();
@@ -136,5 +138,18 @@ public class NavigatorView
     public interface ProjectCloser
         {
         void close();
+        }
+
+    public interface ProjectOpenListener
+        {
+        void projectWillBeOpened(File folder);
+        }
+
+    private final static List<ProjectOpenListener> OPEN_LISTENERS = new ArrayList<>();
+
+    @SuppressWarnings("unused")  // public API
+    public static void addProjectOpenListener(ProjectOpenListener listener)
+        {
+        OPEN_LISTENERS.add(listener);
         }
     }
