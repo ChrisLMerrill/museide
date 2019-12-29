@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'org.musetest'
-version '0.20'
+version '0.21'
 
 application {
     mainClassName = 'org.musetest.ui.ide.IdeApplication'
