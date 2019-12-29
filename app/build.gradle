@@ -49,10 +49,6 @@ dependencies
     implementation 'org.openjfx:javafx-controls:12.0.2'
     implementation 'org.controlsfx:controlsfx:11.0.0'
     implementation files('lib/openjfx-dialogs-1.0.3.jar')
-    implementation 'de.jensd:fontawesomefx-commons:9.1.2'
-    implementation 'de.jensd:fontawesomefx-controls:9.1.2'
-    implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
-    implementation 'de.jensd:fontawesomefx-icons525:4.2.0-9.1.2'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.6'

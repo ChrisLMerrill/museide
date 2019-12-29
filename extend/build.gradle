@@ -17,10 +17,11 @@ dependencies {
 
     implementation 'org.openjfx:javafx-controls:12.0.2'
     implementation 'org.controlsfx:controlsfx:11.0.0'
-    implementation 'de.jensd:fontawesomefx-commons:9.1.2'
-    implementation 'de.jensd:fontawesomefx-controls:9.1.2'
-    implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
-    implementation 'de.jensd:fontawesomefx-icons525:4.2.0-9.1.2'
+    implementation 'de.jensd:fontawesomefx-commons:11.0'
+    implementation 'de.jensd:fontawesomefx-controls:11.0'
+    implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-11'
+    implementation 'de.jensd:fontawesomefx-icons525:3.0.0-11'
+    implementation 'de.jensd:fontawesomefx-octicons:4.3.0-11'
 
     testImplementation 'net.christophermerrill:TestFxUtils:1.5'
     testImplementation 'junit:junit:4.12'

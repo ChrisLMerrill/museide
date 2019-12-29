@@ -2,6 +2,7 @@ package org.musetest.ui.extend.glyphs;
 
 import de.jensd.fx.glyphs.fontawesome.*;
 import de.jensd.fx.glyphs.icons525.*;
+import de.jensd.fx.glyphs.octicons.*;
 import javafx.scene.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
@@ -138,6 +139,33 @@ public class Glyphs
                     Icons525View icon_525_view = new Icons525View(icon_525);
                     icon_525_view.setGlyphSize(size);
                     return icon_525_view;
+                    }
+            case "Octicons":
+            case "OCT":
+                OctIcon octicon = null;
+                if (name_char.length() > 1)
+                    try
+                        {
+                        octicon = OctIcon.valueOf(name_char);
+                        }
+                    catch (IllegalArgumentException e)
+                        {
+                        // will print message later
+                        }
+                else
+                    {
+                    for (OctIcon candidate : OctIcon.values())
+                        if (candidate.unicode().equals(name_char))
+                            {
+                            octicon = candidate;
+                            break;
+                            }
+                    }
+                if (octicon != null)
+                    {
+                    OctIconView octicon_view = new OctIconView(octicon);
+                    octicon_view.setGlyphSize(size);
+                    return octicon_view;
                     }
             }
 
