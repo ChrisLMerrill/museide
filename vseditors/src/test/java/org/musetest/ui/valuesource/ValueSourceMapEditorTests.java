@@ -246,20 +246,6 @@ public class ValueSourceMapEditorTests extends ComponentTest
         }
 
     @Test
-    public void addMissingRequiredDescribedSource()
-        {
-        MockContainsDescribedSources container = new MockContainsDescribedSources();
-        Platform.runLater(() -> _editor.setSource(container.getSubsources(), container.getSubsourceDescriptors()));
-        waitForUiEvents();
-
-        clickOn(id(ValueSourceMapEditor.getAddButtonId("param1")));
-        waitForUiEvents();
-        Assert.assertFalse("add button should be gone", exists(ValueSourceMapEditor.getAddButtonId("param1")));
-
-        Assert.assertNotNull(container.getSubsources().getSource("param1"));
-        }
-
-    @Test
     public void noDeleteButtonForRequiredDescribedSubsource()
         {
         MockContainsDescribedSources container = new MockContainsDescribedSources();

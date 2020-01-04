@@ -125,6 +125,13 @@ public class ValueSourceMapEditor implements StackableEditor
             for (SubsourceDescriptor descriptor : _descriptors)
 	            {
 	            ValueSourceConfiguration source = _container.getSource(descriptor.getName());
+	            if (source == null && !descriptor.isOptional())
+                    {
+                    if (descriptor.getDefault() == null)
+                        source = ValueSourceConfiguration.forValue(null);
+                    else
+                        source = descriptor.getDefault();
+                    }
 	            if (source == null)
 	            	new MissingDescribedSubsourceRow(row++, descriptor);
 	            else
