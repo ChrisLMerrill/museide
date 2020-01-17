@@ -138,6 +138,7 @@ public class StepTree2
 								{
 								_auto_expanded_items.remove(auto_expanded_item);
 								auto_expanded_item.setExpanded(false);
+								break;
 								}
 					if (event.hasTag(StepEventType.INCOMPLETE))
 						{
