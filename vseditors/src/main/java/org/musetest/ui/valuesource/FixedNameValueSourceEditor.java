@@ -93,9 +93,11 @@ public class FixedNameValueSourceEditor implements Validatable, ValueSourceEdito
 
     private void createEditControls()
         {
-        if (_source == null)
+        if (_source == null && !_descriptor.isOptional())
             {
-            _source = ValueSourceConfiguration.forType(StringValueSource.TYPE_ID);
+            _source = _descriptor.getDefault();
+            if (_source == null)
+                _source = ValueSourceConfiguration.forValue("value goes here");
             new AddNamedSubsourceAction(_container, _source, _descriptor.getName()).execute(_undo);
             }
 
