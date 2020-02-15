@@ -3,7 +3,7 @@ grammar ValueSource;
 
 @header
     {
-    package org.musetest.parsing.valuesource.antlr;
+    package org.museautomation.parsing.valuesource.antlr;
     }
 
 literal

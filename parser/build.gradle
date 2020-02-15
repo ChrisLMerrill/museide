@@ -4,8 +4,8 @@ plugins {
     id 'antlr'
 }
 
-group = 'org.musetest'
-version = 0.13
+group = 'org.museautomation'
+version = 0.14
 
 dependencies
     {
@@ -25,7 +25,7 @@ repositories
 
 generateGrammarSource
     {
-    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/musetest/parsing/valuesource/antlr".toString())   // update *.g files if you change this
+    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/museautomation/parsing/valuesource/antlr".toString())   // update *.g files if you change this
     }
 
 task sourcesJar(type: Jar) {

@@ -4,8 +4,8 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-group 'org.musetest'
-version '0.8'
+group 'org.museautomation'
+version '0.9'
 
 javafx {
     version = "12.0.2"
@@ -13,9 +13,9 @@ javafx {
 }
 
 dependencies {
-    api 'org.musetest:muse-core:[0.19,)'
-    api 'org.musetest:ide-extend:[0.4,)'
-    implementation 'org.musetest:muse-parser:[0.12,)'
+    api 'org.museautomation:muse-core:[0.22,)'
+    api 'org.museautomation:ide-extend:[0.7,)'
+    implementation 'org.museautomation:muse-parser:[0.14,)'
     implementation 'org.openjfx:javafx-controls:12.0.2'
                                            
     testImplementation 'net.christophermerrill:TestFxUtils:1.5'

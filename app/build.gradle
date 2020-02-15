@@ -5,11 +5,11 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-group 'org.musetest'
-version '0.21'
+group 'org.museautomation'
+version '0.22'
 
 application {
-    mainClassName = 'org.musetest.ui.ide.IdeApplication'
+    mainClassName = 'org.museautomation.ui.ide.IdeApplication'
     applicationName = 'museide'
     applicationDefaultJvmArgs =  [
         "--add-opens=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED",
@@ -33,16 +33,16 @@ repositories
 
 dependencies
     {
-    implementation 'org.musetest:muse-core:[0.20,)'
-    implementation 'org.musetest:muse-selenium:[0.20,)'
-    implementation 'org.musetest:muse-seleniumide:[0.19,)'
-    implementation 'org.musetest:muse-commandline:[0.20,)'
-    implementation 'org.musetest:muse-extensions:[0.6,)'
+    implementation 'org.museautomation:muse-core:[0.22,)'
+    implementation 'org.museautomation:muse-selenium:[0.22,)'
+    implementation 'org.museautomation:muse-seleniumide:[0.22,)'
+    implementation 'org.museautomation:muse-commandline:[0.22,)'
+    implementation 'org.museautomation:muse-extensions:[0.7,)'
 
-    implementation 'org.musetest:ide-extend:[0.5,)'
-    implementation 'org.musetest:ide-step-test-editor:[0.6,)'
-    implementation 'org.musetest:ide-editors:[0.6,)'
-    implementation 'org.musetest:ide-valuesource:[0.8,)'
+    implementation 'org.museautomation:ide-extend:[0.7,)'
+    implementation 'org.museautomation:ide-step-test-editor:[0.7,)'
+    implementation 'org.museautomation:ide-editors:[0.7,)'
+    implementation 'org.museautomation:ide-valuesource:[0.9,)'
     implementation 'net.christophermerrill:FancyFxTree:[3.5,)'
     implementation 'net.christophermerrill:ShadowboxFx:[1.3,)'
 

@@ -1,0 +1,3 @@
+org.museautomation.ui.ide.commandline.EditResourceCommand
+org.museautomation.ui.ide.commandline.NavigateProjectCommand
+org.museautomation.ui.ide.commandline.OpenIdeCommand

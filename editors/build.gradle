@@ -4,8 +4,8 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-group 'org.musetest'
-version '0.6'
+group 'org.museautomation'
+version '0.7'
 
 javafx {
     version = "12.0.2"
@@ -14,11 +14,11 @@ javafx {
 
 dependencies {
     // muse project
-    api 'org.musetest:muse-core:[0.20,)'
-    implementation 'org.musetest:muse-selenium:[0.20,)'
-    implementation 'org.musetest:ide-extend:[0.5,)'
-    implementation 'org.musetest:ide-valuesource:[0.8,)'
-    implementation 'org.musetest:ide-step-test-editor:[0.6,)'
+    api 'org.museautomation:muse-core:[0.22,)'
+    implementation 'org.museautomation:muse-selenium:[0.22,)'
+    implementation 'org.museautomation:ide-extend:[0.7,)'
+    implementation 'org.museautomation:ide-valuesource:[0.9,)'
+    implementation 'org.museautomation:ide-step-test-editor:[0.7,)'
 
     // external
     implementation 'org.openjfx:javafx-controls:12.0.2'
