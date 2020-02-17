@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class AddTestsToSuiteAction extends UndoableAction
     {
-    public AddTestsToSuiteAction(IdListTestSuite suite, List<String> test_ids)
+    public AddTestsToSuiteAction(IdListTaskSuite suite, List<String> test_ids)
         {
         _suite = suite;
         _test_ids = test_ids;
@@ -20,7 +20,7 @@ public class AddTestsToSuiteAction extends UndoableAction
     protected boolean executeImplementation()
         {
         for (String id : _test_ids)
-            _suite.addTestId(id);
+            _suite.addTaskId(id);
         return true;
         }
 
@@ -28,11 +28,11 @@ public class AddTestsToSuiteAction extends UndoableAction
     protected boolean undoImplementation()
         {
         for (String id : _test_ids)
-            _suite.removeTestId(id);
+            _suite.removeTaskId(id);
         return true;
         }
 
-    final private IdListTestSuite _suite;
+    final private IdListTaskSuite _suite;
     final private List<String> _test_ids;
     }
 

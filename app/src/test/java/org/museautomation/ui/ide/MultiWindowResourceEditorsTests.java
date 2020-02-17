@@ -8,7 +8,7 @@ import org.museautomation.builtins.step.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 import org.museautomation.ui.ide.navigation.resources.*;
 
@@ -25,7 +25,7 @@ public class MultiWindowResourceEditorsTests extends ComponentTest
         MuseProject project = new SimpleProject();
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("message1"));
-        SteppedTest test = new SteppedTest(step);
+        SteppedTask test = new SteppedTask(step);
         test.setId(TEST_ID);
         project.getResourceStorage().addResource(test);
 
@@ -44,5 +44,5 @@ public class MultiWindowResourceEditorsTests extends ComponentTest
         return new Label("placeholder node");
         }
 
-    private final static String TEST_ID = "testid123";
+    private final static String TEST_ID = "taskid123";
     }

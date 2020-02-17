@@ -10,7 +10,7 @@ import org.museautomation.ui.extend.edit.step.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventTableController implements InteractiveTestStateListener, MuseEventListener
+public class EventTableController implements InteractiveTaskStateListener, MuseEventListener
     {
     public EventTableController(EventTable table, InteractiveTestController controller)
         {
@@ -19,24 +19,24 @@ public class EventTableController implements InteractiveTestStateListener, MuseE
         _controller.addListener(this);
         }
 
-    public void setTest(MuseTest test)
+    public void setTask(MuseTask task)
         {
-        _test = test;
+        _task = task;
         }
 
     @Override
-    public void stateChanged(InteractiveTestState state)
+    public void stateChanged(InteractiveTaskState state)
         {
-        if (state.equals(InteractiveTestState.STARTING))
+        if (state.equals(InteractiveTaskState.STARTING))
             {
             _runner = _controller.getTestRunner();
-            if (_test != null && _runner.getExecutionContext().getTest() != _test)
+            if (_task != null && _runner.getExecutionContext().getTask() != _task)
                 return;
             _table.clear();
             _table.addEvents(_runner.getExecutionContext().getEventLog());
             _runner.getExecutionContext().addEventListener(this);
             }
-        else if (state.equals(InteractiveTestState.IDLE) && _runner != null)  // test stopped
+        else if (state.equals(InteractiveTaskState.IDLE) && _runner != null)  // test stopped
             {
             _runner.getExecutionContext().removeEventListener(this);
             _runner = null;
@@ -52,8 +52,8 @@ public class EventTableController implements InteractiveTestStateListener, MuseE
     private final EventTable _table;
     private final InteractiveTestController _controller;
 
-    private TestRunner _runner = null;
-    private MuseTest _test;
+    private TaskRunner _runner = null;
+    private MuseTask _task;
     }
 
 

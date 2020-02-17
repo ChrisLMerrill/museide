@@ -39,25 +39,31 @@ public class ResourceTypeAndSubtypeSelector
         ResourceType default_selection = null;
         for (ResourceType type : types)
             {
-            List<ResourceSubtype> subtypes = _project.getResourceTypes().getSubtypesOf(type);
-            subtypes.sort(Comparator.comparing(ResourceSubtype::getName));
-            if (subtypes.size() == 0)
+            if (!type.isInternalUseOnly())
                 {
-                if (default_selection == null)
-	                default_selection = type;
-                MenuItem item = new MenuItem(type.getName());
-                item.setOnAction(event -> select(type));
-                items.add(item);
-                }
-            else
-                {
-                Menu menu = new Menu(type.getName());
-                items.add(menu);
-                for (ResourceSubtype subtype : subtypes)
+                List<ResourceSubtype> subtypes = _project.getResourceTypes().getSubtypesOf(type);
+                subtypes.sort(Comparator.comparing(ResourceSubtype::getName));
+                if (subtypes.size() == 0)
                     {
-                    MenuItem subitem = new MenuItem(subtype.getName());
-                    subitem.setOnAction(event -> select(subtype));
-                    menu.getItems().add(subitem);
+                    if (default_selection == null)
+                        default_selection = type;
+                    MenuItem item = new MenuItem(type.getName());
+                    item.setOnAction(event -> select(type));
+                    items.add(item);
+                    }
+                else
+                    {
+                    Menu menu = new Menu(type.getName());
+                    items.add(menu);
+                    for (ResourceSubtype subtype : subtypes)
+                        {
+                        if (!subtype.isInternalUseOnly())
+                            {
+                            MenuItem subitem = new MenuItem(subtype.getName());
+                            subitem.setOnAction(event -> select(subtype));
+                            menu.getItems().add(subitem);
+                            }
+                        }
                     }
                 }
             }

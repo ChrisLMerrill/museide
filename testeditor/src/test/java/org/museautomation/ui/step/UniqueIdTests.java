@@ -1,10 +1,10 @@
 package org.museautomation.ui.step;
 
 import org.junit.*;
-import org.museautomation.ui.steptest.*;
+import org.museautomation.ui.steptask.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -20,7 +20,7 @@ public class UniqueIdTests
 		StepConfiguration all = new StepConfiguration("compound");
 		all.addChild(step1);
 		all.addChild(step2);
-		SteppedTest test = new SteppedTest(all);
+		SteppedTask test = new SteppedTask(all);
 
 		UniqueIds.addToStepsIfNeeded(test, new SimpleProject());
 
@@ -41,7 +41,7 @@ public class UniqueIdTests
 		StepConfiguration all = new StepConfiguration("compound");
 		all.addChild(step1);
 		all.addChild(step2);
-		SteppedTest test = new SteppedTest(all);
+		SteppedTask test = new SteppedTask(all);
 
 		UniqueIds.addToStepsIfNeeded(test, new SimpleProject());
 

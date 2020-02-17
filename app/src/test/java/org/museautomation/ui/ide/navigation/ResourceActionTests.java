@@ -6,7 +6,7 @@ import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.variables.*;
 import org.museautomation.ui.extend.actions.*;
 
@@ -146,7 +146,7 @@ public class ResourceActionTests
 
     private MuseResource createResource(String resource_id)
         {
-        MuseTest test = new SteppedTest();
+        MuseTask test = new SteppedTask();
         test.setId(resource_id);
         return test;
         }

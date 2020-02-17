@@ -3,7 +3,7 @@ package org.museautomation.ui.extend.edit.step;
 import org.museautomation.ui.extend.actions.*;
 import org.museautomation.core.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

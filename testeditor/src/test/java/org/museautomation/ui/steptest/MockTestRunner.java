@@ -6,19 +6,16 @@ import org.museautomation.core.execution.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MockTestRunner implements TestRunner
+public class MockTestRunner implements TaskRunner
 	{
 	@Override
-	public TestExecutionContext getExecutionContext()
+	public TaskExecutionContext getExecutionContext()
 		{
 		return _context;
 		}
 
 	@Override
-	public void runTest()
-		{
-
-		}
+	public void runTask() { }
 
 	@Override
 	public Boolean completedNormally()
@@ -26,12 +23,12 @@ public class MockTestRunner implements TestRunner
 		return true;
 		}
 
-	public void setExecutionContext(TestExecutionContext context)
+	public void setExecutionContext(TaskExecutionContext context)
 		{
 		_context = context;
 		}
 
-	private TestExecutionContext _context;
+	private TaskExecutionContext _context;
 	}
 
 

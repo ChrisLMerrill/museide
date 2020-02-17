@@ -1,6 +1,6 @@
 package org.museautomation.ui.steptest;
 
-import org.museautomation.ui.steptest.execution.*;
+import org.museautomation.ui.steptask.execution.*;
 import org.museautomation.core.*;
 import org.museautomation.core.execution.*;
 
@@ -12,13 +12,13 @@ import java.util.*;
 public class MockInteractiveTestController extends BaseInteractiveTestController
 	{
 	@Override
-	public boolean run(SteppedTestProvider test_provider)
+	public boolean run(SteppedTaskProvider test_provider)
 		{
 		return false;
 		}
 
 	@Override
-	public void runOneStep(SteppedTestProvider provider)
+	public void runOneStep(SteppedTaskProvider provider)
 		{
 
 		}
@@ -48,36 +48,36 @@ public class MockInteractiveTestController extends BaseInteractiveTestController
 		}
 
 	@Override
-	public InteractiveTestState getState()
+	public InteractiveTaskState getState()
 		{
 		return _state;
 		}
 
 	@Override
-	public TestResult getResult()
+	public TaskResult getResult()
 		{
 		return null;
 		}
 
 	@Override
-	public TestRunner getTestRunner()
+	public TaskRunner getTestRunner()
 		{
 		return _runner;
 		}
 
-	public void setRunner(TestRunner runner)
+	public void setRunner(TaskRunner runner)
 		{
 		_runner = runner;
 		}
 
-	public void raiseStateChangeEvent(InteractiveTestState state)
+	public void raiseStateChangeEvent(InteractiveTaskState state)
 		{
 		_state = state;
-		List<InteractiveTestStateListener> listeners = new ArrayList<>(_listeners);
-		for (InteractiveTestStateListener listener : listeners)
+		List<InteractiveTaskStateListener> listeners = new ArrayList<>(_listeners);
+		for (InteractiveTaskStateListener listener : listeners)
 			listener.stateChanged(state);
 		}
 
-	private TestRunner _runner;
-	private InteractiveTestState _state = InteractiveTestState.IDLE;
+	private TaskRunner _runner;
+	private InteractiveTaskState _state = InteractiveTaskState.IDLE;
 	}

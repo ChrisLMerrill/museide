@@ -23,14 +23,14 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepConfigurationTreeNode implements MuseEventListener, InteractiveTestStateListener
+public class StepConfigurationTreeNode implements MuseEventListener, InteractiveTaskStateListener
 	{
 	StepConfigurationTreeNode(StepEditContext edit_context, StepConfiguration step)
 		{
 		_edit_context = edit_context;
 		_edit_context.addShuttable(this::destroy);
 		_edit_context.getController().addListener(this);
-		if (!_edit_context.getController().getState().equals(InteractiveTestState.IDLE))
+		if (!_edit_context.getController().getState().equals(InteractiveTaskState.IDLE))
 			subscribeToExecutionContext();
 		_step = step;
 		_listener = new ChangeListener();
@@ -42,7 +42,7 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 
 	private void subscribeToExecutionContext()
 		{
-		_execution_context = (SteppedTestExecutionContext) _edit_context.getController().getTestRunner().getExecutionContext();
+		_execution_context = (SteppedTaskExecutionContext) _edit_context.getController().getTestRunner().getExecutionContext();
 		_execution_context.addEventListener(this);
 		}
 
@@ -218,7 +218,7 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 					loadChildren(DynamicStepLoadingEventType.getLoadedSteps(test_event, _execution_context));
 					_loaded_indirect_children = true;
 					break;
-				case PauseTestEventType.TYPE_ID:
+				case PauseTaskEventType.TYPE_ID:
 					_state_icon = Glyphs.create("FA:PAUSE");
 					setStyle(PAUSED_STYLE);
 					break;
@@ -227,11 +227,11 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 		}
 
 	@Override
-	public void stateChanged(InteractiveTestState state)
+	public void stateChanged(InteractiveTaskState state)
 		{
-		if (state.equals(InteractiveTestState.STARTING))
+		if (state.equals(InteractiveTaskState.STARTING))
 			subscribeToExecutionContext();
-		else if (state.equals(InteractiveTestState.STOPPING))
+		else if (state.equals(InteractiveTaskState.STOPPING))
 			{
 			unsubscribeFromExecutionContext();
 			_state_icon = null;
@@ -274,7 +274,7 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 	private Node _step_icon;
 	private Node _state_icon = null;
 	private boolean _loaded_indirect_children = false;
-	private SteppedTestExecutionContext _execution_context = null;
+	private SteppedTaskExecutionContext _execution_context = null;
 	private boolean _editing = false;
 	private StepCellEditor _editor = null;
 

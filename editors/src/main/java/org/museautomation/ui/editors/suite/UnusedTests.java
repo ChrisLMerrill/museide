@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class UnusedTests
     {
-    public UnusedTests(MuseProject project, IdListTestSuite suite)
+    public UnusedTests(MuseProject project, IdListTaskSuite suite)
         {
         _project = project;
         _suite = suite;
@@ -26,23 +26,23 @@ public class UnusedTests
         return unused;
         }
 
-    public void addUnusedTestIds(List<String> target_list)
+    void addUnusedTestIds(List<String> target_list)
         {
         // add tests
-    List<ResourceToken> tests = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTest.TestResourceType()));
+    List<ResourceToken> tests = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
         for (ResourceToken token : tests)
-            if (!_suite.getTestIds().contains(token.getId()))
+            if (!_suite.getTaskIds().contains(token.getId()))
                 target_list.add(token.getId());
 
         // add test suites
-        List<ResourceToken> suites = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTestSuite.TestSuiteResourceType()));
+        List<ResourceToken> suites = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTaskSuite.TaskSuiteResourceType()));
         for (ResourceToken token : suites)
-            if (!_suite.getTestIds().contains(token.getId()))
+            if (!_suite.getTaskIds().contains(token.getId()))
                 target_list.add(token.getId());
         }
 
     private MuseProject _project;
-    private IdListTestSuite _suite;
+    private IdListTaskSuite _suite;
     }
 
 

@@ -9,7 +9,7 @@ import org.museautomation.ui.extend.edit.step.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestStateBlocker implements InteractiveTestStateListener
+public class TestStateBlocker implements InteractiveTaskStateListener
     {
     TestStateBlocker(InteractiveTestController controller)
         {
@@ -17,7 +17,7 @@ public class TestStateBlocker implements InteractiveTestStateListener
         _controller.addListener(this);
         }
 
-    public synchronized void blockUntil(InteractiveTestState state)
+    public synchronized void blockUntil(InteractiveTaskState state)
         {
         if (_controller.getState().equals(state))
             return;
@@ -35,14 +35,14 @@ public class TestStateBlocker implements InteractiveTestStateListener
         }
 
     @Override
-    public synchronized void stateChanged(InteractiveTestState state)
+    public synchronized void stateChanged(InteractiveTaskState state)
         {
         if (state.equals(_state))
             notify();
         }
 
     private InteractiveTestController _controller;
-    private InteractiveTestState _state;
+    private InteractiveTaskState _state;
     }
 
 

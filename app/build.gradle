@@ -60,6 +60,10 @@ dependencies
     testImplementation 'net.christophermerrill:TestFxUtils:[1.5,)'
     testImplementation 'org.mockito:mockito-core:2.7.9'
     //testImplementation 'org.testfx:openjfx-monocle:jdk-9+181'
+
+    implementation('com.google.guava:guava') { version { strictly '25.0-jre'} }
+    implementation('com.google.code.findbugs:annotations')  { version { strictly '3.0.1'} }
+
     }
 
 jar {

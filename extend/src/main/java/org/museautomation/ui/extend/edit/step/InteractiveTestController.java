@@ -13,21 +13,21 @@ import org.museautomation.core.execution.*;
  */
 public interface InteractiveTestController
     {
-    boolean run(SteppedTestProvider test_provider);
-    void runOneStep(SteppedTestProvider provider);
+    boolean run(SteppedTaskProvider test_provider);
+    void runOneStep(SteppedTaskProvider provider);
     void stop();
     void pause();
     void resume();
     void step();
 
-    InteractiveTestState getState();
-    TestResult getResult();
+    InteractiveTaskState getState();
+    TaskResult getResult();
 
     /**
      * Get the current TestRunner, or null if there is no TestRunner active.
      */
-    TestRunner getTestRunner();
+    TaskRunner getTestRunner();
 
-    void addListener(InteractiveTestStateListener listener);
-    void removeListener(InteractiveTestStateListener listener);
+    void addListener(InteractiveTaskStateListener listener);
+    void removeListener(InteractiveTaskStateListener listener);
     }

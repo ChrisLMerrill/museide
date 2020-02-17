@@ -9,7 +9,7 @@ import org.museautomation.builtins.step.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.suite.*;
 import org.museautomation.ui.extend.components.*;
 
@@ -25,7 +25,7 @@ public class IdListTestSuiteEditorTests extends ComponentTest
     public void displayList() throws IOException
         {
         int num_tests = 3;
-        IdListTestSuite suite = setupTests(num_tests);
+        IdListTaskSuite suite = setupTests(num_tests);
         Platform.runLater(() -> _editor.editResource(_project, suite));
         waitForUiEvents();
 
@@ -66,33 +66,33 @@ public class IdListTestSuiteEditorTests extends ComponentTest
     public void addTestToSuite() throws IOException
         {
         PopupDialog.makeFast();
-        IdListTestSuite suite = setupTests(3);
+        IdListTaskSuite suite = setupTests(3);
         Platform.runLater(() -> _editor.editResource(_project, suite));
         waitForUiEvents();
 
         final String new_test_id = "new-test";
         createTest(new_test_id);
 
-        clickOn(id(IdListTestSuiteEditor.ADD_BUTTON_ID));
+        clickOn(id(IdListTaskSuiteEditor.ADD_BUTTON_ID));
         // TODO: how to verify existing tests are not shown in suggestion list?  Can't just check for exists(), because they are in the other list
         moveTo(new_test_id).moveBy(-100, 0).clickOn();
         clickOn(id(PopupDialog.OK_BUTTON_ID));
         waitForUiEvents();
 
         Assert.assertTrue(exists(new_test_id));  // displayed in list
-        Assert.assertTrue(suite.getTestIds().contains(new_test_id));  // added to suite
+        Assert.assertTrue(suite.getTaskIds().contains(new_test_id));  // added to suite
 
         // undo
         _editor.getUndoStack().undoLastAction();
         waitForUiEvents();
         Assert.assertFalse(exists(new_test_id));  // not displayed in list
-        Assert.assertFalse(suite.getTestIds().contains(new_test_id));  // not in suite
+        Assert.assertFalse(suite.getTaskIds().contains(new_test_id));  // not in suite
         }
 
     @Test
-    public void removeTestsFromSuite() throws IOException, InterruptedException
+    public void removeTestsFromSuite() throws IOException
         {
-        IdListTestSuite suite = setupTests(5);
+        IdListTaskSuite suite = setupTests(5);
         Platform.runLater(() -> _editor.editResource(_project, suite));
         waitForUiEvents();
 
@@ -105,22 +105,22 @@ public class IdListTestSuiteEditorTests extends ComponentTest
 
         Assert.assertFalse(exists(removed1));  // not displayed in list
         Assert.assertFalse(exists(removed2));  // not displayed in list
-        Assert.assertFalse(suite.getTestIds().contains(removed1));  // removed from suite
-        Assert.assertFalse(suite.getTestIds().contains(removed2));  // removed from suite
+        Assert.assertFalse(suite.getTaskIds().contains(removed1));  // removed from suite
+        Assert.assertFalse(suite.getTaskIds().contains(removed2));  // removed from suite
 
         // undo
         _editor.getUndoStack().undoLastAction();
         waitForUiEvents();
         Assert.assertTrue(exists(removed1));  // returned to list
         Assert.assertTrue(exists(removed2));  // returned to list
-        Assert.assertTrue(suite.getTestIds().contains(removed1));  // exists in suite
-        Assert.assertTrue(suite.getTestIds().contains(removed2));  // exists in suite
+        Assert.assertTrue(suite.getTaskIds().contains(removed1));  // exists in suite
+        Assert.assertTrue(suite.getTaskIds().contains(removed2));  // exists in suite
         }
 
     @Test
     public void listOfAddableTests() throws IOException
         {
-        IdListTestSuite suite = setupTests(2);
+        IdListTaskSuite suite = setupTests(2);
         final String new_test_1 = "new-test1";
         createTest(new_test_1);
         final String new_test_2 = "new-test2";
@@ -134,7 +134,7 @@ public class IdListTestSuiteEditorTests extends ComponentTest
         Assert.assertFalse(unused_test_ids.contains(createTestId(1)));
         }
 
-    private IdListTestSuite setupTests(int num_tests) throws IOException
+    private IdListTaskSuite setupTests(int num_tests) throws IOException
         {
         List<String> ids = new ArrayList<>();
         for (int i = 0; i < num_tests; i++)
@@ -143,17 +143,16 @@ public class IdListTestSuiteEditorTests extends ComponentTest
             ids.add(id);
             createTest(id);
             }
-        IdListTestSuite suite = new IdListTestSuite();
+        IdListTaskSuite suite = new IdListTaskSuite();
         suite.setTestIds(ids);
         return suite;
         }
 
-    private MuseTest createTest(String id) throws IOException
+    private void createTest(String id) throws IOException
         {
-        SteppedTest test = new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID));
+        SteppedTask test = new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID));
         test.setId(id);
         _project.getResourceStorage().addResource(test);
-        return test;
         }
 
     private String createTestId(int test_num)
@@ -165,12 +164,12 @@ public class IdListTestSuiteEditorTests extends ComponentTest
     protected Node createComponentNode()
         {
         _project = new SimpleProject();
-        _editor = new IdListTestSuiteEditor();
+        _editor = new IdListTaskSuiteEditor();
         return _editor.getNode();
         }
 
     private MuseProject _project;
-    private IdListTestSuiteEditor _editor;
+    private IdListTaskSuiteEditor _editor;
     }
 
 

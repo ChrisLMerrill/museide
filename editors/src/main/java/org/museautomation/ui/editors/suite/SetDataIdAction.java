@@ -8,7 +8,7 @@ import org.museautomation.ui.extend.actions.*;
  */
 class SetDataIdAction extends UndoableAction
     {
-    public SetDataIdAction(ParameterListTestSuite suite, String new_data_id)
+    public SetDataIdAction(ParameterListTaskSuite suite, String new_data_id)
         {
         _suite = suite;
         _new_data_id = new_data_id;
@@ -29,7 +29,7 @@ class SetDataIdAction extends UndoableAction
         return true;
         }
 
-    private ParameterListTestSuite _suite;
+    private ParameterListTaskSuite _suite;
     private String _new_data_id;
     private String _old_data_id;
     }

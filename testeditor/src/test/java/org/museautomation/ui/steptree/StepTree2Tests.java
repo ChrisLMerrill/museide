@@ -4,17 +4,17 @@ import javafx.scene.*;
 import net.christophermerrill.FancyFxTree.*;
 import net.christophermerrill.testfx.*;
 import org.junit.*;
+import org.museautomation.core.context.*;
 import org.museautomation.ui.steptest.*;
 import org.museautomation.ui.valuesource.*;
 import org.museautomation.builtins.step.*;
-import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.step.descriptor.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 import org.museautomation.ui.extend.actions.*;
 import org.museautomation.ui.extend.components.*;
@@ -288,9 +288,9 @@ public class StepTree2Tests extends ComponentTest
 	    Node node = findTreeCellFor(descriptor.getShortDescription(_step2));
 	    Assert.assertNotNull("cant locate the node", node);
 
-	    _controller.run(new SteppedTestProviderImpl(_project, _test));
+	    _controller.run(new SteppedTaskProviderImpl(_project, _task));
 
-	    _controller.raiseStateChangeEvent(InteractiveTestState.STARTING);
+	    _controller.raiseStateChangeEvent(InteractiveTaskState.STARTING);
 	    _controller.getTestRunner().getExecutionContext().raiseEvent(StartStepEventType.create(_step2, new MockStepExecutionContext()));
 	    waitForUiEvents();
 	    node = findTreeCellFor(descriptor.getShortDescription(_step2));
@@ -305,7 +305,7 @@ public class StepTree2Tests extends ComponentTest
 	    Assert.assertFalse("node has the RUNNING style", node.getStyleClass().contains(StepConfigurationTreeNode.RUNNING_STYLE));
 	    Assert.assertFalse("spinner still showning", exists("." + GraphicNodeBuilder.SPINNER_CLASS));
 
-	    _controller.raiseStateChangeEvent(InteractiveTestState.STOPPING);
+	    _controller.raiseStateChangeEvent(InteractiveTaskState.STOPPING);
 	    waitForUiEvents();
 	    node = findTreeCellFor(descriptor.getShortDescription(_step2));
 	    Assert.assertTrue("node does not have DEFAULT style", node.getStyleClass().contains(StepConfigurationTreeNode.DEFAULT_STYLE));
@@ -320,9 +320,9 @@ public class StepTree2Tests extends ComponentTest
 	    Node node = findTreeCellFor(descriptor.getShortDescription(_root_step));
 	    Assert.assertNotNull("cant locate the node", node);
 
-	    _controller.run(new SteppedTestProviderImpl(_project, _test));
+	    _controller.run(new SteppedTaskProviderImpl(_project, _task));
 
-	    _controller.raiseStateChangeEvent(InteractiveTestState.STARTING);
+	    _controller.raiseStateChangeEvent(InteractiveTaskState.STARTING);
 	    _controller.getTestRunner().getExecutionContext().raiseEvent(StartStepEventType.create(_root_step, new MockStepExecutionContext()));
 	    waitForUiEvents();
 	    _controller.getTestRunner().getExecutionContext().raiseEvent(EndStepEventType.create(_root_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE)));
@@ -350,7 +350,7 @@ public class StepTree2Tests extends ComponentTest
 	    Assert.assertFalse("should not be visible yet", exists(getStepDescription(log_step)));
 
 	    // start the hidden child step
-	    _controller.raiseStateChangeEvent(InteractiveTestState.STARTING);
+	    _controller.raiseStateChangeEvent(InteractiveTaskState.STARTING);
 	    _controller.getTestRunner().getExecutionContext().raiseEvent(StartStepEventType.create(log_step, new MockStepExecutionContext()));
 	    waitForUiEvents();
 	    Assert.assertTrue("log step was not revealed", exists(getStepDescription(log_step)));
@@ -376,8 +376,8 @@ public class StepTree2Tests extends ComponentTest
 
 	    Assert.assertFalse("should not be visible yet", exists(getStepDescription(log_step)));
 
-	    _controller.raiseStateChangeEvent(InteractiveTestState.STARTING);
-	    _controller.getTestRunner().getExecutionContext().raiseEvent(PauseTestEventType.create(log_step, _controller.getTestRunner().getExecutionContext()));
+	    _controller.raiseStateChangeEvent(InteractiveTaskState.STARTING);
+	    _controller.getTestRunner().getExecutionContext().raiseEvent(PauseTaskEventType.create(log_step, _controller.getTestRunner().getExecutionContext()));
 	    waitForUiEvents();
 
 	    Node log_node = lookup(getStepDescription(log_step)).query();
@@ -389,7 +389,7 @@ public class StepTree2Tests extends ComponentTest
 	    Assert.assertFalse("pause is showning on more than one step", lookup("." + Glyphs.getStyleName("FA:PAUSE", null, null)).queryAll().size() > 1);
 
 	    // stop and ensure icon is reset
-	    _controller.raiseStateChangeEvent(InteractiveTestState.STOPPING);
+	    _controller.raiseStateChangeEvent(InteractiveTaskState.STOPPING);
 	    waitForUiEvents();
 	    Assert.assertFalse("step icon was not reset", lookup("." + Glyphs.getStyleName("FA:PAUSE", null, null)).queryAll().size() > 0);
 	    }
@@ -414,12 +414,12 @@ public class StepTree2Tests extends ComponentTest
 	    Assert.assertFalse("macro steps should not be shown yet", exists(getStepDescription(step_in_macro)));
 
 	    // start the test
-		_controller.raiseStateChangeEvent(InteractiveTestState.STARTING);
+		_controller.raiseStateChangeEvent(InteractiveTaskState.STARTING);
 
 	    // load the steps
 		List<StepConfiguration> loaded_steps = new ArrayList<>();
 		loaded_steps.add(step_in_macro);
-		((SteppedTestExecutionContext) _controller.getTestRunner().getExecutionContext()).getStepLocator().loadSteps(loaded_steps);
+		((SteppedTaskExecutionContext) _controller.getTestRunner().getExecutionContext()).getStepLocator().loadSteps(loaded_steps);
 		_controller.getTestRunner().getExecutionContext().raiseEvent(DynamicStepLoadingEventType.create(macro_step, loaded_steps));
 	    waitForUiEvents();
 
@@ -445,7 +445,7 @@ public class StepTree2Tests extends ComponentTest
 		Assert.assertTrue("macro step should be shown again", exists(getStepDescription(step_in_macro)));
 
 		// stop the test
-		_controller.raiseStateChangeEvent(InteractiveTestState.STOPPING);
+		_controller.raiseStateChangeEvent(InteractiveTaskState.STOPPING);
 		waitForUiEvents();
 		Assert.assertFalse("macro step should be removed", exists(getStepDescription(step_in_macro)));
 	    }
@@ -505,10 +505,10 @@ public class StepTree2Tests extends ComponentTest
 
 		_controller = new MockInteractiveTestController();
 		MockTestRunner runner = new MockTestRunner();
-		TestExecutionContext test_context = new MockSteppedTestExecutionContext();
+		TaskExecutionContext test_context = new MockSteppedTaskExecutionContext();
 		runner.setExecutionContext(test_context);
 		_controller.setRunner(runner);
-		_test = new SteppedTest(_root_step);
+		_task = new SteppedTask(_root_step);
 
 		_tree = new StepTree2(_project, _root_step, _undo_stack, _controller);
 		return _tree.getNode();
@@ -520,6 +520,6 @@ public class StepTree2Tests extends ComponentTest
 	private SimpleProject _project;
 	private UndoStack _undo_stack;
 	private MockInteractiveTestController _controller;
-	private SteppedTest _test;
+	private SteppedTask _task;
 	private StepTree2 _tree;
 	}

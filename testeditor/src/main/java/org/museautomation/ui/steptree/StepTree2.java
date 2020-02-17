@@ -89,14 +89,14 @@ public class StepTree2
 
 	private HashSet<TreeItem<StepConfigurationFacade>> _auto_expanded_items = new HashSet<>();
 
-	class TestStateListener implements InteractiveTestStateListener
+	class TestStateListener implements InteractiveTaskStateListener
 		{
 		@Override
-		public void stateChanged(InteractiveTestState state)
+		public void stateChanged(InteractiveTaskState state)
 			{
-			if (state.equals(InteractiveTestState.STARTING))
+			if (state.equals(InteractiveTaskState.STARTING))
 				_controller.getTestRunner().getExecutionContext().addEventListener(_event_listener);
-			else if (state.equals(InteractiveTestState.STOPPING))
+			else if (state.equals(InteractiveTaskState.STOPPING))
 				{
 				_controller.getTestRunner().getExecutionContext().removeEventListener(_event_listener);
 				for (TreeItem<StepConfigurationFacade> item : _auto_expanded_items)
@@ -150,7 +150,7 @@ public class StepTree2
 					else
 						_loaded_steps.remove(ended_step_id);
 					break;
-				case PauseTestEventType.TYPE_ID:
+				case PauseTaskEventType.TYPE_ID:
 					showStep(StepEventType.getStepId(event));
 					break;
 				case DynamicStepLoadingEventType.TYPE_ID:

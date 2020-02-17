@@ -7,7 +7,7 @@ import org.museautomation.ui.ide.navigation.resources.*;
 import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.variables.*;
 import org.museautomation.ui.extend.actions.*;
 import org.museautomation.ui.extend.components.*;
@@ -63,13 +63,13 @@ public class CreateResourcePanelTests extends ComponentTest
         final String resource_id = setup();
 
         clickOn(new VariableList.VariableListResourceType().getName());
-        clickOn(new MuseTest.TestResourceType().getName());
+        clickOn(new MuseTask.TaskResourceType().getName());
 
         final String changed_id = "changed";
         fillFieldAndTabAway(resource_id, changed_id);
 
         CreateResourceAction action = _panel.getAction();
-        Assert.assertTrue(action.getType() instanceof MuseTest.TestResourceType);
+        Assert.assertTrue(action.getType() instanceof MuseTask.TaskResourceType);
         Assert.assertEquals(changed_id, action.getId());
         }
 

@@ -116,7 +116,7 @@ public class StepEditorStackTests extends ComponentTest
         UndoStack undo_stack = new UndoStack();
         final UndoStack.UndoPoint restore_point = undo_stack.getRestorePoint();
         _project = new SimpleProject();
-        _editor = new StepEditorStack(new RootStepEditContext(_project, undo_stack, null), new EditInProgress<Object>()
+        _editor = new StepEditorStack(new RootStepEditContext(_project, undo_stack, null), new EditInProgress<>()
             {
             public void cancel()
                 {

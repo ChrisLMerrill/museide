@@ -2,7 +2,7 @@ package org.museautomation.ui.step;
 
 import org.museautomation.core.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 import org.museautomation.ui.extend.actions.*;
 import org.museautomation.ui.extend.edit.step.*;
 

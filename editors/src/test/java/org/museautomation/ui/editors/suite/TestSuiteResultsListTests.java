@@ -37,7 +37,7 @@ public class TestSuiteResultsListTests extends ComponentTest
     @Test
     public void selectionEvent()
         {
-        AtomicReference<TestResult> selected = new AtomicReference<>(null);
+        AtomicReference<TaskResult> selected = new AtomicReference<>(null);
         _table.addSelectionListener(selected::set);
         clickOn("failure: failed");
 
@@ -48,9 +48,9 @@ public class TestSuiteResultsListTests extends ComponentTest
     protected Node createComponentNode()
         {
         _results = new ArrayList<>();
-        _results.add(TestResult.create("success", "success", "passed"));
-        _results.add(TestResult.create("failure", "failure", "failed", TestResult.FailureType.Failure, "failed"));
-        _results.add(TestResult.create("error", "error", "errored", TestResult.FailureType.Error, "errored"));
+        _results.add(TaskResult.create("success", "success", "passed"));
+        _results.add(TaskResult.create("failure", "failure", "failed", TaskResult.FailureType.Failure, "failed"));
+        _results.add(TaskResult.create("error", "error", "errored", TaskResult.FailureType.Error, "errored"));
 
         _table = new TestSuiteResultsList();
         _table.setResults(_results);
@@ -58,7 +58,7 @@ public class TestSuiteResultsListTests extends ComponentTest
         }
 
     private TestSuiteResultsList _table;
-    private List<TestResult> _results;
+    private List<TaskResult> _results;
     }
 
 

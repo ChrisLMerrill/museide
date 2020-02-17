@@ -1,13 +1,13 @@
 package org.museautomation.ui.editors.suite.runner;
 
 import org.junit.*;
-import org.museautomation.ui.editors.suite.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.project.*;
-import org.museautomation.core.test.*;
-import org.museautomation.core.test.plugins.*;
+import org.museautomation.core.task.*;
+import org.museautomation.core.task.plugins.*;
+import org.museautomation.ui.editors.suite.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -18,23 +18,23 @@ public class TestRunnerTests
     public void unexpectedExceptionInThreadedRunner()
         {
         MuseProject project = new SimpleProject();
-        MuseTest test = new MockTestWithAction()
+        MuseTask test = new MockTaskWithAction()
             {
             @Override
-            protected boolean executeImplementation(TestExecutionContext context)
+            protected boolean executeImplementation(TaskExecutionContext context)
                 {
                 throw new RuntimeException("unexpected failure");
                 }
             };
 
-        BasicTestConfiguration config = new BasicTestConfiguration(test);
-        config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
-        TestRunner runner = new BlockingThreadedTestRunner(new ProjectExecutionContext(project), config);
+        BasicTaskConfiguration config = new BasicTaskConfiguration(test);
+        config.addPlugin(new TaskResultCollectorConfiguration().createPlugin());
+        TaskRunner runner = new BlockingThreadedTaskRunner(new ProjectExecutionContext(project), config);
 
-        runner.runTest();
-        TestResult result = TestResult.find(runner.getExecutionContext());
+        runner.runTask();
+        TaskResult result = TaskResult.find(runner.getExecutionContext());
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(TestResult.FailureType.Error, result.getFailures().get(0).getType());
+        Assert.assertEquals(TaskResult.FailureType.Error, result.getFailures().get(0).getType());
         }
     }

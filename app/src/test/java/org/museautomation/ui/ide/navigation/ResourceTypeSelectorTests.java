@@ -44,15 +44,15 @@ public class ResourceTypeSelectorTests extends ComponentTest
         Assert.assertTrue(exists(intial_type.getName()));  // it is visible
 
         // select via GUI
-        final ResourceType type = new MuseTestSuite.TestSuiteResourceType();
-        final ResourceType sub_type = new IdListTestSuite.IdListTestSuiteSubtype();
+        final ResourceType type = new MuseTaskSuite.TaskSuiteResourceType();
+        final ResourceType sub_type = new IdListTaskSuite.IdListTaskSuiteSubtype();
         clickOn(intial_type.getName()).clickOn(type.getName()).clickOn(sub_type.getName());
         Assert.assertEquals(sub_type, _selector.getSelection());
         Assert.assertTrue(exists(sub_type.getName()));  // it is visible
         }
 
     @Override
-    protected Node createComponentNode() throws Exception
+    protected Node createComponentNode()
         {
         _selector = new ResourceTypeAndSubtypeSelector(_project);
         return _selector.getNode();

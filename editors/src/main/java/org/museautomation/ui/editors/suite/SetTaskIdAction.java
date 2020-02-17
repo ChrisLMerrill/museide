@@ -3,37 +3,35 @@ package org.museautomation.ui.editors.suite;
 import org.museautomation.core.suite.*;
 import org.museautomation.ui.extend.actions.*;
 
-import java.util.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class RemoveTestsFromSuiteAction extends UndoableAction
+class SetTaskIdAction extends UndoableAction
     {
-    RemoveTestsFromSuiteAction(IdListTaskSuite suite, List<String> test_ids)
+    public SetTaskIdAction(ParameterListTaskSuite suite, String new_test_id)
         {
         _suite = suite;
-        _test_ids = test_ids;
+        _new_test_id = new_test_id;
         }
 
     @Override
     protected boolean executeImplementation()
         {
-        for (String id : _test_ids)
-            _suite.removeTaskId(id);
+        _old_test_id = _suite.getTaskId();
+        _suite.setTaskId(_new_test_id);
         return true;
         }
 
     @Override
     protected boolean undoImplementation()
         {
-        for (String id : _test_ids)
-            _suite.addTaskId(id);
+        _suite.setTaskId(_old_test_id);
         return true;
         }
 
-    final private IdListTaskSuite _suite;
-    final private List<String> _test_ids;
+    private ParameterListTaskSuite _suite;
+    private String _new_test_id;
+    private String _old_test_id;
     }
 
 

@@ -10,7 +10,7 @@ import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.ui.extend.actions.*;
 
 import java.io.*;
@@ -28,7 +28,7 @@ public class ProjectResourceTreeTests extends ComponentTest
         _tree.expandAll();
         waitForUiEvents();
 
-        Assert.assertTrue(exists(new MuseTest.TestResourceType().getName() + "s"));  // the "Test" node is visible
+        Assert.assertTrue(exists(new MuseTask.TaskResourceType().getName() + "s"));  // the "Test" node is visible
         Assert.assertTrue(exists(TEST1_ID)); // the test id is visible
         }
 
@@ -47,7 +47,7 @@ public class ProjectResourceTreeTests extends ComponentTest
     @Override
     protected Node createComponentNode() throws IOException
         {
-        SteppedTest test = new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID));
+        SteppedTask test = new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID));
         test.setId(TEST1_ID);
         _project = new SimpleProject();
         _project.getResourceStorage().addResource(test);

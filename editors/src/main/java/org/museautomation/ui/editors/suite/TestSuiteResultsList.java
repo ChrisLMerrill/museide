@@ -73,7 +73,7 @@ public class TestSuiteResultsList
         return Glyphs.create("FA:CHECK", Color.GREEN);
         }
 
-    private Node createResultGlyph(TestResult result)
+    private Node createResultGlyph(TaskResult result)
         {
         if (result.isPass())
             return createSuccessGlyph();
@@ -90,10 +90,10 @@ public class TestSuiteResultsList
         return _root;
         }
 
-    public void setResults(List<TestResult> results)
+    public void setResults(List<TaskResult> results)
         {
         _successes.clear();
-        for (TestResult result : results)
+        for (TaskResult result : results)
             {
             if (result.isPass())
                 _successes.add(new TestResultDisplay(result));
@@ -151,7 +151,7 @@ public class TestSuiteResultsList
 
     private class TestResultDisplay
         {
-        TestResultDisplay(TestResult result)
+        TestResultDisplay(TaskResult result)
             {
             _result = result;
             }
@@ -166,12 +166,12 @@ public class TestSuiteResultsList
             	return name + ": " + _result.getSummary();
             }
 
-        private TestResult _result;
+        private TaskResult _result;
         }
 
     public interface SelectionListener
         {
-        void selected(TestResult result);
+        void selected(TaskResult result);
         }
 
     private class TestResultCell extends ListCell<TestResultDisplay>

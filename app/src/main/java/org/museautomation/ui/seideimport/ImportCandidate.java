@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.*;
 import javafx.scene.paint.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.seleniumide.*;
 import org.slf4j.*;
 
@@ -146,11 +146,11 @@ public class ImportCandidate
 		return _status;
 		}
 
-	public SteppedTest getTest()
+	public SteppedTask getTest()
 		{
-		SteppedTest test = _result._test;
-		test.setId(getResourceId());
-		return test;
+		SteppedTask task = _result._task;
+		task.setId(getResourceId());
+		return task;
 		}
 
 	@SuppressWarnings("unused") // used via reflection in ImportCandidateTable
