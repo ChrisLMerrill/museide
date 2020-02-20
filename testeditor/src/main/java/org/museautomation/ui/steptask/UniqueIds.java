@@ -24,7 +24,7 @@ public class UniqueIds
 		{
 		checkAndRepairId(step, project, tracker);
 		if (step.getStepId() == null)
-			step.setStepId(IdGenerator.get(project).generateLongId());
+			step.setStepId(StepIdGenerator.get(project).generateLongId());
 		if (step.getChildren() != null)
 			for (StepConfiguration child : step.getChildren())
 				addToStepIfNeeded(child, project, tracker);
@@ -45,11 +45,11 @@ public class UniqueIds
 			return;  // nothing to repair
 		if (tracker._existing_ids.contains(id))
 			{
-			Long new_id = IdGenerator.get(project).generateLongId();
+			Long new_id = StepIdGenerator.get(project).generateLongId();
 			while (tracker._existing_ids.contains(new_id))
 				{
-				IdGenerator.get(project).conflict();
-				new_id = IdGenerator.get(project).generateLongId();
+				StepIdGenerator.get(project).conflict();
+				new_id = StepIdGenerator.get(project).generateLongId();
 				}
 			step.setStepId(new_id);
 			tracker._existing_ids.add(new_id);
