@@ -85,6 +85,11 @@ public class EventTable
                             setText(description);
                             setTooltip(new Tooltip(description));
 
+                            if (event.hasTag(MuseEvent.WARNING))
+	                            Styles.addStyle(this, WARNING_STYLE);
+                            else
+	                            Styles.removeStyle(this, WARNING_STYLE);
+
                             if (event.hasTag(MuseEvent.FAILURE) || event.hasTag(MuseEvent.ERROR))
 	                            Styles.addStyle(this, ERROR_STYLE);
                             else
@@ -136,4 +141,5 @@ public class EventTable
     private long _first_event_time = Long.MAX_VALUE;
     private final EventTypes _event_types;
     private final static String ERROR_STYLE = "error";
+    private final static String WARNING_STYLE = "error";
     }
