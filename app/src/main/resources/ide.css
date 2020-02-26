@@ -41,6 +41,12 @@
     -fx-font-weight: bold;
 }
 
+/*noinspection CssInvalidPseudoSelector*/
+.table-cell.warning {
+    -fx-text-fill: #FF9900;
+    -fx-font-weight: bold;
+}
+
 .table-cell.success {
     -fx-text-fill: #008000;
     -fx-font-weight: bold;
