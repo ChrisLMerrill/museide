@@ -13,7 +13,7 @@ public class EnvironmentSettings extends BaseSettingsFile
      * This is required for Jackson support, but should not be used other than unit tests.
      * Instead, call EnvironmentSettings.get().
      */
-    protected EnvironmentSettings()
+    public EnvironmentSettings()
         {
         }
 
