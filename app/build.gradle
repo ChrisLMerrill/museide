@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'org.museautomation'
-version '0.22'
+version '0.23'
 
 application {
     mainClassName = 'org.museautomation.ui.ide.IdeApplication'
@@ -33,10 +33,10 @@ repositories
 
 dependencies
     {
-    implementation 'org.museautomation:muse-core:[0.22,)'
-    implementation 'org.museautomation:muse-selenium:[0.22,)'
+    implementation 'org.museautomation:muse-core:[0.23,)'
+    implementation 'org.museautomation:muse-selenium:[0.23,)'
     implementation 'org.museautomation:muse-seleniumide:[0.22,)'
-    implementation 'org.museautomation:muse-commandline:[0.22,)'
+    implementation 'org.museautomation:muse-commandline:[0.23,)'
     implementation 'org.museautomation:muse-extensions:[0.7,)'
 
     implementation 'org.museautomation:ide-extend:[0.7,)'
