@@ -59,7 +59,6 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
 	        }
 
         finishTask();
-        _thread = null;
         }
 
     private synchronized boolean pause()
@@ -129,7 +128,6 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
     private boolean _paused = false;
     private boolean _started = false;
     private SteppedTaskExecutor _executor;
-    private Thread _thread;
 
     private final static Logger LOG = LoggerFactory.getLogger(InteractiveTaskRunner.class);
 
