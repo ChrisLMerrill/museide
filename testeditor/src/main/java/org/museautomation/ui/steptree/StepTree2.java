@@ -25,7 +25,7 @@ public class StepTree2
 	public StepTree2(MuseProject project, StepConfiguration step, UndoStack undo_stack, InteractiveTestController controller)
 		{
 		_step = step;
-		_tree = new FancyTreeView<>(new StepTreeOperations(project, undo_stack, step));
+		_tree = new FancyTreeView<>(new StepTreeOperations(project, undo_stack, step, controller.getBreakpoints()));
 		_tree.getStylesheets().add(getClass().getResource("StepTree.css").toExternalForm());
 		_tree.getStylesheets().add(Styles.getDefaultTreeStyles());
 		_tree.setPadding(new Insets(2));

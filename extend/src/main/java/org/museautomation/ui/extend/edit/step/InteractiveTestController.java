@@ -22,6 +22,7 @@ public interface InteractiveTestController
 
     InteractiveTaskState getState();
     TaskResult getResult();
+    Breakpoints getBreakpoints();
 
     /**
      * Get the current TestRunner, or null if there is no TestRunner active.

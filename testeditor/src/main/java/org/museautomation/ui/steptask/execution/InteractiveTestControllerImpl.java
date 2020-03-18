@@ -6,6 +6,8 @@ import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.task.*;
+import org.museautomation.ui.extend.edit.step.*;
+import org.museautomation.ui.steptree.*;
 
 import java.util.*;
 
@@ -26,7 +28,12 @@ public class InteractiveTestControllerImpl extends BaseInteractiveTestController
 		return _state;
 		}
 
-	public boolean run(SteppedTaskProvider task_provider)
+    public Breakpoints getBreakpoints()
+        {
+        return _breakpoints;
+        }
+
+    public boolean run(SteppedTaskProvider task_provider)
 		{
 		if (_state.equals(InteractiveTaskState.IDLE))
 			{
@@ -51,7 +58,7 @@ public class InteractiveTestControllerImpl extends BaseInteractiveTestController
 			final PauseOnFailureOrError pauser = new PauseOnFailureOrError();
 			config.addPlugin(pauser);
 
-			_runner = new InteractiveTaskRunner(new ProjectExecutionContext(_provider.getProject()), config);
+			_runner = new InteractiveTaskRunner(new ProjectExecutionContext(_provider.getProject()), config, _breakpoints);
 			pauser.setRunner(_runner);
 			}
 		return _runner;
@@ -176,4 +183,5 @@ public class InteractiveTestControllerImpl extends BaseInteractiveTestController
 	private SteppedTaskProvider _provider;
 	private InteractiveTaskRunner _runner;
 	private TaskResult _result = null;
+    private Breakpoints _breakpoints = new TaskBreakpoints();
 	}

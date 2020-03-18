@@ -6,6 +6,7 @@ import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.steptask.*;
 import org.museautomation.core.task.*;
+import org.museautomation.ui.extend.edit.step.*;
 import org.slf4j.*;
 
 /**
@@ -17,9 +18,10 @@ import org.slf4j.*;
 @SuppressWarnings("WeakerAccess")  // public API
 public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnable
     {
-    public InteractiveTaskRunner(MuseExecutionContext context, TaskConfiguration config)
+    public InteractiveTaskRunner(MuseExecutionContext context, TaskConfiguration config, Breakpoints breakpoints)
         {
         super(context, config);
+        _breakpoints = breakpoints;
         }
 
     public void start()
@@ -63,6 +65,7 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
 
     private synchronized boolean pause()
         {
+        checkForBreakpoint();
         if (!_pause_requested)
             return false;
 
@@ -84,6 +87,14 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
         return true;
         }
 
+    private void checkForBreakpoint()
+        {
+        if (_breakpoints.isBreakpoint(_executor.getNextStep()) && !_resume_from_breakpoint)
+            _pause_requested = true;
+        else
+            _resume_from_breakpoint = false;
+        }
+
     public synchronized void requestStop()
         {
         _interrupted = true;
@@ -100,6 +111,7 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
 
     public synchronized void requestResume()
         {
+        _resume_from_breakpoint = true;
         if (!_pause_requested)
             {
             LOG.error("cannot resume - runner is not paused");
@@ -112,6 +124,7 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
 
     public synchronized void requestStep()
         {
+        _resume_from_breakpoint = true;
         if (!_pause_requested)
             {
             LOG.error("cannot step - runner is not paused");
@@ -128,6 +141,8 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
     private boolean _paused = false;
     private boolean _started = false;
     private SteppedTaskExecutor _executor;
+    private Breakpoints _breakpoints;
+    private boolean _resume_from_breakpoint = false;
 
     private final static Logger LOG = LoggerFactory.getLogger(InteractiveTaskRunner.class);
 

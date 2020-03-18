@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import net.christophermerrill.FancyFxTree.*;
 import org.jetbrains.annotations.*;
+import org.museautomation.ui.extend.edit.step.*;
 import org.museautomation.ui.step.actions.*;
 import org.museautomation.core.*;
 import org.museautomation.core.step.*;
@@ -23,14 +24,37 @@ import static net.christophermerrill.FancyFxTree.FancyTreeOperationHandler.EditT
  */
 public class StepTreeOperations extends FancyTreeOperationHandler<StepConfigurationFacade>
 	{
-	StepTreeOperations(MuseProject project, UndoStack undo, StepConfiguration root)
+	StepTreeOperations(MuseProject project, UndoStack undo, StepConfiguration root, Breakpoints breakpoints)
 		{
 		_project = project;
 		_undo = undo;
 		_root = root;
+        _breakpoints = breakpoints;
 		}
 
-	@Override
+    @Override
+    protected MenuItem[] createEditMenuItems(ObservableList<TreeItem<StepConfigurationFacade>> selected_items, EditType... types)
+        {
+        List<MenuItem> items = new ArrayList<>();
+        Collections.addAll(items, super.createEditMenuItems(selected_items, types));
+
+        if (selected_items.size() == 1)
+            {
+            items.add(new SeparatorMenuItem());
+            CheckMenuItem breakpoint = new CheckMenuItem("Break");
+            final StepConfiguration step = selected_items.get(0).getValue().getModelNode();
+            breakpoint.setSelected(_breakpoints.isBreakpoint(step));
+            breakpoint.setOnAction(event ->
+                {
+                _breakpoints.setBreakpoint(step);
+                });
+            items.add(breakpoint);
+            }
+
+        return items.toArray(new MenuItem[0]);
+        }
+
+    @Override
 	public boolean handleDelete(ObservableList<TreeItem<StepConfigurationFacade>> selected_items)
 		{
 		StepConfiguration root = getRoot(selected_items);
@@ -237,6 +261,7 @@ public class StepTreeOperations extends FancyTreeOperationHandler<StepConfigurat
 	private final MuseProject _project;
 	private final UndoStack _undo;
 	private final StepConfiguration _root;
+	private final Breakpoints _breakpoints;
 
 	private final static Logger LOG = LoggerFactory.getLogger(StepTreeOperations.class);
 	}
