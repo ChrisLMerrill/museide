@@ -46,7 +46,10 @@ public class StepTreeOperations extends FancyTreeOperationHandler<StepConfigurat
             breakpoint.setSelected(_breakpoints.isBreakpoint(step));
             breakpoint.setOnAction(event ->
                 {
-                _breakpoints.setBreakpoint(step);
+                if (_breakpoints.isBreakpoint(step))
+                    _breakpoints.clearBreakpoint(step);
+                else
+                    _breakpoints.setBreakpoint(step);
                 });
             items.add(breakpoint);
             }

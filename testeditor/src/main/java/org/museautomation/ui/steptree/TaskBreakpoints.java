@@ -13,8 +13,13 @@ public class TaskBreakpoints implements Breakpoints
     @Override
     public void setBreakpoint(StepConfiguration step)
         {
-        System.out.println("set breakpoint on step " + step.getStepId());
         _breakpoints.add(step);
+        }
+
+    @Override
+    public void clearBreakpoint(StepConfiguration step)
+        {
+        _breakpoints.remove(step);
         }
 
     @Override

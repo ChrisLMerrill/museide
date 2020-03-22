@@ -8,5 +8,6 @@ import org.museautomation.core.step.*;
 public interface Breakpoints
     {
     void setBreakpoint(StepConfiguration step);
+    void clearBreakpoint(StepConfiguration step);
     boolean isBreakpoint(StepConfiguration step);
     }
