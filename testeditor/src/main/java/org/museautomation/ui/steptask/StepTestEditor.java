@@ -78,26 +78,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
         step_tab.setContent(_splitter);
         step_tab.closableProperty().setValue(false);
 
-        Tab params_tab = new Tab("Parameters");
-        BorderPane params_pane = new BorderPane();
-        params_pane.setPadding(new Insets(5));
-
-        Label heading = new Label("Default parameters for the test:");
-        params_pane.setTop(heading);
-        ValueSourceMapEditor initial_values_editor = new ValueSourceMapEditor(getProject(), getUndoStack());
-
-        // setup a source to contain the map
-        ValueSourceConfiguration fake_source = new ValueSourceConfiguration();
-        if (_task.getDefaultVariables() == null)
-            _task.setDefaultVariables(new HashMap<>());
-        fake_source.setSourceMap(_task.getDefaultVariables());
-        initial_values_editor.setSource(fake_source);
-
-        params_pane.setCenter(initial_values_editor.getNode());
-        params_tab.setContent(params_pane);
-        params_tab.closableProperty().setValue(false);
-
-        TabPane tabs = new TabPane(step_tab, params_tab);
+        TabPane tabs = new TabPane(step_tab, new ParamsTab(getProject(), getUndoStack(), _task).getTab());
         tabs.sideProperty().setValue(Side.LEFT);
 
         return tabs;
