@@ -30,7 +30,7 @@ public class AddMetadataAction extends UndoableAction
 			_container.removeMetadataField(_name);
 		else
 			_container.setMetadataField(_name, _old_value);
-		return false;
+		return true;
 		}
 
 	private ContainsMetadata _container;
