@@ -481,8 +481,8 @@ class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(expression, listener);
-        Assertions.assertEquals("The '.' operator should be evalated first", ".", operators.get(0));
-        Assertions.assertEquals("The '+' operator should be evalated second", "+", operators.get(1));
+        Assertions.assertEquals(".", operators.get(0), "The '.' operator should be evalated first");
+        Assertions.assertEquals("+", operators.get(1), "The '+' operator should be evalated second");
         }
 
     @Test
