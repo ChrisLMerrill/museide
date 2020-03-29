@@ -78,7 +78,8 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
         step_tab.setContent(_splitter);
         step_tab.closableProperty().setValue(false);
 
-        TabPane tabs = new TabPane(step_tab, new ParamsTab(getProject(), getUndoStack(), _task).getTab());
+        ParamsTab params_tab = new ParamsTab(getProject(), getUndoStack(), _task);
+        TabPane tabs = new TabPane(step_tab, params_tab.getTab());
         tabs.sideProperty().setValue(Side.LEFT);
 
         return tabs;
