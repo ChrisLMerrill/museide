@@ -34,13 +34,12 @@ public abstract class StepTypeSelector
     public void setProject(MuseProject project)
         {
         StepTypeGroup group = StepTypeGroups.get(project);
+        _button.getItems().clear();
         addMenuEntries(_button.getItems(), group, project);
         }
 
     private void addMenuEntries(ObservableList<MenuItem> item, StepTypeGroup types, MuseProject project)
         {
-        item.clear();
-
         List<StepTypeGroup> step_groups = types.getSubGroups();
         step_groups.sort(Comparator.comparing(StepTypeGroup::getName));
         for (StepTypeGroup subgroup : step_groups)
