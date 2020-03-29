@@ -19,7 +19,12 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:12.0.2'
                                            
     testImplementation 'net.christophermerrill:TestFxUtils:[2.0,)'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5+'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:[5.0,)'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:[5.0,)'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 repositories {
