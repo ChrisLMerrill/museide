@@ -2,7 +2,7 @@ package org.museautomation.ui.step;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.step.inline.*;
 import org.museautomation.ui.valuesource.*;
 import org.museautomation.core.project.*;
@@ -18,13 +18,11 @@ import org.museautomation.ui.extend.edit.step.*;
 public class InlineStepEditorContainerTests extends ComponentTest
     {
     @Test
-    public void fillEmptyParameter()
+    void fillEmptyParameter()
         {
         fillFieldAndTabAway(id(DefaultInlineVSE.TEXT_ID), quoted("abc"));
-
-        Assert.assertEquals("entered value is not there!", quoted("abc"), textOf(id(DefaultInlineVSE.TEXT_ID)));
-
-        Assert.assertNotNull("source was not set", _step.getSource(ReturnStep.VALUE_PARAM));
+        Assertions.assertEquals(quoted("abc"), textOf(id(DefaultInlineVSE.TEXT_ID)), "entered value is not there!");
+        Assertions.assertNotNull(_step.getSource(ReturnStep.VALUE_PARAM), "source was not set");
         }
 
     @Override
@@ -42,5 +40,3 @@ public class InlineStepEditorContainerTests extends ComponentTest
 
     private StepConfiguration _step;
     }
-
-

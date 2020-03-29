@@ -1,5 +1,6 @@
 package org.museautomation.ui.steptask;
 
+import org.museautomation.ui.extend.edit.step.*;
 import org.museautomation.ui.steptask.execution.*;
 import org.museautomation.core.*;
 import org.museautomation.core.execution.*;
@@ -47,7 +48,13 @@ public class MockInteractiveTestController extends BaseInteractiveTestController
 
 		}
 
-	@Override
+    @Override
+    public Breakpoints getBreakpoints()
+        {
+        return null;
+        }
+
+    @Override
 	public InteractiveTaskState getState()
 		{
 		return _state;

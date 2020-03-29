@@ -2,7 +2,7 @@ package org.museautomation.ui.step;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
@@ -16,20 +16,20 @@ import org.museautomation.ui.extend.edit.tags.*;
 public class StepTagEditorTests extends ComponentTest
 	{
 	@Test
-	public void removeTag()
+    void removeTag()
 	    {
 	    StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
 	    step.addTag("tag1");
 	    _editor.setStep(step);
 	    waitForUiEvents();
 
-	    Assert.assertTrue("tag not shown", exists("tag1"));
+	    Assertions.assertTrue(exists("tag1"), "tag not shown");
 	    clickOn(id(TagsEditor.DELETE_ID));
-	    Assert.assertFalse("tag was not removed", step.hasTag("tag1"));
+	    Assertions.assertFalse(step.hasTag("tag1"), "tag was not removed");
 
 	    _undo.undoLastAction();
 	    waitForUiEvents();
-	    Assert.assertTrue("tag was not restored", step.hasTag("tag1"));
+	    Assertions.assertTrue(step.hasTag("tag1"), "tag was not restored");
 	    }
 
 	@Override
@@ -49,5 +49,3 @@ public class StepTagEditorTests extends ComponentTest
 	private StepTagEditor _editor;
 	private UndoStack _undo;
 	}
-
-

@@ -2,7 +2,7 @@ package org.museautomation.ui.event;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.project.*;
@@ -20,31 +20,31 @@ import static org.mockito.Mockito.when;
 public class EventTableTests extends ComponentTest
     {
     @Test
-    public void displayEventLog()
+    void displayEventLog()
         {
         _table.addEvents(_log);
         waitForUiEvents();
 
-        Assert.assertTrue("event1 not displayed", exists(_event1.getAttribute(MuseEvent.DESCRIPTION).toString()));
-        Assert.assertTrue("event2 not displayed", exists(_event2.getAttribute(MuseEvent.DESCRIPTION).toString()));
+        Assertions.assertTrue(exists(_event1.getAttribute(MuseEvent.DESCRIPTION).toString()), "event1 not displayed");
+        Assertions.assertTrue(exists(_event2.getAttribute(MuseEvent.DESCRIPTION).toString()), "event2 not displayed");
         }
 
     @Test
-    public void displayLiveEvents()
+    void displayLiveEvents()
         {
         _table.addEvent(_event1);
         waitForUiEvents();
-        Assert.assertTrue("event1 not displayed", exists(_event1.getAttribute(MuseEvent.DESCRIPTION).toString()));
-        Assert.assertTrue("time 1 not displayed", exists(DurationFormat.formatMinutesSeconds(0L)));
+        Assertions.assertTrue(exists(_event1.getAttribute(MuseEvent.DESCRIPTION).toString()), "event1 not displayed");
+        Assertions.assertTrue(exists(DurationFormat.formatMinutesSeconds(0L)), "time 1 not displayed");
 
         _table.addEvent(_event2);
         waitForUiEvents();
-        Assert.assertTrue("event2 not displayed", exists(_event2.getAttribute(MuseEvent.DESCRIPTION).toString()));
-        Assert.assertTrue("time 2 not displayed", exists(DurationFormat.formatMinutesSeconds(TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS))));
+        Assertions.assertTrue(exists(_event2.getAttribute(MuseEvent.DESCRIPTION).toString()), "event2 not displayed");
+        Assertions.assertTrue(exists(DurationFormat.formatMinutesSeconds(TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS))), "time 2 not displayed");
         }
 
     @Test
-    public void clearEvents()
+    void clearEvents()
         {
         _table.addEvent(_event1);
         _table.addEvent(_event2);
@@ -55,8 +55,8 @@ public class EventTableTests extends ComponentTest
         _table.clear();
         waitForUiEvents();
 
-        Assert.assertFalse("event1 not cleared", exists(_event1.getAttribute(MuseEvent.DESCRIPTION).toString()));
-        Assert.assertFalse("event2 not cleared", exists(_event2.getAttribute(MuseEvent.DESCRIPTION).toString()));
+        Assertions.assertFalse(exists(_event1.getAttribute(MuseEvent.DESCRIPTION).toString()), "event1 not cleared");
+        Assertions.assertFalse(exists(_event2.getAttribute(MuseEvent.DESCRIPTION).toString()), "event2 not cleared");
         }
 
     @Override

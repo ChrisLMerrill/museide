@@ -1,6 +1,6 @@
 package org.museautomation.ui.steptask;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.ui.extend.edit.step.*;
 
@@ -17,7 +17,8 @@ public class TestStateBlocker implements InteractiveTaskStateListener
         _controller.addListener(this);
         }
 
-    public synchronized void blockUntil(InteractiveTaskState state)
+    @SuppressWarnings("SameParameterValue")
+    synchronized void blockUntil(InteractiveTaskState state)
         {
         if (_controller.getState().equals(state))
             return;
@@ -29,9 +30,8 @@ public class TestStateBlocker implements InteractiveTaskStateListener
             }
         catch (InterruptedException e)
             {
-            Assert.assertTrue("gave up waiting after 2 sec...it probably failed if this was used (as intended) for a should-finish-more-or-less-instantly operation in a unit test.", false);
+            Assertions.fail("gave up waiting after 2 sec...it probably failed if this was used (as intended) for a should-finish-more-or-less-instantly operation in a unit test.");
             }
-
         }
 
     @Override
@@ -44,5 +44,3 @@ public class TestStateBlocker implements InteractiveTaskStateListener
     private InteractiveTestController _controller;
     private InteractiveTaskState _state;
     }
-
-

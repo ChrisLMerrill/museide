@@ -1,6 +1,6 @@
 package org.museautomation.ui.step;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.actions.*;
 import org.museautomation.ui.valuesource.mocks.*;
 import org.museautomation.builtins.value.*;
@@ -12,27 +12,27 @@ import org.museautomation.ui.extend.actions.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class UpgradeValueSourceActionTests
+class UpgradeValueSourceActionTests
     {
     @Test
-    public void addRequiredSubsource()
+    void addRequiredSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(StringValueSource.TYPE_ID);
         UpgradeValueSourceAction action = new UpgradeValueSourceAction(PROJECT, source, SourceWithRequiredSubsource.TYPE_ID);
         UndoStack undo_stack = new UndoStack();
         action.execute(undo_stack);
 
-        Assert.assertEquals("type was not changed", SourceWithRequiredSubsource.TYPE_ID, source.getType());
-        Assert.assertNotNull("source was not added", source.getSource());
+        Assertions.assertEquals(SourceWithRequiredSubsource.TYPE_ID, source.getType(), "type was not changed");
+        Assertions.assertNotNull(source.getSource(), "source was not added");
 
         undo_stack.undoLastAction();
 
-        Assert.assertEquals("type change was not reverted", StringValueSource.TYPE_ID, source.getType());
-        Assert.assertNull("source change was not reverted", source.getSource());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, source.getType(), "type change was not reverted");
+        Assertions.assertNull(source.getSource(), "source change was not reverted");
         }
 
     @Test
-    public void removeExtraneousSubsource()
+    void removeExtraneousSubsource()
         {
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("abc");
         ValueSourceConfiguration source = ValueSourceConfiguration.forSource(SourceWithRequiredSubsource.TYPE_ID, subsource);
@@ -40,15 +40,15 @@ public class UpgradeValueSourceActionTests
         UndoStack undo_stack = new UndoStack();
         action.execute(undo_stack);
 
-        Assert.assertNull("source was not removed", source.getSource());
+        Assertions.assertNull(source.getSource(), "source was not removed");
 
         undo_stack.undoLastAction();
 
-        Assert.assertEquals("source removal was not reverted", subsource, source.getSource());
+        Assertions.assertEquals(subsource, source.getSource(), "source removal was not reverted");
         }
 
     @Test
-    public void addRemoveNamedSource()
+    void addRemoveNamedSource()
         {
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("abc");
         String extraneous_param = "other_param_name";
@@ -57,35 +57,35 @@ public class UpgradeValueSourceActionTests
         UndoStack undo_stack = new UndoStack();
         action.execute(undo_stack);
 
-        Assert.assertEquals("type was not changed", SourceWithRequiredNamedSource.TYPE_ID, source.getType());
-        Assert.assertNotNull("source was not added", source.getSource(SourceWithRequiredNamedSource.PARAM1_NAME));
-        Assert.assertNull("extraneous source was not removed", source.getSource(extraneous_param));
+        Assertions.assertEquals(SourceWithRequiredNamedSource.TYPE_ID, source.getType(), "type was not changed");
+        Assertions.assertNotNull(source.getSource(SourceWithRequiredNamedSource.PARAM1_NAME), "source was not added");
+        Assertions.assertNull(source.getSource(extraneous_param), "extraneous source was not removed");
 
         undo_stack.undoLastAction();
 
-        Assert.assertEquals("type change was not reverted", SourceWithRequiredSubsource.TYPE_ID, source.getType());
-        Assert.assertNull("source change was not reverted", source.getSource(SourceWithRequiredNamedSource.PARAM1_NAME));
-        Assert.assertNotNull("extraneous source removal was not reverted", source.getSource(extraneous_param));
+        Assertions.assertEquals(SourceWithRequiredSubsource.TYPE_ID, source.getType(), "type change was not reverted");
+        Assertions.assertNull(source.getSource(SourceWithRequiredNamedSource.PARAM1_NAME), "source change was not reverted");
+        Assertions.assertNotNull(source.getSource(extraneous_param), "extraneous source removal was not reverted");
         }
 
     @Test
-    public void addSourceList()
+    void addSourceList()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(StringValueSource.TYPE_ID);
         UpgradeValueSourceAction action = new UpgradeValueSourceAction(PROJECT, source, SourceWithRequiredSubsourceList.TYPE_ID);
         UndoStack undo_stack = new UndoStack();
         action.execute(undo_stack);
 
-        Assert.assertNotNull("source list was not added", source.getSourceList());
-        Assert.assertNotNull("first source was not added", source.getSource(0));
+        Assertions.assertNotNull(source.getSourceList(), "source list was not added");
+        Assertions.assertNotNull(source.getSource(0), "first source was not added");
 
         undo_stack.undoLastAction();
 
-        Assert.assertNull("list addition was not reverted", source.getSourceList());
+        Assertions.assertNull(source.getSourceList(), "list addition was not reverted");
         }
 
     @Test
-    public void removeSourceList()
+    void removeSourceList()
         {
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("param1");
         ValueSourceConfiguration source = ValueSourceConfiguration.forTypeWithIndexedSource(SourceWithRequiredPrimitiveValue.TYPE_ID, subsource);
@@ -93,15 +93,13 @@ public class UpgradeValueSourceActionTests
         UndoStack undo_stack = new UndoStack();
         action.execute(undo_stack);
 
-        Assert.assertNull("source list was not removed", source.getSourceList());
+        Assertions.assertNull(source.getSourceList(), "source list was not removed");
 
         undo_stack.undoLastAction();
 
-        Assert.assertNotNull("source list removal was not reverted", source.getSourceList());
-        Assert.assertEquals("source list entry was not restored", subsource, source.getSource(0));
+        Assertions.assertNotNull(source.getSourceList(), "source list removal was not reverted");
+        Assertions.assertEquals(subsource, source.getSource(0), "source list entry was not restored");
         }
 
     private final static MuseProject PROJECT = new SimpleProject();
     }
-
-

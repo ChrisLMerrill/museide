@@ -2,7 +2,7 @@ package org.museautomation.ui.step;
 
 import javafx.application.*;
 import javafx.stage.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.step.actions.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.*;
@@ -10,7 +10,7 @@ import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.values.*;
 import org.museautomation.ui.extend.actions.*;
-import org.testfx.framework.junit.*;
+import org.testfx.framework.junit5.*;
 import org.testfx.util.*;
 
 import java.util.*;
@@ -22,25 +22,25 @@ import java.util.concurrent.atomic.*;
 public class StepActionTests extends ApplicationTest // needed for testing clipboard access
     {
     @Test
-    public void insertAtBeginning()
+    void insertAtBeginning()
         {
         UndoableAction insert = new InsertStepsAction(_root_step, _new_step, 0);
         insert.execute(_undo);
 
-        Assert.assertEquals(3, _root_step.getChildren().size());
-        Assert.assertSame(_new_step, _root_step.getChildren().get(0));
-        Assert.assertSame(_step1, _root_step.getChildren().get(1));
-        Assert.assertSame(_step2, _root_step.getChildren().get(2));
+        Assertions.assertEquals(3, _root_step.getChildren().size());
+        Assertions.assertSame(_new_step, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step1, _root_step.getChildren().get(1));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(2));
 
         _undo.undoLastAction();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void insertMultipleAtBeginning()
+    void insertMultipleAtBeginning()
         {
         List<StepConfiguration> to_add = new ArrayList<>();
         to_add.add(_new_step);
@@ -49,117 +49,117 @@ public class StepActionTests extends ApplicationTest // needed for testing clipb
         UndoableAction insert = new InsertStepsAction(_root_step, to_add, 0);
         insert.execute(_undo);
 
-        Assert.assertEquals(4, _root_step.getChildren().size());
-        Assert.assertSame(_new_step, _root_step.getChildren().get(0));
-        Assert.assertSame(other_new, _root_step.getChildren().get(1));
-        Assert.assertSame(_step1, _root_step.getChildren().get(2));
-        Assert.assertSame(_step2, _root_step.getChildren().get(3));
+        Assertions.assertEquals(4, _root_step.getChildren().size());
+        Assertions.assertSame(_new_step, _root_step.getChildren().get(0));
+        Assertions.assertSame(other_new, _root_step.getChildren().get(1));
+        Assertions.assertSame(_step1, _root_step.getChildren().get(2));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(3));
 
         _undo.undoLastAction();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void insertAtEnd()
+    void insertAtEnd()
         {
         UndoableAction insert = new InsertStepsAction(_root_step, _new_step, 2);
         insert.execute(_undo);
 
-        Assert.assertEquals(3, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
-        Assert.assertSame(_new_step, _root_step.getChildren().get(2));
+        Assertions.assertEquals(3, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertSame(_new_step, _root_step.getChildren().get(2));
 
         _undo.undoLastAction();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void insertAtMiddle()
+    void insertAtMiddle()
         {
         UndoableAction insert = new InsertStepsAction(_root_step, _new_step, 1);
         insert.execute(_undo);
 
-        Assert.assertEquals(3, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_new_step, _root_step.getChildren().get(1));
-        Assert.assertSame(_step2, _root_step.getChildren().get(2));
+        Assertions.assertEquals(3, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_new_step, _root_step.getChildren().get(1));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(2));
 
         _undo.undoLastAction();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void insertInEmpty()
+    void insertInEmpty()
         {
         UndoableAction insert = new InsertStepsAction(_step1, _new_step, 0);
         insert.execute(_undo);
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertEquals(1, _step1.getChildren().size());
-        Assert.assertSame(_new_step, _step1.getChildren().get(0));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertEquals(1, _step1.getChildren().size());
+        Assertions.assertSame(_new_step, _step1.getChildren().get(0));
 
         _undo.undoLastAction();
 
-        Assert.assertTrue(_step1.getChildren() == null || _step1.getChildren().size() == 0);
+        Assertions.assertTrue(_step1.getChildren() == null || _step1.getChildren().size() == 0);
         }
 
     @Test
-    public void deleteFromBeginning()
+    void deleteFromBeginning()
         {
         UndoableAction delete = new DeleteStepsAction(_root_step, _step1);
         delete.execute(_undo);
 
-        Assert.assertEquals(1, _root_step.getChildren().size());
-        Assert.assertSame(_step2, _root_step.getChildren().get(0));
+        Assertions.assertEquals(1, _root_step.getChildren().size());
+        Assertions.assertSame(_step2, _root_step.getChildren().get(0));
 
         _undo.undoLastAction();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
         }
 
     @Test
-    public void deleteFromEnd()
+    void deleteFromEnd()
         {
         UndoableAction delete = new DeleteStepsAction(_root_step, _step2);
         delete.execute(_undo);
 
-        Assert.assertEquals(1, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertEquals(1, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
 
         _undo.undoLastAction();
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void deleteFromMiddle()
+    void deleteFromMiddle()
         {
         _root_step.addChild(1, _new_step);
         UndoableAction delete = new DeleteStepsAction(_root_step, _new_step);
         delete.execute(_undo);
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
 
         _undo.undoLastAction();
-        Assert.assertEquals(3, _root_step.getChildren().size());
-        Assert.assertSame(_new_step, _root_step.getChildren().get(1));
+        Assertions.assertEquals(3, _root_step.getChildren().size());
+        Assertions.assertSame(_new_step, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void deleteMultiple()
+    void deleteMultiple()
         {
         List<StepConfiguration> delete_list = new ArrayList<>();
         delete_list.add(_step1);
@@ -167,51 +167,51 @@ public class StepActionTests extends ApplicationTest // needed for testing clipb
         UndoableAction delete = new DeleteStepsAction(_root_step, delete_list);
         delete.execute(_undo);
 
-        Assert.assertTrue(_root_step.getChildren() == null || _root_step.getChildren().size() == 0);
+        Assertions.assertTrue(_root_step.getChildren() == null || _root_step.getChildren().size() == 0);
 
         _undo.undoLastAction();
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void deleteDeeperChild()
+    void deleteDeeperChild()
         {
         StepConfiguration to_delete = new StepConfiguration("delete me");
         _step2.addChild(to_delete);
         UndoableAction delete = new DeleteStepsAction(_root_step, to_delete);
         delete.execute(_undo);
 
-        Assert.assertTrue(_step2.getChildren() == null || _step2.getChildren().size() == 0);
+        Assertions.assertTrue(_step2.getChildren() == null || _step2.getChildren().size() == 0);
 
         _undo.undoLastAction();
-        Assert.assertEquals(1, _step2.getChildren().size());
-        Assert.assertSame(to_delete, _step2.getChildren().get(0));
+        Assertions.assertEquals(1, _step2.getChildren().size());
+        Assertions.assertSame(to_delete, _step2.getChildren().get(0));
         }
 
     @Test
-    public void cutAndPaste()
+    void cutAndPaste()
         {
         // cut extends delete, so no need to test variations
         UndoableAction cut = new CutStepsToClipboardAction(_root_step, _step1);
         Platform.runLater(() -> cut.execute(_undo));
         WaitForAsyncUtils.waitForFxEvents();
 
-        Assert.assertEquals(1, _root_step.getChildren().size());
-        Assert.assertSame(_step2, _root_step.getChildren().get(0));
+        Assertions.assertEquals(1, _root_step.getChildren().size());
+        Assertions.assertSame(_step2, _root_step.getChildren().get(0));
 
         // undo cut
         _undo.undoLastAction();
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
 
         // cut again
         Platform.runLater(() -> cut.execute(_undo));
         WaitForAsyncUtils.waitForFxEvents();
 
-        Assert.assertEquals(1, _root_step.getChildren().size());
-        Assert.assertSame(_step2, _root_step.getChildren().get(0));
+        Assertions.assertEquals(1, _root_step.getChildren().size());
+        Assertions.assertSame(_step2, _root_step.getChildren().get(0));
 
         // paste
         Platform.runLater(() ->
@@ -221,24 +221,24 @@ public class StepActionTests extends ApplicationTest // needed for testing clipb
             });
         WaitForAsyncUtils.waitForFxEvents();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertEquals(_step1.getType(), _root_step.getChildren().get(1).getType());  // will be the same type (should check everything equal but step-id, but that would be testing something else)
-        Assert.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(1).getStepId());  // will have a new stepid
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertEquals(_step1.getType(), _root_step.getChildren().get(1).getType());  // will be the same type (should check everything equal but step-id, but that would be testing something else)
+        Assertions.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(1).getStepId());  // will have a new stepid
 
         // undo paste
         _undo.undoLastAction();
-        Assert.assertEquals(1, _root_step.getChildren().size());
-        Assert.assertSame(_step2, _root_step.getChildren().get(0));
+        Assertions.assertEquals(1, _root_step.getChildren().size());
+        Assertions.assertSame(_step2, _root_step.getChildren().get(0));
         }
 
     @Test
-    public void copyAndPaste()
+    void copyAndPaste()
         {
         CopyStepsToClipboardAction copy = new CopyStepsToClipboardAction(StepConfiguration.copy(_step1, _project));
         Platform.runLater(() -> copy.execute(_undo));
         WaitForAsyncUtils.waitForFxEvents();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());  // didn't cut
+        Assertions.assertEquals(2, _root_step.getChildren().size());  // didn't cut
 
         // paste
         Platform.runLater(() ->
@@ -249,27 +249,27 @@ public class StepActionTests extends ApplicationTest // needed for testing clipb
 
         WaitForAsyncUtils.waitForFxEvents();
 
-        Assert.assertEquals(3, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
-        Assert.assertEquals(_step1.getType(), _root_step.getChildren().get(2).getType());  // will be a copy...just checking the type to be sure the right one is in the right place
-        Assert.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(2).getStepId());  // copy should have different id
+        Assertions.assertEquals(3, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(_step1.getType(), _root_step.getChildren().get(2).getType());  // will be a copy...just checking the type to be sure the right one is in the right place
+        Assertions.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(2).getStepId());  // copy should have different id
 
         // undo paste
         _undo.undoLastAction();
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void copyAndPasteTwiceMakesUniqueStepIds()
+    void copyAndPasteTwiceMakesUniqueStepIds()
         {
         CopyStepsToClipboardAction copy = new CopyStepsToClipboardAction(StepConfiguration.copy(_step1, _project));
         Platform.runLater(() -> copy.execute(_undo));
         WaitForAsyncUtils.waitForFxEvents();
 
-        Assert.assertEquals(2, _root_step.getChildren().size());  // didn't cut
+        Assertions.assertEquals(2, _root_step.getChildren().size());  // didn't cut
 
         // paste
         Platform.runLater(() ->
@@ -282,25 +282,25 @@ public class StepActionTests extends ApplicationTest // needed for testing clipb
 
         WaitForAsyncUtils.waitForFxEvents();
 
-        Assert.assertEquals(4, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
-        Assert.assertEquals(_step1.getType(), _root_step.getChildren().get(2).getType());  // will be a copy...just checking the type to be sure the right one is in the right place
-        Assert.assertEquals(_step1.getType(), _root_step.getChildren().get(3).getType());  // will be a copy...just checking the type to be sure the right one is in the right place
-        Assert.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(2).getStepId());
-        Assert.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(3).getStepId());
-        Assert.assertNotEquals(_root_step.getChildren().get(2).getStepId(), _root_step.getChildren().get(3).getStepId());
+        Assertions.assertEquals(4, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(_step1.getType(), _root_step.getChildren().get(2).getType());  // will be a copy...just checking the type to be sure the right one is in the right place
+        Assertions.assertEquals(_step1.getType(), _root_step.getChildren().get(3).getType());  // will be a copy...just checking the type to be sure the right one is in the right place
+        Assertions.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(2).getStepId());
+        Assertions.assertNotEquals(_step1.getStepId(), _root_step.getChildren().get(3).getStepId());
+        Assertions.assertNotEquals(_root_step.getChildren().get(2).getStepId(), _root_step.getChildren().get(3).getStepId());
 
         // undo paste
         _undo.undoLastAction();
         _undo.undoLastAction();
-        Assert.assertEquals(2, _root_step.getChildren().size());
-        Assert.assertSame(_step1, _root_step.getChildren().get(0));
-        Assert.assertSame(_step2, _root_step.getChildren().get(1));
+        Assertions.assertEquals(2, _root_step.getChildren().size());
+        Assertions.assertSame(_step1, _root_step.getChildren().get(0));
+        Assertions.assertSame(_step2, _root_step.getChildren().get(1));
         }
 
     @Test
-    public void cutParentAndChildren()
+    void cutParentAndChildren()
         {
         setup();
 
@@ -326,31 +326,31 @@ public class StepActionTests extends ApplicationTest // needed for testing clipb
             success.set(result);
             });
         WaitForAsyncUtils.waitForFxEvents();
-        Assert.assertTrue(success.get());
-        Assert.assertNull(_root_step.getChildren());
+        Assertions.assertTrue(success.get());
+        Assertions.assertNull(_root_step.getChildren());
 
         // restore them
         _undo.undoLastAction();
-        Assert.assertEquals(1, _root_step.getChildren().size());
-        Assert.assertEquals(if_step, _root_step.getChildren().get(0));
-        Assert.assertEquals(2, if_step.getChildren().size());
-        Assert.assertEquals(_step1, if_step.getChildren().get(0));
-        Assert.assertEquals(_step2, if_step.getChildren().get(1));
+        Assertions.assertEquals(1, _root_step.getChildren().size());
+        Assertions.assertEquals(if_step, _root_step.getChildren().get(0));
+        Assertions.assertEquals(2, if_step.getChildren().size());
+        Assertions.assertEquals(_step1, if_step.getChildren().get(0));
+        Assertions.assertEquals(_step2, if_step.getChildren().get(1));
         }
 
-    @Before
-    public void setup()
+    @BeforeEach
+    void setup()
         {
         _root_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
         _root_step.setMetadataField(StepConfiguration.META_DESCRIPTION, "root step");
 
         _step1 = new StepConfiguration(LogMessage.TYPE_ID);
-        _step1.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(_project).generateLongId());
+        _step1.setMetadataField(StepConfiguration.META_ID, StepIdGenerator.get(_project).generateLongId());
         _step1.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("mymessage"));
         _root_step.addChild(_step1);
 
         _step2 = new StepConfiguration(Verify.TYPE_ID);
-        _step2.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(_project).generateLongId());
+        _step2.setMetadataField(StepConfiguration.META_ID, StepIdGenerator.get(_project).generateLongId());
         _step2.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue("untrue string"));
         _root_step.addChild(_step2);
 

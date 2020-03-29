@@ -5,7 +5,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.project.*;
@@ -22,31 +22,31 @@ import org.museautomation.ui.extend.edit.step.*;
 public class StepEditorStackTests extends ComponentTest
     {
     @Test
-    public void initialFocus()
+    void initialFocus()
         {
         setupStep(null, null);
         Node expected_focus = lookup("#" + ExpertStepEditor.DESCRIPTION_FIELD_ID).query();
         Node focused = expected_focus.getScene().getFocusOwner();
-        Assert.assertEquals(expected_focus, focused);
+        Assertions.assertEquals(expected_focus, focused);
         }
 
     @Test
-    public void stepDisplayed()
+    void stepDisplayed()
         {
         StepConfiguration step = setupStep(null, null);
 
         // step name should be displayed in the BreadCrumbBar
-        Assert.assertNotNull(lookup(_project.getStepDescriptors().get(step).getName()).query());
+        Assertions.assertNotNull(lookup(_project.getStepDescriptors().get(step).getName()).query());
 
         // description should be in the description field
-        Assert.assertEquals(STEP_DESCRIPTION, ((TextInputControl) lookup("#" + ExpertStepEditor.DESCRIPTION_FIELD_ID).query()).getText());
+        Assertions.assertEquals(STEP_DESCRIPTION, ((TextInputControl) lookup("#" + ExpertStepEditor.DESCRIPTION_FIELD_ID).query()).getText());
 
         // step type should be selected
-        Assert.assertEquals(_project.getStepDescriptors().get(step).getName(), ((Labeled) lookup("#" + ExpertStepEditor.TYPE_FIELD_ID).query()).getText().trim());
+        Assertions.assertEquals(_project.getStepDescriptors().get(step).getName(), ((Labeled) lookup("#" + ExpertStepEditor.TYPE_FIELD_ID).query()).getText().trim());
         }
 
     @Test
-    public void stepChangesSaved()
+    void stepChangesSaved()
         {
         StepConfiguration step = setupStep(null, null);
         clickOn("#" + ExpertStepEditor.DESCRIPTION_FIELD_ID).push(KeyCode.CONTROL, KeyCode.A).write(NEW_DESCRIPTION);
@@ -54,14 +54,14 @@ public class StepEditorStackTests extends ComponentTest
         clickOn("#" + Buttons.SAVE_ID);
         waitForUiEvents();
 
-        Assert.assertTrue(_committed);
-        Assert.assertFalse(_cancelled);
-        Assert.assertEquals(NEW_DESCRIPTION, step.getMetadataField(StepConfiguration.META_DESCRIPTION));
-        Assert.assertEquals(LogMessage.TYPE_ID, step.getType());
+        Assertions.assertTrue(_committed);
+        Assertions.assertFalse(_cancelled);
+        Assertions.assertEquals(NEW_DESCRIPTION, step.getMetadataField(StepConfiguration.META_DESCRIPTION));
+        Assertions.assertEquals(LogMessage.TYPE_ID, step.getType());
         }
 
     @Test
-    public void stepChangesCanceled()
+    void stepChangesCanceled()
         {
         final String name = "source1";
         final String orig_value = "orig_value";
@@ -73,21 +73,21 @@ public class StepEditorStackTests extends ComponentTest
         fillFieldAndTabAway("#" + InlineNamedVSE.getValueFieldId(name), "\"new_value\"");
         clickOn("#" + Buttons.CANCEL_ID);
 
-        Assert.assertTrue(_cancelled);
-        Assert.assertFalse(_committed);
-        Assert.assertEquals(orig_description, step.getMetadataField(StepConfiguration.META_DESCRIPTION));
-        Assert.assertEquals(orig_type, step.getType());
-        Assert.assertEquals(orig_value, step.getSource(name).getValue());
+        Assertions.assertTrue(_cancelled);
+        Assertions.assertFalse(_committed);
+        Assertions.assertEquals(orig_description, step.getMetadataField(StepConfiguration.META_DESCRIPTION));
+        Assertions.assertEquals(orig_type, step.getType());
+        Assertions.assertEquals(orig_value, step.getSource(name).getValue());
         }
 
     @Test
-    public void noChangeOnDescriptionFocusEvents()
+    void noChangeOnDescriptionFocusEvents()
         {
         setupStep(null, null);
         clickOn("#" + ExpertStepEditor.DESCRIPTION_FIELD_ID);
         clickOn("#" + ExpertStepEditor.TYPE_FIELD_ID);
 
-        Assert.assertTrue(_editor.getUndoStack().isEmpty());
+        Assertions.assertTrue(_editor.getUndoStack().isEmpty());
         }
 
     private StepConfiguration setupStep(String param_name, String param_value)
@@ -101,7 +101,7 @@ public class StepEditorStackTests extends ComponentTest
 
         // switch to expert mode
         Node switch_link = lookup("#" + MultimodeStepEditor.SWITCH_TO_EXPERT_ID).query();
-        Assert.assertNotNull(switch_link);
+        Assertions.assertNotNull(switch_link);
         clickOn(switch_link);
 
         return step;
@@ -141,5 +141,3 @@ public class StepEditorStackTests extends ComponentTest
     private static String NEW_DESCRIPTION = "new_description";
     private static String STEP_DESCRIPTION = "step_description";
     }
-
-

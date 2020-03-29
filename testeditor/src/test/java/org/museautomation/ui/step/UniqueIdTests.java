@@ -1,18 +1,18 @@
 package org.museautomation.ui.step;
 
-import org.junit.*;
-import org.museautomation.ui.steptask.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
+import org.museautomation.ui.steptask.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class UniqueIdTests
+class UniqueIdTests
 	{
 	@Test
-	public void addUniqueIdsToSteps()
+    void addUniqueIdsToSteps()
 		{
 		// create a StepConfiguration that doesn't have an ID
 		StepConfiguration step1 = new StepConfiguration("mock-step");
@@ -24,15 +24,15 @@ public class UniqueIdTests
 
 		UniqueIds.addToStepsIfNeeded(test, new SimpleProject());
 
-		Assert.assertNotNull(step1.getStepId());
-		Assert.assertNotNull(step2.getStepId());
-		Assert.assertNotEquals(0, step1.getStepId().longValue());
-		Assert.assertNotEquals(0, step2.getStepId().longValue());
-		Assert.assertNotEquals(step1.getStepId().longValue(), step2.getStepId().longValue());
+		Assertions.assertNotNull(step1.getStepId());
+		Assertions.assertNotNull(step2.getStepId());
+		Assertions.assertNotEquals(0, step1.getStepId().longValue());
+		Assertions.assertNotEquals(0, step2.getStepId().longValue());
+		Assertions.assertNotEquals(step1.getStepId().longValue(), step2.getStepId().longValue());
 		}
 
 	@Test
-	public void fixDuplicateIds()
+    void fixDuplicateIds()
 		{
 		StepConfiguration step1 = new StepConfiguration("mock-step");
 		step1.setStepId(7L);
@@ -45,12 +45,10 @@ public class UniqueIdTests
 
 		UniqueIds.addToStepsIfNeeded(test, new SimpleProject());
 
-		Assert.assertNotNull(step1.getStepId());
-		Assert.assertNotNull(step2.getStepId());
-		Assert.assertNotEquals(0, step1.getStepId().longValue());
-		Assert.assertNotEquals(0, step2.getStepId().longValue());
-		Assert.assertNotEquals(step1.getStepId().longValue(), step2.getStepId().longValue());
+		Assertions.assertNotNull(step1.getStepId());
+		Assertions.assertNotNull(step2.getStepId());
+		Assertions.assertNotEquals(0, step1.getStepId().longValue());
+		Assertions.assertNotEquals(0, step2.getStepId().longValue());
+		Assertions.assertNotEquals(step1.getStepId().longValue(), step2.getStepId().longValue());
 		}
 	}
-
-

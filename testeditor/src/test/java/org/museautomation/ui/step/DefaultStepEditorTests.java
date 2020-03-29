@@ -4,7 +4,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.text.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.*;
 import org.museautomation.ui.valuesource.list.*;
 import org.museautomation.ui.valuesource.map.*;
@@ -23,7 +23,7 @@ import org.museautomation.ui.extend.edit.step.*;
 public class DefaultStepEditorTests extends ComponentTest
     {
     @Test
-    public void displayStep()
+    void displayStep()
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         step.setMetadataField(StepConfiguration.META_DESCRIPTION, "description of the step");
@@ -34,21 +34,21 @@ public class DefaultStepEditorTests extends ComponentTest
         waitForUiEvents();
 
         // description should be in the description field
-        Assert.assertEquals(step.getMetadataField(StepConfiguration.META_DESCRIPTION), ((TextInputControl) lookup("#" + DefaultStepEditor.DESCRIPTION_FIELD_ID).query()).getText());
+        Assertions.assertEquals(step.getMetadataField(StepConfiguration.META_DESCRIPTION), ((TextInputControl) lookup("#" + DefaultStepEditor.DESCRIPTION_FIELD_ID).query()).getText());
 
         // step type should be selected
         StepDescriptor descriptor = _project.getStepDescriptors().get(step);
-        Assert.assertEquals(descriptor.getName(), ((Labeled) lookup("#" + DefaultStepEditor.TYPE_FIELD_ID).query()).getText().trim());
+        Assertions.assertEquals(descriptor.getName(), ((Labeled) lookup("#" + DefaultStepEditor.TYPE_FIELD_ID).query()).getText().trim());
 
         // step help short and long descriptions
-        Assert.assertEquals(descriptor.getShortDescription(), ((Text) lookup("#" + DefaultStepEditor.HELP_TYPE_SHORT_DESCRIPTION).query()).getText());
+        Assertions.assertEquals(descriptor.getShortDescription(), ((Text) lookup("#" + DefaultStepEditor.HELP_TYPE_SHORT_DESCRIPTION).query()).getText());
 
         // first (and only) parameter should contain the message
-        Assert.assertEquals(quoted(source.getValue()), ((TextInputControl) lookup("#" + FixedNameValueSourceEditor.getValueFieldId(descriptor.getSubsourceDescriptors()[0].getName())).query()).getText());
+        Assertions.assertEquals(quoted(source.getValue()), ((TextInputControl) lookup("#" + FixedNameValueSourceEditor.getValueFieldId(descriptor.getSubsourceDescriptors()[0].getName())).query()).getText());
         }
 
     @Test
-    public void changeStepType()
+    void changeStepType()
         {
         StepConfiguration step = setupLogStep();
 
@@ -59,13 +59,13 @@ public class DefaultStepEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify step, chooser selection and description is changed
-        Assert.assertEquals(verify_descriptor.getType(), step.getType());
-        Assert.assertEquals(verify_descriptor.getName(), ((Labeled) lookup("#" + DefaultStepEditor.TYPE_FIELD_ID).query()).getText().trim());
-        Assert.assertEquals(verify_descriptor.getShortDescription(), ((Text) lookup("#" + DefaultStepEditor.HELP_TYPE_SHORT_DESCRIPTION).query()).getText().trim());
+        Assertions.assertEquals(verify_descriptor.getType(), step.getType());
+        Assertions.assertEquals(verify_descriptor.getName(), ((Labeled) lookup("#" + DefaultStepEditor.TYPE_FIELD_ID).query()).getText().trim());
+        Assertions.assertEquals(verify_descriptor.getShortDescription(), ((Text) lookup("#" + DefaultStepEditor.HELP_TYPE_SHORT_DESCRIPTION).query()).getText().trim());
 
         // verify the parameters changed
-        Assert.assertFalse("the message param wasn't removed", exists(id(FixedNameValueSourceEditor.getValueFieldId(LogMessage.MESSAGE_PARAM))));
-        Assert.assertTrue("the id param wasn't added", exists(id(FixedNameValueSourceEditor.getAddButtonId(Verify.CONDITION_PARAM))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(LogMessage.MESSAGE_PARAM))), "the message param wasn't removed");
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getAddButtonId(Verify.CONDITION_PARAM))), "the id param wasn't added");
         }
 
     private StepConfiguration setupLogStep()
@@ -85,36 +85,36 @@ public class DefaultStepEditorTests extends ComponentTest
         }
 
     @Test
-    public void changeDescription()
+    void changeDescription()
         {
         StepConfiguration step = setupLogStep();
 
         String new_description = "new_description";
         fillFieldAndTabAway(id(DefaultStepEditor.DESCRIPTION_FIELD_ID), new_description);
 
-        Assert.assertEquals("the description is missing", new_description, step.getMetadataField(StepConfiguration.META_DESCRIPTION));
+        Assertions.assertEquals(new_description, step.getMetadataField(StepConfiguration.META_DESCRIPTION), "the description is missing");
         }
 
     @Test
-    public void nullifyEmptyDescription()
+    void nullifyEmptyDescription()
         {
         StepConfiguration step = setupLogStep("non-empty description");
         waitForUiEvents();
 
         clearFieldAndTabAway(id(DefaultStepEditor.DESCRIPTION_FIELD_ID));
 
-        Assert.assertNull("the description should be null", step.getMetadataField(StepConfiguration.META_DESCRIPTION));
+        Assertions.assertNull(step.getMetadataField(StepConfiguration.META_DESCRIPTION), "the description should be null");
         }
 
     @Test
-    public void nullifyWhitespaceDescription()
+    void nullifyWhitespaceDescription()
         {
         StepConfiguration step = setupLogStep("non-empty description");
         waitForUiEvents();
 
         fillFieldAndTabAway(id(DefaultStepEditor.DESCRIPTION_FIELD_ID), " ");
 
-        Assert.assertNull("the description should be null", step.getMetadataField(StepConfiguration.META_DESCRIPTION));
+        Assertions.assertNull(step.getMetadataField(StepConfiguration.META_DESCRIPTION), "the description should be null");
         }
 
     /**
@@ -123,7 +123,7 @@ public class DefaultStepEditorTests extends ComponentTest
      * after a *valid* edit, the add button appears, but the edit fields linger.
      */
     @Test
-    public void removeOptionalFieldImmediatelyAfterEdit()
+    void removeOptionalFieldImmediatelyAfterEdit()
         {
         StepConfiguration step = new StepConfiguration(IncrementVariable.TYPE_ID);
         step.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var_name"));
@@ -137,34 +137,34 @@ public class DefaultStepEditorTests extends ComponentTest
         clickOn(id(FixedNameValueSourceEditor.getDeleteButtonId(subsource_name)));
 
         // verify edit field removed
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(subsource_name))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(subsource_name))));
         }
 
     @Test
-    public void displayMapSubsource()
+    void displayMapSubsource()
         {
         StepConfiguration step = new StepConfiguration(CallFunction.TYPE_ID);
         _editor.setStep(step);
         waitForUiEvents();
 
-        Assert.assertTrue("the add button for the param map is missing", exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)));
+        Assertions.assertTrue(exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)), "the add button for the param map is missing");
 
         step.addSource("param1", ValueSourceConfiguration.forValue("value1"));
         _editor.setStep(step);
         waitForUiEvents();
 
-        Assert.assertTrue(exists("param1"));
-        Assert.assertTrue(exists(quoted("value1")));
+        Assertions.assertTrue(exists("param1"));
+        Assertions.assertTrue(exists(quoted("value1")));
         }
 
     @Test
-    public void displayListSubsource()
+    void displayListSubsource()
         {
         StepConfiguration step = new StepConfiguration(MockStepWithListParam.TYPE_ID);
         _editor.setStep(step);
         waitForUiEvents();
 
-        Assert.assertTrue("the add button for the param list is missing", exists(id(ValueSourceListEditor.ADD_BUTTON_ID)));
+        Assertions.assertTrue(exists(id(ValueSourceListEditor.ADD_BUTTON_ID)), "the add button for the param list is missing");
 
         ValueSourceConfiguration list = ValueSourceConfiguration.forType(ListSource.TYPE_ID);
         ValueSourceConfiguration item = ValueSourceConfiguration.forValue("item1");
@@ -173,22 +173,22 @@ public class DefaultStepEditorTests extends ComponentTest
         _editor.setStep(step);
         waitForUiEvents();
 
-        Assert.assertTrue(exists(quoted("item1")));
+        Assertions.assertTrue(exists(quoted("item1")));
         }
 
     @Test
-    public void displayMapSubsourceNoSources()
+    void displayMapSubsourceNoSources()
         {
         StepConfiguration step = new StepConfiguration(CallFunction.TYPE_ID);
         _editor.setStep(step);
         waitForUiEvents();
 
-        Assert.assertTrue("the add button for the param map is missing", exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)));
-        Assert.assertFalse("the map should not include the function name field", exists(FixedNameValueSourceEditor.getValueFieldId(CallFunction.ID_PARAM)));
+        Assertions.assertTrue(exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)), "the add button for the param map is missing");
+        Assertions.assertFalse(exists(FixedNameValueSourceEditor.getValueFieldId(CallFunction.ID_PARAM)), "the map should not include the function name field");
         }
 
     @Test
-    public void displayMapSubsourceWithSource()
+    void displayMapSubsourceWithSource()
         {
         StepConfiguration step = new StepConfiguration(CallFunction.TYPE_ID);
         final String param1 = "param1";
@@ -198,9 +198,9 @@ public class DefaultStepEditorTests extends ComponentTest
         _editor.setStep(step);
         waitForUiEvents();
 
-        Assert.assertTrue("the add button for the param map is missing", exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)));
-        Assert.assertTrue("the map is missing the param field", exists(id(InlineNamedVSE.getValueFieldId(param1))));
-        Assert.assertEquals("the map is showing the id (function name) field", 0, numberOf(id(InlineNamedVSE.getValueFieldId(CallFunction.ID_PARAM))));
+        Assertions.assertTrue(exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)), "the add button for the param map is missing");
+        Assertions.assertTrue(exists(id(InlineNamedVSE.getValueFieldId(param1))), "the map is missing the param field");
+        Assertions.assertEquals(0, numberOf(id(InlineNamedVSE.getValueFieldId(CallFunction.ID_PARAM))), "the map is showing the id (function name) field");
         }
 
     @Override
@@ -219,5 +219,3 @@ public class DefaultStepEditorTests extends ComponentTest
     private DefaultStepEditor _editor;
     private SimpleProject _project = new SimpleProject();
     }
-
-

@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.museautomation'
-version '0.9'
+version '0.10'
                                                                             
 javafx {
     version = "12.0.2"
@@ -22,8 +22,14 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:12.0.2'
     implementation 'org.controlsfx:controlsfx:11.0.0'
 
-    testImplementation 'net.christophermerrill:TestFxUtils:1.5'
+    testImplementation 'net.christophermerrill:TestFxUtils:[2.0,)'
     testImplementation 'org.mockito:mockito-core:2.28.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:[5.0,)'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:[5.0,)'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 repositories {

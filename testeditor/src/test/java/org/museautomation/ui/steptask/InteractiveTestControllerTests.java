@@ -1,6 +1,6 @@
 package org.museautomation.ui.steptask;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.steptask.execution.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.events.*;
@@ -15,13 +15,13 @@ import org.museautomation.ui.extend.edit.step.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class InteractiveTestControllerTests
+class InteractiveTestControllerTests
     {
     /**
      * The InteractiveTestController should pause in this case, rather than stopping.
      */
     @Test
-    public void testPausedOnFatalVerifyFailure()
+    void testPausedOnFatalVerifyFailure()
         {
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID);
         step.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false)); // will cause a failure
@@ -34,18 +34,18 @@ public class InteractiveTestControllerTests
         TestStateBlocker blocker = new TestStateBlocker(controller);
         blocker.blockUntil(InteractiveTaskState.PAUSED);
 
-        Assert.assertEquals(InteractiveTaskState.PAUSED, controller.getState());
-        Assert.assertNull(controller.getResult());  // test not complete
+        Assertions.assertEquals(InteractiveTaskState.PAUSED, controller.getState());
+        Assertions.assertNull(controller.getResult());  // test not complete
 
         // should pause after verify step
-        Assert.assertTrue(controller.getTestRunner().getExecutionContext().getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertEquals(2, controller.getTestRunner().getExecutionContext().getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size());
         }
 
     /**
      * The InteractiveTestController should pause in this case, rather than stopping.
      */
     @Test
-    public void testStoppedAfterError()
+    void testStoppedAfterError()
         {
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID);
         SteppedTask test = setupLogTest(step);
@@ -56,11 +56,11 @@ public class InteractiveTestControllerTests
         TestStateBlocker blocker = new TestStateBlocker(controller);
         blocker.blockUntil(InteractiveTaskState.PAUSED);
 
-        Assert.assertEquals(InteractiveTaskState.PAUSED, controller.getState());
-        Assert.assertNull(controller.getResult());  // test not considered done
+        Assertions.assertEquals(InteractiveTaskState.PAUSED, controller.getState());
+        Assertions.assertNull(controller.getResult());  // test not considered done
 
         // should be stopped after verify step
-        Assert.assertTrue(controller.getTestRunner().getExecutionContext().getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertEquals(2, controller.getTestRunner().getExecutionContext().getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size());
         }
 
     private static SteppedTask setupLogTest(StepConfiguration first_step)
