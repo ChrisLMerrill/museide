@@ -2,6 +2,7 @@ package org.museautomation.ui.step;
 
 import javafx.scene.*;
 import javafx.scene.image.*;
+import javafx.scene.paint.*;
 import org.museautomation.core.*;
 import org.museautomation.core.step.descriptor.*;
 import org.museautomation.core.util.*;
@@ -23,6 +24,11 @@ public class StepGraphicBuilder
 		}
 
 	public Node getStepIcon(StepDescriptor descriptor, MuseProject project)
+        {
+        return getStepIcon(descriptor, project, RgbColorDescriptor.BLACK);
+        }
+
+	public Node getStepIcon(StepDescriptor descriptor, MuseProject project, ColorDescriptor color)
 		{
 		String name = descriptor.getIconDescriptor();
 		if (name == null)
@@ -30,7 +36,7 @@ public class StepGraphicBuilder
 
 		// if using something other than classpath lookup
 		if (!name.startsWith(StepGraphicBuilder.CLASS_RESOURCE + ":"))
-			return GraphicNodeBuilder.getInstance().getNode(name, ColorBuilder.getColor(descriptor.getIconColor()));
+			return GraphicNodeBuilder.getInstance().getNode(name, ColorBuilder.getColor(color));
 		Class step_class = new TypeLocator(project).getClassForTypeId(descriptor.getType());
 
 		// already in the cache?

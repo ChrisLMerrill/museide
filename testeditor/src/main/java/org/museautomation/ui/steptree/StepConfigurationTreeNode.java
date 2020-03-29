@@ -28,6 +28,7 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 	StepConfigurationTreeNode(StepEditContext edit_context, StepConfiguration step)
 		{
 		_edit_context = edit_context;
+		_edit_context.getController().getBreakpoints().addBreakpointsListener(_breakpoints_listener);
 		_edit_context.addShuttable(this::destroy);
 		_edit_context.getController().addListener(this);
 		if (!_edit_context.getController().getState().equals(InteractiveTaskState.IDLE))
@@ -132,6 +133,9 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 				return; // already destroyed
 			unsubscribeFromExecutionContext();
 			_edit_context.getController().removeListener(this);
+            _edit_context.getController().getBreakpoints().removeBreakpointsListener(_breakpoints_listener);
+            _breakpoints_listener = null;
+            
 			_edit_context = null;
 			if (_step != null)
 				_step.removeChangeListener(_listener);
@@ -162,7 +166,10 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 
 		if (_step_icon == null)
 			{
-			_step_icon = StepGraphicBuilder.getInstance().getStepIcon(_descriptor, _edit_context.getProject());
+			ColorDescriptor color = RgbColorDescriptor.BLACK;
+			if (_edit_context.getController().getBreakpoints().isBreakpoint(_step))
+			    color = RgbColorDescriptor.RED;
+			_step_icon = StepGraphicBuilder.getInstance().getStepIcon(_descriptor, _edit_context.getProject(), color);
 			_step_icon.getStyleClass().add("step-glyph");
 			_step_icon.getStyleClass().add(Glyphs.getStyleName(_descriptor.getIconDescriptor(), null, null));
 			}
@@ -281,6 +288,19 @@ public class StepConfigurationTreeNode implements MuseEventListener, Interactive
 	private List<FancyTreeNodeFacade<StepConfiguration>> _children = new ArrayList<>();
 	private FancyTreeItemFacade _item_facade;
 	private ChangeListener _listener;
+
+	private Breakpoints.BreakpointsListener _breakpoints_listener = new Breakpoints.BreakpointsListener()
+        {
+        @Override
+        public void breakpointChanged(StepConfiguration step)
+            {
+            if (step.equals(_step))
+                {
+                _step_icon = null;
+                _item_facade.refreshDisplay();
+                }
+            }
+        };
 
 	private String _style = DEFAULT_STYLE;
 	public static final String DEFAULT_STYLE = "step-default";

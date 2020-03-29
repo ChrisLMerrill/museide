@@ -10,4 +10,12 @@ public interface Breakpoints
     void setBreakpoint(StepConfiguration step);
     void clearBreakpoint(StepConfiguration step);
     boolean isBreakpoint(StepConfiguration step);
+
+    void addBreakpointsListener(BreakpointsListener listener);
+    void removeBreakpointsListener(BreakpointsListener listener);
+
+    interface BreakpointsListener
+        {
+        void breakpointChanged(StepConfiguration step);
+        }
     }
