@@ -3,7 +3,7 @@ package org.museautomation.ui.ide;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
@@ -20,7 +20,7 @@ import java.io.*;
 public class MultiWindowResourceEditorsTests extends ComponentTest
     {
     @Test
-    public void openResourceEditor() throws IOException
+    void openResourceEditor() throws IOException
         {
         MuseProject project = new SimpleProject();
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
@@ -31,11 +31,11 @@ public class MultiWindowResourceEditorsTests extends ComponentTest
 
         int num_windows = listWindows().size();
         boolean edited = new MultiWindowResourceEditors().editResource(project.getResourceStorage().findResource(TEST_ID), project);
-        Assert.assertTrue(edited);
+        Assertions.assertTrue(edited);
         waitForUiEvents();
 
-        Assert.assertEquals(num_windows + 1, listWindows().size());
-        Assert.assertNotNull(window(TEST_ID));
+        Assertions.assertEquals(num_windows + 1, listWindows().size());
+        Assertions.assertNotNull(window(TEST_ID));
         }
 
     @Override

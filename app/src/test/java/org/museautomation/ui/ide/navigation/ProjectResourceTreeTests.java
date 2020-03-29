@@ -2,7 +2,7 @@ package org.museautomation.ui.ide.navigation;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.ide.*;
 import org.museautomation.ui.ide.navigation.resources.*;
 import org.museautomation.builtins.step.*;
@@ -21,27 +21,27 @@ import java.io.*;
 public class ProjectResourceTreeTests extends ComponentTest
     {
     @Test
-    public void displayTests()
+    void displayTests()
         {
         waitForUiEvents();
 
         _tree.expandAll();
         waitForUiEvents();
 
-        Assert.assertTrue(exists(new MuseTask.TaskResourceType().getName() + "s"));  // the "Test" node is visible
-        Assert.assertTrue(exists(TEST1_ID)); // the test id is visible
+        Assertions.assertTrue(exists(new MuseTask.TaskResourceType().getName() + "s"));  // the "Test" node is visible
+        Assertions.assertTrue(exists(TEST1_ID)); // the test id is visible
         }
 
     @Test
-    public void editResource()
+    void editResource()
         {
         _tree.expandAll();
         waitForUiEvents();
 
         doubleClickOn(TEST1_ID);
 
-        Assert.assertEquals("wrong project edited", _project, _editors._project_edited);
-        Assert.assertEquals("wrong token edited", _project.getResourceStorage().findResource(TEST1_ID), _editors._resource_edited);
+        Assertions.assertEquals(_project, _editors._project_edited, "wrong project edited");
+        Assertions.assertEquals(_project.getResourceStorage().findResource(TEST1_ID), _editors._resource_edited, "wrong token edited");
         }
 
     @Override
@@ -69,7 +69,7 @@ public class ProjectResourceTreeTests extends ComponentTest
 
     private final static String TEST1_ID = "test1";
 
-    private class MockResourceEditors implements ResourceEditors
+    static private class MockResourceEditors implements ResourceEditors
         {
         @Override
         public boolean editResource(ResourceToken resource, MuseProject project)

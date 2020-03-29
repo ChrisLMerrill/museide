@@ -2,7 +2,7 @@ package org.museautomation.ui.ide.navigation;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.ide.navigation.resources.*;
 import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
@@ -20,45 +20,45 @@ import java.io.*;
 public class CreateResourcePanelTests extends ComponentTest
     {
     @Test
-    public void createResource()
+    void createResource()
         {
         final String resource_id = setup();
 
-        Assert.assertTrue(exists(new VariableList.VariableListResourceType().getName()));
+        Assertions.assertTrue(exists(new VariableList.VariableListResourceType().getName()));
         Node node = lookup(resource_id).query();
-        Assert.assertNotNull(node);
-        Assert.assertFalse(InputValidation.isShowingError(node));
+        Assertions.assertNotNull(node);
+        Assertions.assertFalse(InputValidation.isShowingError(node));
 
         CreateResourceAction action = _panel.getAction();
-        Assert.assertNotNull("no action created", action);
-        Assert.assertTrue(action.getType() instanceof VariableList.VariableListResourceType);
-        Assert.assertEquals(resource_id, action.getId());
+        Assertions.assertNotNull(action, "no action created");
+        Assertions.assertTrue(action.getType() instanceof VariableList.VariableListResourceType);
+        Assertions.assertEquals(resource_id, action.getId());
         }
 
     @Test
-    public void duplicateId()
+    void duplicateId()
         {
         final String resource_id = setup();
         Node node = lookup(resource_id).query();
         fillFieldAndTabAway(node, TESTID);
 
-        Assert.assertTrue(InputValidation.isShowingError(node));
-        Assert.assertNull("should not create action when provided ID already exists in repository", _panel.getAction());
+        Assertions.assertTrue(InputValidation.isShowingError(node));
+        Assertions.assertNull(_panel.getAction(), "should not create action when provided ID already exists in repository");
         }
 
     @Test
-    public void blankId()
+    void blankId()
         {
         final String resource_id = setup();
         Node node = lookup(resource_id).query();
         clearFieldAndTabAway(resource_id);
 
-        Assert.assertTrue(InputValidation.isShowingError(node));
-        Assert.assertNull("should not create action when no ID is provided", _panel.getAction());
+        Assertions.assertTrue(InputValidation.isShowingError(node));
+        Assertions.assertNull(_panel.getAction(), "should not create action when no ID is provided");
         }
 
     @Test
-    public void changeDefaults()
+    void changeDefaults()
         {
         final String resource_id = setup();
 
@@ -69,8 +69,8 @@ public class CreateResourcePanelTests extends ComponentTest
         fillFieldAndTabAway(resource_id, changed_id);
 
         CreateResourceAction action = _panel.getAction();
-        Assert.assertTrue(action.getType() instanceof MuseTask.TaskResourceType);
-        Assert.assertEquals(changed_id, action.getId());
+        Assertions.assertTrue(action.getType() instanceof MuseTask.TaskResourceType);
+        Assertions.assertEquals(changed_id, action.getId());
         }
 
     private String setup()
@@ -97,5 +97,3 @@ public class CreateResourcePanelTests extends ComponentTest
     private CreateResourcePanel _panel;
     private final static String TESTID = "test1";
     }
-
-

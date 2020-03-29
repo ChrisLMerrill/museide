@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'org.museautomation'
-version '0.24'
+version '0.25'
 
 application {
     mainClassName = 'org.museautomation.ui.ide.IdeApplication'
@@ -57,14 +57,19 @@ dependencies
     implementation 'ch.qos.logback:logback-classic:1.1.9'
     implementation 'ch.qos.logback:logback-core:1.1.9'
 
-    testImplementation 'net.christophermerrill:TestFxUtils:[1.5,)'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:[5.0,)'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:[5.0,)'
+    testImplementation 'net.christophermerrill:TestFxUtils:[2.0,)'
     testImplementation 'org.mockito:mockito-core:2.7.9'
     //testImplementation 'org.testfx:openjfx-monocle:jdk-9+181'
 
     implementation('com.google.guava:guava') { version { strictly '25.0-jre'} }
     implementation('com.google.code.findbugs:annotations')  { version { strictly '3.0.1'} }
-
     }
+
+test {
+    useJUnitPlatform()
+}
 
 jar {
     manifest {

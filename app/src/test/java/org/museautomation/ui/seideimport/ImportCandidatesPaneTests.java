@@ -4,7 +4,7 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.storage.*;
@@ -18,28 +18,28 @@ import java.util.concurrent.atomic.*;
 public class ImportCandidatesPaneTests extends ComponentTest
     {
     @Test
-    public void buttonCountUpdate()
+    void buttonCountUpdate()
         {
         setupCandidates();
 
         int initial_count = _candidates.getEnabledCount();
-        Assert.assertEquals("should start with 2 enabled", 2, initial_count);
-        Assert.assertTrue("button label should reflect the current count", _import_pane.getActionButtonLabel().contains(Integer.toString(initial_count)));
-        Assert.assertTrue("button label should be displayed", exists(_import_pane.getActionButtonLabel()));
+        Assertions.assertEquals(2, initial_count, "should start with 2 enabled");
+        Assertions.assertTrue(_import_pane.getActionButtonLabel().contains(Integer.toString(initial_count)), "button label should reflect the current count");
+        Assertions.assertTrue(exists(_import_pane.getActionButtonLabel()), "button label should be displayed");
 
         TableCell import_enabled_cell = tableCell(id(ImportCandidatesTable.TABLE_ID), 3, ImportCandidatesTable.IMPORT_ENABLED_COLUMN_NUM);
         CheckBox import_enabled_checkbox = nodeOfClass(CheckBox.class, import_enabled_cell);
         clickOn(import_enabled_checkbox);
-        Assert.assertTrue("button label should be increased by one", _import_pane.getActionButtonLabel().contains(Integer.toString(initial_count + 1)));
-        Assert.assertTrue("button label should be displayed", exists(_import_pane.getActionButtonLabel()));
+        Assertions.assertTrue(_import_pane.getActionButtonLabel().contains(Integer.toString(initial_count + 1)), "button label should be increased by one");
+        Assertions.assertTrue(exists(_import_pane.getActionButtonLabel()), "button label should be displayed");
 
         clickOn(import_enabled_checkbox);
-        Assert.assertTrue("button label should return to the initial value", _import_pane.getActionButtonLabel().contains(Integer.toString(initial_count)));
-        Assert.assertTrue("button label should be displayed", exists(_import_pane.getActionButtonLabel()));
+        Assertions.assertTrue(_import_pane.getActionButtonLabel().contains(Integer.toString(initial_count)), "button label should return to the initial value");
+        Assertions.assertTrue(exists(_import_pane.getActionButtonLabel()), "button label should be displayed");
         }
 
     @Test
-    public void importButtonDisabled()
+    void importButtonDisabled()
         {
         setupCandidates();
         for (ImportCandidate candidate : _candidates.allEnabledCandidates())
@@ -47,28 +47,28 @@ public class ImportCandidatesPaneTests extends ComponentTest
         waitForUiEvents();
 
         Button button = lookup(id(ImportCandidatesPane.IMPORT_BUTTON_ID)).query();
-        Assert.assertTrue("button should be disabled", button.isDisabled());
+        Assertions.assertTrue(button.isDisabled(), "button should be disabled");
         }
 
     @Test
-    public void deleteFilesCheckbox()
+    void deleteFilesCheckbox()
         {
         setupCandidates();
 
         ImportSeleniumIdeTestsAction action = _import_pane.getAction();
-        Assert.assertFalse("delete files should be off by default", action.isDeleteSourceFilesEnabled());
+        Assertions.assertFalse(action.isDeleteSourceFilesEnabled(), "delete files should be off by default");
 
         clickOn(id(ImportCandidatesPane.DELETE_FILES_CHECKBOX_ID));
         action = _import_pane.getAction();
-        Assert.assertTrue("delete files should be true after clicking checkbox", action.isDeleteSourceFilesEnabled());
+        Assertions.assertTrue(action.isDeleteSourceFilesEnabled(), "delete files should be true after clicking checkbox");
 
         clickOn(id(ImportCandidatesPane.DELETE_FILES_CHECKBOX_ID));
         action = _import_pane.getAction();
-        Assert.assertFalse("delete files should be false after clicking checkbox again", action.isDeleteSourceFilesEnabled());
+        Assertions.assertFalse(action.isDeleteSourceFilesEnabled(), "delete files should be false after clicking checkbox again");
         }
 
     @Test
-    public void importButton()
+    void importButton()
         {
         setupCandidates();
 
@@ -88,12 +88,11 @@ public class ImportCandidatesPaneTests extends ComponentTest
 
         clickOn(id(ImportCandidatesPane.IMPORT_BUTTON_ID));
 
-        Assert.assertTrue("import not pressed", _import_pressed.get());
+        Assertions.assertTrue(_import_pressed.get(), "import not pressed");
         }
 
     @Test
-
-    public void cancelButton()
+    void cancelButton()
         {
         setupCandidates();
 
@@ -111,13 +110,15 @@ public class ImportCandidatesPaneTests extends ComponentTest
 
         clickOn(id(ImportCandidatesPane.CANCEL_BUTTON_ID));
 
-        Assert.assertTrue("import not pressed", _cancel_pressed.get());
+        Assertions.assertTrue(_cancel_pressed.get(), "import not pressed");
         }
 
     private void setupCandidates()
         {
         File import_folder = TestResources.getFile(PROJECT_FOLDER, getClass());
         File[] import_files = import_folder.listFiles((dir, name) -> (name.endsWith(".html")));
+        if (import_files == null)
+            Assertions.fail("no files to import");
 
         _candidates = ImportCandidates.build(_project, import_files);
         Platform.runLater(() -> _import_pane.setCandidates(_candidates));
@@ -125,7 +126,7 @@ public class ImportCandidatesPaneTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode() throws Exception
+    protected Node createComponentNode()
         {
         _project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile(PROJECT_FOLDER, getClass())));
         _import_pane = new ImportCandidatesPane(_project);
@@ -145,5 +146,3 @@ public class ImportCandidatesPaneTests extends ComponentTest
 
     private final static String PROJECT_FOLDER = "projects/import";
     }
-
-
