@@ -2,7 +2,7 @@ package org.museautomation.ui.extend.edit.tags;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -10,31 +10,31 @@ import org.junit.*;
 public class TagsLabelTests extends ComponentTest
 	{
 	@Test
-	public void displayEmpty()
+    void displayEmpty()
 	    {
 	    MockTaggable tags = new MockTaggable();
 	    _label.setTags(tags);
 	    waitForUiEvents();
 
-	    Assert.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
-	    Assert.assertFalse(exists(TagsLabel.TAG_STYLE));
+	    Assertions.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
+	    Assertions.assertFalse(exists(TagsLabel.TAG_STYLE));
 	    }
 
 	@Test
-	public void displayOne()
+    void displayOne()
 	    {
 	    MockTaggable tags = new MockTaggable();
 	    tags.addTag("abc");
 	    _label.setTags(tags);
 	    waitForUiEvents();
 
-	    Assert.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
-	    Assert.assertTrue(exists("abc"));
-	    Assert.assertEquals(1, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
+	    Assertions.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
+	    Assertions.assertTrue(exists("abc"));
+	    Assertions.assertEquals(1, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
 	    }
 
 	@Test
-	public void displayTwo()
+    void displayTwo()
 	    {
 	    MockTaggable tags = new MockTaggable();
 	    tags.addTag("abc");
@@ -42,10 +42,10 @@ public class TagsLabelTests extends ComponentTest
 	    _label.setTags(tags);
 	    waitForUiEvents();
 
-	    Assert.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
-	    Assert.assertTrue(exists("abc"));
-	    Assert.assertTrue(exists("def"));
-	    Assert.assertEquals(2, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
+	    Assertions.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
+	    Assertions.assertTrue(exists("abc"));
+	    Assertions.assertTrue(exists("def"));
+	    Assertions.assertEquals(2, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
 	    }
 
 	@Override
@@ -57,5 +57,3 @@ public class TagsLabelTests extends ComponentTest
 
 	private TagsLabel _label;
 	}
-
-

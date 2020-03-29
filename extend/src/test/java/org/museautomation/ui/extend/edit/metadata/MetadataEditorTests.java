@@ -2,7 +2,7 @@ package org.museautomation.ui.extend.edit.metadata;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -13,19 +13,19 @@ import java.util.concurrent.atomic.*;
 public class MetadataEditorTests extends ComponentTest
 	{
 	@Test
-	public void showOneDatum()
+    void showOneDatum()
 	    {
 	    MockMetadata data = new MockMetadata();
 	    data.setMetadataField("field1", "value1");
 	    _editor.setMetadata(data);
 	    waitForUiEvents();
 
-	    Assert.assertTrue("field1 not displayed", exists("field1=value1"));
-	    Assert.assertTrue("field1 not styled", exists(byClass(MetadataLabel.LABEL_CLASS)));
+	    Assertions.assertTrue(exists("field1=value1"), "field1 not displayed");
+	    Assertions.assertTrue(exists(byClass(MetadataLabel.LABEL_CLASS)), "field1 not styled");
 	    }
 
 	@Test
-	public void showTwoData()
+    void showTwoData()
 	    {
 	    MockMetadata data = new MockMetadata();
 	    data.setMetadataField("field1", "value1");
@@ -33,13 +33,13 @@ public class MetadataEditorTests extends ComponentTest
 	    _editor.setMetadata(data);
 	    waitForUiEvents();
 
-	    Assert.assertTrue("field1 not displayed", exists("field1=value1"));
-	    Assert.assertTrue("field2 not displayed", exists("field2=value2"));
-	    Assert.assertEquals("fields not styled", 2, numberOf(byClass(MetadataLabel.LABEL_CLASS)));
+	    Assertions.assertTrue(exists("field1=value1"), "field1 not displayed");
+	    Assertions.assertTrue(exists("field2=value2"), "field2 not displayed");
+	    Assertions.assertEquals(2, numberOf(byClass(MetadataLabel.LABEL_CLASS)), "fields not styled");
 	    }
 	
 	@Test
-	public void showAndHideReservedNames()
+    void showAndHideReservedNames()
 	    {
 	    MockMetadata data = new MockMetadata();
 	    data.setMetadataField("_id", "id");
@@ -48,27 +48,27 @@ public class MetadataEditorTests extends ComponentTest
 	    _editor.setMetadata(data);
 	    waitForUiEvents();
 
-	    Assert.assertFalse("system data not hidden", exists("_id=id"));
-	    Assert.assertFalse("system data not hidden", exists("_description=description"));
-	    Assert.assertFalse("system data not hidden", exists("_tags=tags"));
+	    Assertions.assertFalse(exists("_id=id"), "system data not hidden");
+	    Assertions.assertFalse(exists("_description=description"), "system data not hidden");
+	    Assertions.assertFalse(exists("_tags=tags"), "system data not hidden");
 
 	    _editor.setFilterReservedNames(false);
 	    waitForUiEvents();
 
-	    Assert.assertTrue("system data not shown", exists("_id=id"));
-	    Assert.assertTrue("system data not shown", exists("_description=description"));
-	    Assert.assertTrue("system data not shown", exists("_tags=tags"));
+	    Assertions.assertTrue(exists("_id=id"), "system data not shown");
+	    Assertions.assertTrue(exists("_description=description"), "system data not shown");
+	    Assertions.assertTrue(exists("_tags=tags"), "system data not shown");
 
 	    _editor.setFilterReservedNames(true);
 	    waitForUiEvents();
 
-	    Assert.assertFalse("system data not hidden", exists("_id=id"));
-	    Assert.assertFalse("system data not hidden", exists("_description=description"));
-	    Assert.assertFalse("system data not hidden", exists("_tags=tags"));
+	    Assertions.assertFalse(exists("_id=id"), "system data not hidden");
+	    Assertions.assertFalse(exists("_description=description"), "system data not hidden");
+	    Assertions.assertFalse(exists("_tags=tags"), "system data not hidden");
 	    }
 
 	@Test
-	public void addData()
+    void addData()
 	    {
 	    AtomicReference<String> name_added = new AtomicReference<>();
 	    AtomicReference<Object> value_added = new AtomicReference<>();
@@ -82,16 +82,16 @@ public class MetadataEditorTests extends ComponentTest
 	    waitForUiEvents();
 
 	    clickOn(byClass(MetadataEditor.ADD_BUTTON_STYLE));
-	    Assert.assertTrue("add field not displayed", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+	    Assertions.assertTrue(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "add field not displayed");
 
 	    fillFieldAndPressEnter(byClass(MetadataEditor.ADD_FIELD_SYTLE), "n1=v1");
-	    Assert.assertNotNull("add listener not called", name_added.get());
-	    Assert.assertEquals("add not called with the correct name", "n1", name_added.get());
-	    Assert.assertEquals("add not called with the correct value", "v1", value_added.get());
+	    Assertions.assertNotNull(name_added.get(), "add listener not called");
+	    Assertions.assertEquals("n1", name_added.get(), "add not called with the correct name");
+	    Assertions.assertEquals("v1", value_added.get(), "add not called with the correct value");
 	    }
 
 	@Test
-	public void cancelAdd()
+    void cancelAdd()
 	    {
 	    AtomicReference<Boolean> added = new AtomicReference<>(false);
         _editor.setAddListener((name, value) -> added.set(true));
@@ -101,50 +101,50 @@ public class MetadataEditorTests extends ComponentTest
 
 	    clickOn(byClass(MetadataEditor.ADD_BUTTON_STYLE));
 	    pressEscape(byClass(MetadataEditor.ADD_FIELD_SYTLE));
-	    Assert.assertFalse("listener was called", added.get());
-	    Assert.assertFalse("adder is showing", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+	    Assertions.assertFalse(added.get(), "listener was called");
+	    Assertions.assertFalse(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "adder is showing");
 	    }
 
 	@Test
-	public void failWithoutEquals()
+    void failWithoutEquals()
 	    {
-	    Assert.assertEquals(null, getValueForInput("abc"));
-	    Assert.assertTrue("adder not showing", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+        Assertions.assertNull(getValueForInput("abc"));
+	    Assertions.assertTrue(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "adder not showing");
 	    }
 
 	@Test
-	public void failNullValue()
+    void failNullValue()
 	    {
-	    Assert.assertEquals(null, getValueForInput("n1="));
-	    Assert.assertTrue("adder not showing", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+        Assertions.assertNull(getValueForInput("n1="));
+	    Assertions.assertTrue(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "adder not showing");
 	    }
 
 	@Test
-	public void failNullName()
+    void failNullName()
 	    {
-	    Assert.assertEquals(null, getValueForInput("=123"));
-	    Assert.assertTrue("adder not showing", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+        Assertions.assertNull(getValueForInput("=123"));
+	    Assertions.assertTrue(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "adder not showing");
 	    }
 
 	@Test
-	public void addInteger()
+    void addInteger()
 	    {
-	    Assert.assertEquals(123L, getValueForInput("n1=123"));
-	    Assert.assertFalse("adder not hidden", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+	    Assertions.assertEquals(123L, getValueForInput("n1=123"));
+	    Assertions.assertFalse(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "adder not hidden");
 	    }
 
 	@Test
-	public void addBooleanTrue()
+    void addBooleanTrue()
 	    {
-	    Assert.assertEquals(true, getValueForInput("n1=true"));
-	    Assert.assertFalse("adder not hidden", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+	    Assertions.assertEquals(true, getValueForInput("n1=true"));
+	    Assertions.assertFalse(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "adder not hidden");
 	    }
 
 	@Test
-	public void addBooleanFalse()
+    void addBooleanFalse()
 	    {
-	    Assert.assertEquals(false, getValueForInput("n1=false"));
-	    Assert.assertFalse("adder not hidden", exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)));
+	    Assertions.assertEquals(false, getValueForInput("n1=false"));
+	    Assertions.assertFalse(exists(byClass(MetadataEditor.ADD_FIELD_SYTLE)), "adder not hidden");
 	    }
 
 	private Object getValueForInput(String input)
@@ -161,7 +161,7 @@ public class MetadataEditorTests extends ComponentTest
 		}
 
 	@Test
-	public void removeData()
+    void removeData()
 	    {
 	    // setup with a data
 	    MockMetadata data = new MockMetadata();
@@ -179,16 +179,16 @@ public class MetadataEditorTests extends ComponentTest
 
 	    for (Node node : lookup(byClass(MetadataLabel.REMOVE_BUTTON_CLASS)).queryAll())
 	        clickOn(node);
-	    Assert.assertEquals("remove listener not called twice", 2, removed_names.size());
+	    Assertions.assertEquals(2, removed_names.size(), "remove listener not called twice");
 
-	    Assert.assertTrue("field1 not deleted", removed_names.contains("field1"));
-	    Assert.assertTrue("field2 not deleted", removed_names.contains("field2"));
-	    Assert.assertTrue("value1 not deleted", removed_values.contains("value1"));
-	    Assert.assertTrue("value2 not deleted", removed_values.contains("value2"));
+	    Assertions.assertTrue(removed_names.contains("field1"), "field1 not deleted");
+	    Assertions.assertTrue(removed_names.contains("field2"), "field2 not deleted");
+	    Assertions.assertTrue(removed_values.contains("value1"), "value1 not deleted");
+	    Assertions.assertTrue(removed_values.contains("value2"), "value2 not deleted");
 	    }
 
 	@Test
-	public void showRemovedData()
+    void showRemovedData()
 	    {
 	    MockMetadata data = new MockMetadata();
 	    data.setMetadataField("field1", "value1");
@@ -199,17 +199,17 @@ public class MetadataEditorTests extends ComponentTest
 	    data.removeMetadataField("field1");
 	    _editor.refresh();
 	    waitForUiEvents();
-	    Assert.assertTrue("field2 was removed by mistake", exists("field2=value2"));
-	    Assert.assertFalse("field1 not removed", exists("field1=value1"));
+	    Assertions.assertTrue(exists("field2=value2"), "field2 was removed by mistake");
+	    Assertions.assertFalse(exists("field1=value1"), "field1 not removed");
 
 	    data.removeMetadataField("field2");
 	    _editor.refresh();
 	    waitForUiEvents();
-	    Assert.assertFalse("field2 not removed", exists("field2=value2"));
+	    Assertions.assertFalse(exists("field2=value2"), "field2 not removed");
 	    }
 
 	@Test
-	public void showAddedData()
+    void showAddedData()
 	    {
 	    MockMetadata data = new MockMetadata();
 	    _editor.setMetadata(data);
@@ -222,8 +222,8 @@ public class MetadataEditorTests extends ComponentTest
 	    data.setMetadataField("field2", "value2");
 	    _editor.refresh();
 	    waitForUiEvents();
-	    Assert.assertTrue("field2 not added", exists("field2=value2"));
-	    Assert.assertTrue("field1 disappeared", exists("field1=value1"));
+	    Assertions.assertTrue(exists("field2=value2"), "field2 not added");
+	    Assertions.assertTrue(exists("field1=value1"), "field1 disappeared");
 	    }
 
 	@Override
@@ -234,5 +234,3 @@ public class MetadataEditorTests extends ComponentTest
 
 	private MetadataEditor _editor = new MetadataEditor();
 	}
-
-

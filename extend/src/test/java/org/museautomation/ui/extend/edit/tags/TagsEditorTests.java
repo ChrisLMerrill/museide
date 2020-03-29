@@ -3,7 +3,7 @@ package org.museautomation.ui.extend.edit.tags;
 import javafx.scene.*;
 import javafx.scene.input.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -14,31 +14,31 @@ import java.util.concurrent.atomic.*;
 public class TagsEditorTests extends ComponentTest
 	{
 	@Test
-	public void displayEmpty()
+    void displayEmpty()
 		{
 		MockTaggable tags = new MockTaggable();
 		_editor.setTags(tags);
 		waitForUiEvents();
 
-		Assert.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
-		Assert.assertFalse(exists(TagsLabel.TAG_STYLE));
+		Assertions.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
+		Assertions.assertFalse(exists(TagsLabel.TAG_STYLE));
 		}
 
 	@Test
-	public void displayOne()
+    void displayOne()
 		{
 		MockTaggable tags = new MockTaggable();
 		tags.addTag("abc");
 		_editor.setTags(tags);
 		waitForUiEvents();
 
-		Assert.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
-		Assert.assertTrue(exists("abc"));
-		Assert.assertEquals(1, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
+		Assertions.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
+		Assertions.assertTrue(exists("abc"));
+		Assertions.assertEquals(1, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
 		}
 
 	@Test
-	public void displayTwo()
+    void displayTwo()
 		{
 		MockTaggable tags = new MockTaggable();
 		tags.addTag("abc");
@@ -46,14 +46,14 @@ public class TagsEditorTests extends ComponentTest
 		_editor.setTags(tags);
 		waitForUiEvents();
 
-		Assert.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
-		Assert.assertTrue(exists("abc"));
-		Assert.assertTrue(exists("def"));
-		Assert.assertEquals(2, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
+		Assertions.assertTrue(exists(byClass(TagsLabel.TAGS_STYLE)));
+		Assertions.assertTrue(exists("abc"));
+		Assertions.assertTrue(exists("def"));
+		Assertions.assertEquals(2, lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().size());
 		}
 
 	@Test
-	public void addTag()
+    void addTag()
 		{
 		MockTaggable tags = new MockTaggable();
 		AtomicReference<String> add_listener_called = new AtomicReference<>(null);
@@ -62,20 +62,20 @@ public class TagsEditorTests extends ComponentTest
 		waitForUiEvents();
 
 		clickOn(id(TagsEditor.ADD_BUTTON_ID));
-		Assert.assertTrue("tag add field not displayed", exists(id(TagsEditor.ADD_FIELD_ID)));
+		Assertions.assertTrue(exists(id(TagsEditor.ADD_FIELD_ID)), "tag add field not displayed");
 		fillFieldAndPressEnter(id(TagsEditor.ADD_FIELD_ID), "newtag");
-		Assert.assertEquals("tag add listener not called", "newtag", add_listener_called.get());
+		Assertions.assertEquals("newtag", add_listener_called.get(), "tag add listener not called");
 
 		tags.addTag("newtag");
 		_editor.refresh();
 		waitForUiEvents();
 		Set<Node> tag_nodes = lookup(byClass(TagsLabel.TAG_STYLE)).queryAll();
-		Assert.assertEquals("tag not shown", 1, tag_nodes.size());
-		Assert.assertTrue(exists("newtag"));
+		Assertions.assertEquals(1, tag_nodes.size(), "tag not shown");
+		Assertions.assertTrue(exists("newtag"));
 		}
 
 	@Test
-	public void failZeroLengthTag()
+    void failZeroLengthTag()
 	    {
 	    MockTaggable tags = new MockTaggable();
         AtomicReference<Boolean> add_listener_called = new AtomicReference<>(false);
@@ -85,12 +85,12 @@ public class TagsEditorTests extends ComponentTest
 
         clickOn(id(TagsEditor.ADD_BUTTON_ID));
         clickOn(id(TagsEditor.ADD_FIELD_ID)).push(KeyCode.ENTER);
-        Assert.assertFalse("tag add listener was called", add_listener_called.get());
-	    Assert.assertFalse("tag add field still showing", exists(id(TagsEditor.ADD_FIELD_ID)));
+        Assertions.assertFalse(add_listener_called.get(), "tag add listener was called");
+	    Assertions.assertFalse(exists(id(TagsEditor.ADD_FIELD_ID)), "tag add field still showing");
 	    }
 
 	@Test
-	public void cancelAddTag()
+    void cancelAddTag()
 	    {
 	    MockTaggable tags = new MockTaggable();
         AtomicReference<String> add_listener_called = new AtomicReference<>(null);
@@ -100,12 +100,12 @@ public class TagsEditorTests extends ComponentTest
 
         clickOn(id(TagsEditor.ADD_BUTTON_ID));
         pressEscape(id(TagsEditor.ADD_FIELD_ID));
-        Assert.assertEquals("tag add listener was called", null, add_listener_called.get());
-        Assert.assertFalse("editor is still showing", exists(id(TagsEditor.ADD_FIELD_ID)));
+        Assertions.assertNull(add_listener_called.get(), "tag add listener was called");
+        Assertions.assertFalse(exists(id(TagsEditor.ADD_FIELD_ID)), "editor is still showing");
 	    }
 
 	@Test
-	public void removeTag()
+    void removeTag()
 		{
 		MockTaggable tags = new MockTaggable();
 		tags.addTag("abc");
@@ -118,28 +118,28 @@ public class TagsEditorTests extends ComponentTest
 		Iterator<Node> tag_node_iterator = lookup(byClass(TagsLabel.TAG_STYLE)).queryAll().iterator();
 
 		Node abc_tag_node = tag_node_iterator.next();
-		Assert.assertNotNull(abc_tag_node);
+		Assertions.assertNotNull(abc_tag_node);
 		final Node abc_delete_button = from(abc_tag_node).lookup(id(TagsEditor.DELETE_ID)).query();
-		Assert.assertNotNull("delete button is missing", abc_delete_button);
+		Assertions.assertNotNull(abc_delete_button, "delete button is missing");
 
 		clickOn(abc_delete_button);
-		Assert.assertNotNull("delete listener was not called", delete_listener_called.get());
-		Assert.assertEquals("delete listener called with wrong tag", "abc", delete_listener_called.get());
+		Assertions.assertNotNull(delete_listener_called.get(), "delete listener was not called");
+		Assertions.assertEquals("abc", delete_listener_called.get(), "delete listener called with wrong tag");
 
 		Node def_tag_node = tag_node_iterator.next();
 		Node def_delete_button = from(def_tag_node).lookup(id(TagsEditor.DELETE_ID)).query();
 		clickOn(def_delete_button);
-		Assert.assertEquals("delete listener called with wrong tag", "def", delete_listener_called.get());
+		Assertions.assertEquals("def", delete_listener_called.get(), "delete listener called with wrong tag");
 
 		tags.removeTag("abc");
 		_editor.refresh();
 		waitForUiEvents();
-		Assert.assertFalse("abc tag is still showing", exists("abc"));
-		Assert.assertTrue("def tag is missing", exists("def"));
+		Assertions.assertFalse(exists("abc"), "abc tag is still showing");
+		Assertions.assertTrue(exists("def"), "def tag is missing");
 		tags.removeTag("def");
 		_editor.refresh();
 		waitForUiEvents();
-		Assert.assertFalse("def tag is still showing", exists("def"));
+		Assertions.assertFalse(exists("def"), "def tag is still showing");
 		}
 
 	@Override

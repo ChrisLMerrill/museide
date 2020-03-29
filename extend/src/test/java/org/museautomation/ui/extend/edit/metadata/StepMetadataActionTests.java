@@ -1,6 +1,6 @@
 package org.museautomation.ui.extend.edit.metadata;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.extend.actions.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.step.*;
@@ -8,30 +8,30 @@ import org.museautomation.core.step.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepMetadataActionTests
+class StepMetadataActionTests
 	{
 	@Test
-	public void addMetadata()
+    void addMetadata()
 	    {
 	    new AddMetadataAction(_step, "newname", "added").execute(_undo);
-	    Assert.assertEquals("value not added", "added", _step.getMetadataField("newname"));
+	    Assertions.assertEquals("added", _step.getMetadataField("newname").toString(), "value not added");
 
-	    _undo.undoLastAction();
-	    Assert.assertNull("add not undone", _step.getMetadataField("newname"));
+        Assertions.assertTrue(_undo.undoLastAction());
+	    Assertions.assertNull(_step.getMetadataField("newname"), "add not undone");
 	    }
 
 	@Test
-	public void removeMetadata()
+    void removeMetadata()
 	    {
 	    new RemoveMetadataAction(_step, "initial").execute(_undo);
-	    Assert.assertNull("value note removed", _step.getMetadataField("initial"));
+	    Assertions.assertNull(_step.getMetadataField("initial"), "value note removed");
 
-	    _undo.undoLastAction();
-	    Assert.assertEquals("remove not undone", "initvalue", _step.getMetadataField("initial"));
+	    Assertions.assertTrue(_undo.undoLastAction());
+	    Assertions.assertEquals("initvalue", _step.getMetadataField("initial").toString(), "remove not undone");
 	    }
 
-	@Before
-	public void setup()
+	@BeforeEach
+    void setup()
 		{
 		_step.setMetadataField("initial", "initvalue");
 		}
@@ -39,5 +39,3 @@ public class StepMetadataActionTests
 	private StepConfiguration _step = new StepConfiguration(LogMessage.TYPE_ID);
 	private UndoStack _undo = new UndoStack();
 	}
-
-

@@ -4,7 +4,7 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.project.*;
 
 /**
@@ -13,7 +13,7 @@ import org.museautomation.core.project.*;
 public class BaseResourceEditorTests extends ComponentTest
 	{
 	@Test
-	public void showComponents()
+    void showComponents()
 	    {
 	    SampleResource resource = new SampleResource();
 	    resource.setId("resource1");
@@ -21,16 +21,16 @@ public class BaseResourceEditorTests extends ComponentTest
 	    waitForUiEvents();
 
 	    // default buttons are shown
-	    Assert.assertTrue(exists("Undo"));
-	    Assert.assertTrue(exists("Redo"));
-	    Assert.assertTrue(exists("Save"));
+	    Assertions.assertTrue(exists("Undo"));
+	    Assertions.assertTrue(exists("Redo"));
+	    Assertions.assertTrue(exists("Save"));
 
 	    // editor UI is shown
-	    Assert.assertTrue(exists(resource.getEditText()));
+	    Assertions.assertTrue(exists(resource.getEditText()));
 	    }
 
 	@Test
-	public void showLowerPanel()
+    void showLowerPanel()
 	    {
 	    SampleResource resource = new SampleResource();
 	    resource.setId("resource1");
@@ -38,24 +38,18 @@ public class BaseResourceEditorTests extends ComponentTest
 	    waitForUiEvents();
 
 	    // editor UI is shown
-	    Assert.assertTrue(exists(resource.getEditText()));
+	    Assertions.assertTrue(exists(resource.getEditText()));
 
 	    // show the lower panel
 	    String lower_panel_text = "lower panel text";
-	    Platform.runLater(() ->
-		    {
-		    _editor.showInLowerSplitPane(new Label(lower_panel_text));
-		    });
+	    Platform.runLater(() -> _editor.showInLowerSplitPane(new Label(lower_panel_text)));
 	    waitForUiEvents();
-	    Assert.assertTrue(exists(lower_panel_text));
+	    Assertions.assertTrue(exists(lower_panel_text));
 
 	    // hide the lower panel
-	    Platform.runLater(() ->
-		    {
-		    _editor.hideLowerSplitPane();
-		    });
+	    Platform.runLater(() -> _editor.hideLowerSplitPane());
 	    waitForUiEvents();
-	    Assert.assertFalse(exists(lower_panel_text));
+	    Assertions.assertFalse(exists(lower_panel_text));
 	    }
 
 	@Override
@@ -65,5 +59,5 @@ public class BaseResourceEditorTests extends ComponentTest
 		return _editor.getNode();
 		}
 
-	SampleResourceEditor _editor;
+	private SampleResourceEditor _editor;
 	}

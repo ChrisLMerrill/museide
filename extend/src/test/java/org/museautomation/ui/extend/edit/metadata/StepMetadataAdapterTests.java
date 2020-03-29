@@ -1,6 +1,6 @@
 package org.museautomation.ui.extend.edit.metadata;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.step.events.*;
@@ -12,38 +12,38 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepMetadataAdapterTests
+class StepMetadataAdapterTests
 	{
 	@Test
-	public void addField()
+    void addField()
 	    {
 	    _adapter.setMetadataField("field1", "value1");
-	    Assert.assertEquals("field not added", "value1", _step.getMetadataField("field1"));
+	    Assertions.assertEquals("value1", _step.getMetadataField("field1"), "field not added");
 	    }
 
 	@Test
-	public void removeField()
+    void removeField()
 	    {
 	    _adapter.removeMetadataField("initial");
-	    Assert.assertNull("field not removed", _step.getMetadataField("initial"));
+	    Assertions.assertNull(_step.getMetadataField("initial"), "field not removed");
 	    }
 
 	@Test
-	public void getFieldNames()
+    void getFieldNames()
 	    {
 	    Set<String> names = _adapter.getMetadataFieldNames();
-	    Assert.assertEquals(1, names.size());
-	    Assert.assertEquals("initial", names.iterator().next());
+	    Assertions.assertEquals(1, names.size());
+	    Assertions.assertEquals("initial", names.iterator().next());
 	    }
 
 	@Test
-	public void getValue()
+    void getValue()
 	    {
-	    Assert.assertEquals("got wrong value", "initvalue", _adapter.getMetadataField("initial"));
+	    Assertions.assertEquals("initvalue", _adapter.getMetadataField("initial"), "got wrong value");
 	    }
 
 	@Test
-	public void getStepMetadataChangeEvent()
+    void getStepMetadataChangeEvent()
 	    {
 	    AtomicReference<Object> target_received = new AtomicReference<>(null);
 	    AtomicReference<Object> name_received = new AtomicReference<>(null);
@@ -62,25 +62,25 @@ public class StepMetadataAdapterTests
 	        }));
 
 	    _step.setMetadataField("initial", "newval");
-	    Assert.assertEquals(_adapter, target_received.get());
-	    Assert.assertEquals("initial", name_received.get());
-	    Assert.assertEquals("initvalue", old_value_received.get());
-	    Assert.assertEquals("newval", new_value_received.get());
+	    Assertions.assertEquals(_adapter, target_received.get());
+	    Assertions.assertEquals("initial", name_received.get());
+	    Assertions.assertEquals("initvalue", old_value_received.get());
+	    Assertions.assertEquals("newval", new_value_received.get());
 	    }
 
 	@Test
-	public void destroy() throws NoSuchFieldException, IllegalAccessException
+    void destroy() throws NoSuchFieldException, IllegalAccessException
 		{
 	    _adapter.destroy();
-	    Assert.assertEquals("change listener not removed from step", 0, getNumberOfListenersRegistered(_step));
+	    Assertions.assertEquals(0, getNumberOfListenersRegistered(_step), "change listener not removed from step");
 	    }
 
 	@Test
-	public void stepHasNoMetadata()
+    void stepHasNoMetadata()
 	    {
 	    StepConfiguration step = new StepConfiguration();
 	    StepMetadataAdapter adapter = new StepMetadataAdapter(step);
-	    Assert.assertEquals("should return empty set", 0, adapter.getMetadataFieldNames().size());
+	    Assertions.assertEquals(0, adapter.getMetadataFieldNames().size(), "should return empty set");
 	    }
 
 	private int getNumberOfListenersRegistered(StepConfiguration step) throws NoSuchFieldException, IllegalAccessException
@@ -93,8 +93,8 @@ public class StepMetadataAdapterTests
 		return listeners.size();
 		}
 
-	@Before
-	public void setup()
+	@BeforeEach
+	void setup()
 		{
 		_step.setMetadataField("initial", "initvalue");
 		}
@@ -102,5 +102,3 @@ public class StepMetadataAdapterTests
 	private StepConfiguration _step = new StepConfiguration(LogMessage.TYPE_ID);
 	private StepMetadataAdapter _adapter = new StepMetadataAdapter(_step);
 	}
-
-

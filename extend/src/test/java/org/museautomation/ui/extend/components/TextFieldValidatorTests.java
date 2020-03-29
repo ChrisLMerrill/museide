@@ -4,7 +4,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.extend.components.validation.*;
 
 /**
@@ -13,17 +13,17 @@ import org.museautomation.ui.extend.components.validation.*;
 public class TextFieldValidatorTests extends ComponentTest
     {
     @Test
-    public void testInitialValue()
+    void testInitialValue()
         {
         NotBlankTextValidator validator = new NotBlankTextValidator();
         validator.attachTo(_text_field);
         waitForUiEvents();
 
-        Assert.assertTrue(InputValidation.isShowingError(_text_field));
+        Assertions.assertTrue(InputValidation.isShowingError(_text_field));
         }
 
     @Test
-    public void testChangedToValid()
+    void testChangedToValid()
         {
         NotBlankTextValidator validator = new NotBlankTextValidator();
         validator.attachTo(_text_field);
@@ -31,11 +31,11 @@ public class TextFieldValidatorTests extends ComponentTest
 
         clickOn("#text").write("abc");
 
-        Assert.assertFalse(InputValidation.isShowingError(_text_field));
+        Assertions.assertFalse(InputValidation.isShowingError(_text_field));
         }
 
     @Test
-    public void testAndValidators()
+    void testAndValidators()
         {
         AndValidator and = new AndValidator();
         and.add(new IntegerFieldValidator());
@@ -45,10 +45,10 @@ public class TextFieldValidatorTests extends ComponentTest
         waitForUiEvents();
 
         // starts out invalid
-        Assert.assertTrue(InputValidation.isShowingError(_text_field));
+        Assertions.assertTrue(InputValidation.isShowingError(_text_field));
         clickOn("#text").write("abc");
         // still invalid, despite being non-blank
-        Assert.assertTrue(InputValidation.isShowingError(_text_field));
+        Assertions.assertTrue(InputValidation.isShowingError(_text_field));
         }
 
     @Override
@@ -65,5 +65,3 @@ public class TextFieldValidatorTests extends ComponentTest
 
     private TextField _text_field;
     }
-
-

@@ -1,43 +1,43 @@
 package org.museautomation.ui.extend.components;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class WordWrapperTests
+class WordWrapperTests
     {
     @Test
-    public void noWrapRequired()
+    void noWrapRequired()
         {
-        Assert.assertEquals(1, countLines(new WordWrapper("pretty short").wrapAfter(80)));
+        Assertions.assertEquals(1, countLines(new WordWrapper("pretty short").wrapAfter(80)));
         }
 
     @Test
-    public void wrapAfterSpace()
+    void wrapAfterSpace()
         {
         String[] lines = extractLines(new WordWrapper("here is some text, and then wrap").wrapAfter(18));
-        Assert.assertEquals(2, lines.length);
-        Assert.assertTrue(lines[0].endsWith("text,"));
-        Assert.assertTrue(lines[1].startsWith("and"));
+        Assertions.assertEquals(2, lines.length);
+        Assertions.assertTrue(lines[0].endsWith("text,"));
+        Assertions.assertTrue(lines[1].startsWith("and"));
         }
 
     @Test
-    public void wrapOnFirstChar()
+    void wrapOnFirstChar()
         {
         String[] lines = extractLines(new WordWrapper("here is some text, and then wrap").wrapAfter(20));
-        Assert.assertEquals(2, lines.length);
-        Assert.assertTrue(lines[0].endsWith("text,"));
-        Assert.assertTrue(lines[1].startsWith("and"));
+        Assertions.assertEquals(2, lines.length);
+        Assertions.assertTrue(lines[0].endsWith("text,"));
+        Assertions.assertTrue(lines[1].startsWith("and"));
         }
 
     @Test
-    public void moreThanTwoLines()
+    void moreThanTwoLines()
         {
         String[] lines = extractLines(new WordWrapper("here is some text, and then wrap").wrapAfter(10));
-        Assert.assertEquals(3, lines.length);
+        Assertions.assertEquals(3, lines.length);
         }
 
     private int countLines(String target)
@@ -56,7 +56,7 @@ public class WordWrapperTests
         List<String> lines = new ArrayList<>();
         while (tokenizer.hasMoreTokens())
             lines.add(tokenizer.nextToken());
-        return lines.toArray(new String[lines.size()]);
+        return lines.toArray(new String[0]);
         }
     }
 

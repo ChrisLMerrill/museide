@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.museautomation'
-version '0.9'
+version '0.10'
 
 javafx {
     version = "12.0.2"
@@ -23,8 +23,8 @@ dependencies {
     implementation 'de.jensd:fontawesomefx-icons525:3.0.0-11'
     implementation 'de.jensd:fontawesomefx-octicons:4.3.0-11'
 
-    testImplementation 'net.christophermerrill:TestFxUtils:1.5'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'net.christophermerrill:TestFxUtils:[2.0,)'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5+'
 }
 
 repositories {

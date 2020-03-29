@@ -5,7 +5,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.extend.actions.*;
 import org.museautomation.ui.extend.edit.*;
 import org.museautomation.ui.extend.edit.stack.*;
@@ -18,62 +18,62 @@ import java.util.*;
 public class EditorStackTests extends ComponentTest
     {
     @Test
-    public void editorVisibility()
+    void editorVisibility()
         {
-        Assert.assertTrue(exists("push1"));
+        Assertions.assertTrue(exists("push1"));
         }
 
     @Test
-    public void titleVisibility()
+    void titleVisibility()
         {
-        Assert.assertTrue(exists("title1"));
+        Assertions.assertTrue(exists("title1"));
         }
 
     @Test
-    public void okCancelButtonsExist()
+    void okCancelButtonsExist()
         {
-        Assert.assertTrue(exists("save"));
-        Assert.assertTrue(exists("cancel"));
+        Assertions.assertTrue(exists("save"));
+        Assertions.assertTrue(exists("cancel"));
         }
 
     @Test
-    public void editorFocus()
+    void editorFocus()
         {
         Node button = lookup("push1").query();
         Node focused = button.getScene().getFocusOwner();
-        Assert.assertEquals(focused, button);
+        Assertions.assertEquals(focused, button);
         }
 
     @Test
-    public void editorsAreActivated()
+    void editorsAreActivated()
         {
-        Assert.assertTrue(exists("children=0"));
+        Assertions.assertTrue(exists("children=0"));
         }
 
     @Test
-    public void pushNewEditor()
+    void pushNewEditor()
         {
         // press the button to push a new editor onto the stack
-        Assert.assertTrue(exists("title1"));
+        Assertions.assertTrue(exists("title1"));
         Node button = lookup("push1").query();
-        Assert.assertNotNull(button);
+        Assertions.assertNotNull(button);
         clickOn(button);
 
         // verify previous editor was removed
-        Assert.assertFalse(exists("push1"));
+        Assertions.assertFalse(exists("push1"));
 
         // verify new editor is added...
         Node new_button = lookup("push1.1").query();
-        Assert.assertNotNull(new_button);
-        Assert.assertEquals(new_button, new_button.getScene().getFocusOwner());
+        Assertions.assertNotNull(new_button);
+        Assertions.assertEquals(new_button, new_button.getScene().getFocusOwner());
 
         // ...and the new title, too
-        Assert.assertTrue(exists("title1"));
-        Assert.assertTrue(exists("title1.1"));
+        Assertions.assertTrue(exists("title1"));
+        Assertions.assertTrue(exists("title1.1"));
         }
 
     @Test
-    public void returnToPreviousEditor()
+    void returnToPreviousEditor()
         {
         // press the button to push a new editor
         clickOn("push1");
@@ -81,33 +81,33 @@ public class EditorStackTests extends ComponentTest
         // the title of the previous editor to go back to it
         clickOn("title1");
 
-        Assert.assertFalse("the sub-title on the navbar wasn't removed", exists("title1.1"));
-        Assert.assertTrue("the title on the navbar was removed", exists("title1"));
+        Assertions.assertFalse(exists("title1.1"), "the sub-title on the navbar wasn't removed");
+        Assertions.assertTrue(exists("title1"), "the title on the navbar was removed");
         Node button1 = lookup("push1").query();
-        Assert.assertNotNull(button1);
+        Assertions.assertNotNull(button1);
 
-        Assert.assertEquals(button1, button1.getScene().getFocusOwner());
+        Assertions.assertEquals(button1, button1.getScene().getFocusOwner());
         }
 
     @Test
-    public void okButtonNotification()
+    void okButtonNotification()
         {
         Node button = lookup("save").query();
         clickOn(button);
-        Assert.assertTrue(_saved);
-        Assert.assertFalse(_cancelled);
+        Assertions.assertTrue(_saved);
+        Assertions.assertFalse(_cancelled);
         }
 
     @Test
-    public void cancelButtonNotification()
+    void cancelButtonNotification()
         {
         clickOn("cancel");
-        Assert.assertTrue(_cancelled);
-        Assert.assertFalse(_saved);
+        Assertions.assertTrue(_cancelled);
+        Assertions.assertFalse(_saved);
         }
 
     @Test
-    public void editsMergedToUndoStack()
+    void editsMergedToUndoStack()
         {
         clickOn("change1");     // make a change in an editor
         clickOn("push1");        // open sub-editor
@@ -115,70 +115,70 @@ public class EditorStackTests extends ComponentTest
         clickOn("save");          // press OK
 
         // verify 2 action added to undo stack
-        Assert.assertEquals(2, _stack.getUndoStack().getNumberOfUndoableActions());
+        Assertions.assertEquals(2, _stack.getUndoStack().getNumberOfUndoableActions());
         }
 
     @Test
-    public void cancelRevertsChanges()
+    void cancelRevertsChanges()
         {
-        Assert.assertTrue(_edits.isEmpty());
+        Assertions.assertTrue(_edits.isEmpty());
 
         clickOn("change1");     // make a change in an editor
 
         // verify a change was made
-        Assert.assertFalse(_edits.isEmpty());
+        Assertions.assertFalse(_edits.isEmpty());
 
         clickOn("cancel");          // press cancel
 
         // verify above changes were reverted
-        Assert.assertTrue(_edits.isEmpty());
+        Assertions.assertTrue(_edits.isEmpty());
 
         // verify 0 actions added to undo stack
-        Assert.assertEquals(0, _stack.getUndoStack().getNumberOfUndoableActions());
+        Assertions.assertEquals(0, _stack.getUndoStack().getNumberOfUndoableActions());
         }
 
     @Test
-    public void denyAcceptingWithInvalidEditor()
+    void denyAcceptingWithInvalidEditor()
         {
         clickOn("change1");      // make a change
         clickOn("valid1");       // invalidate the editor
         clickOn("save");          // press OK
 
         // verify EditListener was not called
-        Assert.assertFalse(_saved);
-        Assert.assertFalse(_cancelled);
+        Assertions.assertFalse(_saved);
+        Assertions.assertFalse(_cancelled);
 
         // verify editor still there
-        Assert.assertNotNull(lookup("valid1").query());
+        Assertions.assertNotNull(lookup("valid1").query());
 
         // verify change is in UndoStack and the change is still applied
-        Assert.assertFalse(_stack.getUndoStack().isEmpty());
-        Assert.assertFalse(_edits.isEmpty());
+        Assertions.assertFalse(_stack.getUndoStack().isEmpty());
+        Assertions.assertFalse(_edits.isEmpty());
         }
 
     @Test
-    public void parentBecomesVisibleWhenReturningFromChild()
+    void parentBecomesVisibleWhenReturningFromChild()
         {
         // verify initial value of field that depends on children
-        Assert.assertTrue("this should be visible", exists("valid1"));
+        Assertions.assertTrue(exists("valid1"), "this should be visible");
 
         clickOn("valid1");        // invalidate the editor
 
         // push sub editor
         clickOn("push1");
 
-        Assert.assertFalse("this should no longer be visible", exists("valid1"));
+        Assertions.assertFalse(exists("valid1"), "this should no longer be visible");
 
         // return to parent editor
         clickOn("save");
         waitForUiEvents();
 
         // verify parent editor has been re-activated
-        Assert.assertTrue("this should be visible again", exists("valid1"));
+        Assertions.assertTrue(exists("valid1"), "this should be visible again");
         }
 
     @Test
-    public void okReturnsToInvalidEditor()
+    void okReturnsToInvalidEditor()
         {
         clickOn((Node) lookup("change1").query());      // make a change
         clickOn((Node) lookup("valid1").query());       // invalidate the editor
@@ -188,25 +188,25 @@ public class EditorStackTests extends ComponentTest
         clickOn((Node) lookup("save").query());          // press OK
 
         // verify still on sub-editor
-        Assert.assertFalse(exists("change1"));
-        Assert.assertTrue(exists("change1.1"));
+        Assertions.assertFalse(exists("change1"));
+        Assertions.assertTrue(exists("change1.1"));
         // verify ok listener not called
-        Assert.assertFalse(_saved);
-        Assert.assertFalse(_cancelled);
+        Assertions.assertFalse(_saved);
+        Assertions.assertFalse(_cancelled);
         // verify changes from both editor are in place
-        Assert.assertEquals(2, _edits.size());
+        Assertions.assertEquals(2, _edits.size());
 
         clickOn("valid1.1");     // validate the editor
         clickOn("save");          // press OK
 
         // verify returned to parent editor
-        Assert.assertFalse(exists("change1.1"));
-        Assert.assertTrue(exists("change1"));
+        Assertions.assertFalse(exists("change1.1"));
+        Assertions.assertTrue(exists("change1"));
         // verify ok listener not called
-        Assert.assertFalse(_saved);
-        Assert.assertFalse(_cancelled);
+        Assertions.assertFalse(_saved);
+        Assertions.assertFalse(_cancelled);
         // verify changes from both editors are in place
-        Assert.assertEquals(2, _edits.size());
+        Assertions.assertEquals(2, _edits.size());
         }
 
     @Override
@@ -227,7 +227,7 @@ public class EditorStackTests extends ComponentTest
 
         UndoStack undo = new UndoStack();
         final UndoStack.UndoPoint restore_point = undo.getRestorePoint();
-        _stack = new EditorStack(new EditInProgress<Object>()
+        _stack = new EditorStack(new EditInProgress<>()
             {
             public void cancel()
                 {
@@ -260,7 +260,7 @@ public class EditorStackTests extends ComponentTest
 
     class StackableEditorImpl implements StackableEditor
         {
-        public StackableEditorImpl(String id)
+        StackableEditorImpl(String id)
             {
             _id = id;
             int row = 0;
@@ -286,7 +286,7 @@ public class EditorStackTests extends ComponentTest
                     @Override
                     protected boolean undoImplementation()
                         {
-                        Assert.assertEquals("change" + _id, _edits.peek());
+                        Assertions.assertEquals("change" + _id, _edits.peek());
                         _edits.pop();
                         return true;
                         }
@@ -349,5 +349,3 @@ public class EditorStackTests extends ComponentTest
     private boolean _saved;
     private Stack<String> _edits;
     }
-
-
