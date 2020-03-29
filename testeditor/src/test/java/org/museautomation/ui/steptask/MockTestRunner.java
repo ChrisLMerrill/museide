@@ -1,4 +1,4 @@
-package org.museautomation.ui.steptest;
+package org.museautomation.ui.steptask;
 
 import org.museautomation.core.context.*;
 import org.museautomation.core.execution.*;

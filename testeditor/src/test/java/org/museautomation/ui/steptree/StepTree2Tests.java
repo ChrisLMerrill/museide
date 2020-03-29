@@ -5,7 +5,7 @@ import net.christophermerrill.FancyFxTree.*;
 import net.christophermerrill.testfx.*;
 import org.junit.*;
 import org.museautomation.core.context.*;
-import org.museautomation.ui.steptest.*;
+import org.museautomation.ui.steptask.*;
 import org.museautomation.ui.valuesource.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.events.*;
