@@ -3,7 +3,7 @@ package org.museautomation.ui.editors.driver;
 import javafx.application.*;
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.project.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.providers.*;
@@ -14,47 +14,47 @@ import org.museautomation.selenium.providers.*;
 public class WebdriverProviderListEditorTests extends ComponentTest
     {
     @Test
-    public void displayProviders()
+    void displayProviders()
         {
         checkOriginalProvidersDisplayed();
         }
 
     private void checkOriginalProvidersDisplayed()
         {
-        Assert.assertTrue(exists(URL1));
-        Assert.assertTrue(exists(URL2));
+        Assertions.assertTrue(exists(URL1));
+        Assertions.assertTrue(exists(URL2));
         }
 
     @Test
-    public void createEditAndDeleteRemoteProvider()
+    void createEditAndDeleteRemoteProvider()
         {
         int initial_size = _list.getProviders().size();
 
         // add a new provider
         clickOn("Add");
         clickOn(id(WebDriverProviderListEditor.ADD_TYPE_ID_BASE + "Remote"));
-        Assert.assertEquals(initial_size + 1, _list.getProviders().size());   // added to list
-        Assert.assertTrue(exists(RemoteDriverProvider.DEFAULT_URL));  // appeared in the UI
-        Assert.assertTrue(_list.getProviders().get(2) instanceof RemoteDriverProvider);
-        Assert.assertEquals(RemoteDriverProvider.DEFAULT_URL, ((RemoteDriverProvider) _list.getProviders().get(2)).getUrl());
+        Assertions.assertEquals(initial_size + 1, _list.getProviders().size());   // added to list
+        Assertions.assertTrue(exists(RemoteDriverProvider.DEFAULT_URL));  // appeared in the UI
+        Assertions.assertTrue(_list.getProviders().get(2) instanceof RemoteDriverProvider);
+        Assertions.assertEquals(RemoteDriverProvider.DEFAULT_URL, ((RemoteDriverProvider) _list.getProviders().get(2)).getUrl());
 
         // edit a provider
         final String new_url = "new provider URL";
         fillFieldAndTabAway(URL1, new_url);
         waitForUiEvents();
-        Assert.assertEquals(new_url, ((RemoteDriverProvider) _list.getProviders().get(0)).getUrl()); // data changed
-        Assert.assertTrue(exists(new_url));  // displayed in UI
+        Assertions.assertEquals(new_url, ((RemoteDriverProvider) _list.getProviders().get(0)).getUrl()); // data changed
+        Assertions.assertTrue(exists(new_url));  // displayed in UI
 
         // remove added provider
         clickOn(id(WebDriverProviderListEditor.DELETE_BUTTON_ID_BASE + 2));
-        Assert.assertEquals(initial_size, _list.getProviders().size());
-        Assert.assertFalse(exists(RemoteDriverProvider.DEFAULT_URL));
+        Assertions.assertEquals(initial_size, _list.getProviders().size());
+        Assertions.assertFalse(exists(RemoteDriverProvider.DEFAULT_URL));
 
         // undo all changes
         Platform.runLater(() -> _editor.getUndoStack().undoAll());
         waitForUiEvents();
         checkOriginalProvidersDisplayed();
-        Assert.assertEquals(initial_size, _list.getProviders().size());   // back to original content
+        Assertions.assertEquals(initial_size, _list.getProviders().size());   // back to original content
         }
 
     @Override
@@ -87,5 +87,3 @@ public class WebdriverProviderListEditorTests extends ComponentTest
     private final static String URL1 = "first url";
     private final static String URL2 = "another url";
     }
-
-

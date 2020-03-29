@@ -1,6 +1,6 @@
 package org.museautomation.ui.editors.suite.runner;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
@@ -18,10 +18,10 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class InteractiveTaskSuiteRunnerTests
+class InteractiveTaskSuiteRunnerTests
     {
     @Test
-    public void receiveEvents() throws IOException
+    void receiveEvents() throws IOException
 	    {
         SimpleTaskSuite suite = new SimpleTaskSuite();
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
@@ -88,13 +88,13 @@ public class InteractiveTaskSuiteRunnerTests
         runner.execute(project, suite, Collections.emptyList());
         runner.waitForCompletion();
 
-        Assert.assertEquals(suite, started_suite.get());
-        Assert.assertEquals(suite, finished_suite.get());
+        Assertions.assertEquals(suite, started_suite.get());
+        Assertions.assertEquals(suite, finished_suite.get());
 
-        Assert.assertEquals(task, started_task.get());
-        Assert.assertEquals(task, finished_task.get());
+        Assertions.assertEquals(task, started_task.get());
+        Assertions.assertEquals(task, finished_task.get());
 
-        Assert.assertTrue(step_started_event.get());
-        Assert.assertTrue(step_finished_event.get());
+        Assertions.assertTrue(step_started_event.get());
+        Assertions.assertTrue(step_finished_event.get());
         }
     }

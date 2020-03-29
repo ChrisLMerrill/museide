@@ -4,7 +4,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.map.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.generic.*;
@@ -16,31 +16,31 @@ import org.museautomation.ui.extend.actions.*;
 public class GenericResourceEditPaneTests extends ComponentTest
 	{
 	@Test
-	public void display()
+    void display()
 		{
-		Assert.assertTrue("short description not displayed", exists(new MockResourceType().getDescriptor().getShortDescription()));
-		Assert.assertTrue("Param1 name not displayed", exists(new MockResourceType().getDescriptor().getSubsourceDescriptors()[0].getDisplayName()));
-		Assert.assertTrue("Param1 value not displayed", exists(quoted("value1")));
+		Assertions.assertTrue(exists(new MockResourceType().getDescriptor().getShortDescription()), "short description not displayed");
+		Assertions.assertTrue(exists(new MockResourceType().getDescriptor().getSubsourceDescriptors()[0].getDisplayName()), "Param1 name not displayed");
+		Assertions.assertTrue(exists(quoted("value1")), "Param1 value not displayed");
 		}
 
 	@Test
-	public void changeParameter()
+    void changeParameter()
 		{
 		fillFieldAndTabAway(quoted("value1"), quoted("newval"));
 		waitForUiEvents();
 
-		Assert.assertTrue("new value not displayed", exists(quoted("newval")));
-		Assert.assertEquals("newval", _resource.parameters().getSource("param1").getValue());
+		Assertions.assertTrue(exists(quoted("newval")), "new value not displayed");
+		Assertions.assertEquals("newval", _resource.parameters().getSource("param1").getValue());
 		}
 
 	@Test
-	public void removeOptionalParameter()
+    void removeOptionalParameter()
 		{
 		clickOn(id(ValueSourceMapEditor.getRemoveButtonId("optparam1")));
 		waitForUiEvents();
 
-		Assert.assertFalse("value still displayed", exists(quoted("optvalue1")));
-		Assert.assertNull(_resource.parameters().getSource("optparam1"));
+		Assertions.assertFalse(exists(quoted("optvalue1")), "value still displayed");
+		Assertions.assertNull(_resource.parameters().getSource("optparam1"));
 		}
 
 	@Override

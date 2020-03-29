@@ -2,7 +2,7 @@ package org.museautomation.ui.editors.browser;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.project.*;
 import org.museautomation.selenium.*;
 
@@ -12,7 +12,7 @@ import org.museautomation.selenium.*;
 public class BrowserCapabilityEditorTests extends ComponentTest
     {
     @Test
-    public void displayBrowser()
+    void displayBrowser()
         {
         setup();
 
@@ -21,34 +21,34 @@ public class BrowserCapabilityEditorTests extends ComponentTest
 
     private void check()
         {
-        Assert.assertEquals("Chrome", textOf(id(BrowserCapabilitiesEditor.NAME_FIELD_ID)));
-        Assert.assertEquals("38", textOf(id(BrowserCapabilitiesEditor.VERSION_FIELD_ID)));
-        Assert.assertEquals("WINDOWS", textOf(id(BrowserCapabilitiesEditor.PLATFORM_FIELD_ID)));
+        Assertions.assertEquals("Chrome", textOf(id(BrowserCapabilitiesEditor.NAME_FIELD_ID)));
+        Assertions.assertEquals("38", textOf(id(BrowserCapabilitiesEditor.VERSION_FIELD_ID)));
+        Assertions.assertEquals("WINDOWS", textOf(id(BrowserCapabilitiesEditor.PLATFORM_FIELD_ID)));
         }
 
     @Test
-    public void changeBrowser()
+    void changeBrowser()
         {
         setup();
 
         fillComboAndTabAway(id(BrowserCapabilitiesEditor.NAME_FIELD_ID), "newbrowser");
-        Assert.assertEquals("newbrowser", _browser.getName());
-        Assert.assertEquals(1, _editor.getUndoStack().getNumberOfUndoableActions());  // make sure there is not a bug where multiple (unnecesssary) changes are made for a single user change
+        Assertions.assertEquals("newbrowser", _browser.getName());
+        Assertions.assertEquals(1, _editor.getUndoStack().getNumberOfUndoableActions());  // make sure there is not a bug where multiple (unnecesssary) changes are made for a single user change
 
         fillComboAndTabAway(id(BrowserCapabilitiesEditor.VERSION_FIELD_ID), "22");
-        Assert.assertEquals("22", _browser.getVersion());
-        Assert.assertEquals(2, _editor.getUndoStack().getNumberOfUndoableActions());
+        Assertions.assertEquals("22", _browser.getVersion());
+        Assertions.assertEquals(2, _editor.getUndoStack().getNumberOfUndoableActions());
 
         fillComboAndTabAway(id(BrowserCapabilitiesEditor.PLATFORM_FIELD_ID), "PalmOS");
-        Assert.assertEquals("PalmOS", _browser.getPlatform());
-        Assert.assertEquals(3, _editor.getUndoStack().getNumberOfUndoableActions());
+        Assertions.assertEquals("PalmOS", _browser.getPlatform());
+        Assertions.assertEquals(3, _editor.getUndoStack().getNumberOfUndoableActions());
 
         _editor.getUndoStack().undoAll();
 
         // changed in data
-        Assert.assertEquals("Chrome", _browser.getName());
-        Assert.assertEquals("38", _browser.getVersion());
-        Assert.assertEquals("WINDOWS", _browser.getPlatform());
+        Assertions.assertEquals("Chrome", _browser.getName());
+        Assertions.assertEquals("38", _browser.getVersion());
+        Assertions.assertEquals("WINDOWS", _browser.getPlatform());
 
         // changed in UI
         check();
@@ -76,5 +76,3 @@ public class BrowserCapabilityEditorTests extends ComponentTest
     private BrowserCapabilitiesEditor _editor;
     private SeleniumBrowserCapabilities _browser;
     }
-
-

@@ -4,7 +4,7 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.input.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
@@ -22,7 +22,7 @@ import java.util.*;
 public class IdListTestSuiteEditorTests extends ComponentTest
     {
     @Test
-    public void displayList() throws IOException
+    void displayList() throws IOException
         {
         int num_tests = 3;
         IdListTaskSuite suite = setupTests(num_tests);
@@ -30,7 +30,7 @@ public class IdListTestSuiteEditorTests extends ComponentTest
         waitForUiEvents();
 
         for (int i = 0; i < num_tests; i++)
-            Assert.assertTrue(exists(createTestId(i)));  // all tests displayed
+            Assertions.assertTrue(exists(createTestId(i)));  // all tests displayed
         }
 
 /*
@@ -63,7 +63,7 @@ public class IdListTestSuiteEditorTests extends ComponentTest
 */
 
     @Test
-    public void addTestToSuite() throws IOException
+    void addTestToSuite() throws IOException
         {
         PopupDialog.makeFast();
         IdListTaskSuite suite = setupTests(3);
@@ -79,18 +79,18 @@ public class IdListTestSuiteEditorTests extends ComponentTest
         clickOn(id(PopupDialog.OK_BUTTON_ID));
         waitForUiEvents();
 
-        Assert.assertTrue(exists(new_test_id));  // displayed in list
-        Assert.assertTrue(suite.getTaskIds().contains(new_test_id));  // added to suite
+        Assertions.assertTrue(exists(new_test_id));  // displayed in list
+        Assertions.assertTrue(suite.getTaskIds().contains(new_test_id));  // added to suite
 
         // undo
         _editor.getUndoStack().undoLastAction();
         waitForUiEvents();
-        Assert.assertFalse(exists(new_test_id));  // not displayed in list
-        Assert.assertFalse(suite.getTaskIds().contains(new_test_id));  // not in suite
+        Assertions.assertFalse(exists(new_test_id));  // not displayed in list
+        Assertions.assertFalse(suite.getTaskIds().contains(new_test_id));  // not in suite
         }
 
     @Test
-    public void removeTestsFromSuite() throws IOException
+    void removeTestsFromSuite() throws IOException
         {
         IdListTaskSuite suite = setupTests(5);
         Platform.runLater(() -> _editor.editResource(_project, suite));
@@ -103,22 +103,22 @@ public class IdListTestSuiteEditorTests extends ComponentTest
         push(KeyCode.DELETE);
         waitForUiEvents();
 
-        Assert.assertFalse(exists(removed1));  // not displayed in list
-        Assert.assertFalse(exists(removed2));  // not displayed in list
-        Assert.assertFalse(suite.getTaskIds().contains(removed1));  // removed from suite
-        Assert.assertFalse(suite.getTaskIds().contains(removed2));  // removed from suite
+        Assertions.assertFalse(exists(removed1));  // not displayed in list
+        Assertions.assertFalse(exists(removed2));  // not displayed in list
+        Assertions.assertFalse(suite.getTaskIds().contains(removed1));  // removed from suite
+        Assertions.assertFalse(suite.getTaskIds().contains(removed2));  // removed from suite
 
         // undo
         _editor.getUndoStack().undoLastAction();
         waitForUiEvents();
-        Assert.assertTrue(exists(removed1));  // returned to list
-        Assert.assertTrue(exists(removed2));  // returned to list
-        Assert.assertTrue(suite.getTaskIds().contains(removed1));  // exists in suite
-        Assert.assertTrue(suite.getTaskIds().contains(removed2));  // exists in suite
+        Assertions.assertTrue(exists(removed1));  // returned to list
+        Assertions.assertTrue(exists(removed2));  // returned to list
+        Assertions.assertTrue(suite.getTaskIds().contains(removed1));  // exists in suite
+        Assertions.assertTrue(suite.getTaskIds().contains(removed2));  // exists in suite
         }
 
     @Test
-    public void listOfAddableTests() throws IOException
+    void listOfAddableTests() throws IOException
         {
         IdListTaskSuite suite = setupTests(2);
         final String new_test_1 = "new-test1";
@@ -128,10 +128,10 @@ public class IdListTestSuiteEditorTests extends ComponentTest
 
         List<String> unused_test_ids = new UnusedTests(_project, suite).getUnusedTestIds();
 
-        Assert.assertTrue(unused_test_ids.contains(new_test_1));  // new tests should be in the list
-        Assert.assertTrue(unused_test_ids.contains(new_test_2));
-        Assert.assertFalse(unused_test_ids.contains(createTestId(0)));  // previously existsing tets shoudl not
-        Assert.assertFalse(unused_test_ids.contains(createTestId(1)));
+        Assertions.assertTrue(unused_test_ids.contains(new_test_1));  // new tests should be in the list
+        Assertions.assertTrue(unused_test_ids.contains(new_test_2));
+        Assertions.assertFalse(unused_test_ids.contains(createTestId(0)));  // previously existsing tets shoudl not
+        Assertions.assertFalse(unused_test_ids.contains(createTestId(1)));
         }
 
     private IdListTaskSuite setupTests(int num_tests) throws IOException
@@ -171,5 +171,3 @@ public class IdListTestSuiteEditorTests extends ComponentTest
     private MuseProject _project;
     private IdListTaskSuiteEditor _editor;
     }
-
-

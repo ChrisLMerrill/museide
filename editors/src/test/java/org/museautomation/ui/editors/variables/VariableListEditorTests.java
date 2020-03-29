@@ -3,7 +3,7 @@ package org.museautomation.ui.editors.variables;
 import javafx.application.*;
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.*;
 import org.museautomation.ui.valuesource.map.*;
 import org.museautomation.core.project.*;
@@ -16,7 +16,7 @@ import org.museautomation.core.variables.*;
 public class VariableListEditorTests extends ComponentTest
     {
     @Test
-    public void displayElementLocators()
+    void displayElementLocators()
         {
         setup();
 
@@ -25,7 +25,7 @@ public class VariableListEditorTests extends ComponentTest
         }
 
     @Test
-    public void removeFirstVariableAndUndo()
+    void removeFirstVariableAndUndo()
         {
         setup();
         clickOn(id(ValueSourceMapEditor.getRemoveButtonId(VARIABLE_NAME1)));
@@ -43,7 +43,7 @@ public class VariableListEditorTests extends ComponentTest
         }
 
     @Test
-    public void removeLastVariableAndUndo()
+    void removeLastVariableAndUndo()
         {
         setup();
         clickOn(id(ValueSourceMapEditor.getRemoveButtonId(VARIABLE_NAME2)));
@@ -61,7 +61,7 @@ public class VariableListEditorTests extends ComponentTest
         }
 
     @Test
-    public void addVariableAndUndo()
+    void addVariableAndUndo()
         {
         setup();
 
@@ -86,29 +86,29 @@ public class VariableListEditorTests extends ComponentTest
      * Verify the advanced editor can be opened.
      */
     @Test
-    public void useAdvancedValueSourceEditor()
+    void useAdvancedValueSourceEditor()
         {
         setup();
 
         // look for a field from the VS editor
-        Assert.assertFalse(exists(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
+        Assertions.assertFalse(exists(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
 
         clickOn(id(ValueSourceMapEditor.getAdvancedLinkId(VARIABLE_NAME1)));
 
-        Assert.assertTrue(exists(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
+        Assertions.assertTrue(exists(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
         }
     private void checkForVariableExists(String name, String locator)
         {
-        Assert.assertTrue(exists(name));
-        Assert.assertTrue(exists(quoted(locator)));
-        Assert.assertNotNull(_list.namedElementLocators().getSource(name));
+        Assertions.assertTrue(exists(name));
+        Assertions.assertTrue(exists(quoted(locator)));
+        Assertions.assertNotNull(_list.namedElementLocators().getSource(name));
         }
 
     private void checkForVariableNotExist(String name, String locator)
         {
-        Assert.assertFalse(exists(name));
-        Assert.assertFalse(exists(quoted(locator)));
-        Assert.assertNull(_list.namedElementLocators().getSource(name));
+        Assertions.assertFalse(exists(name));
+        Assertions.assertFalse(exists(quoted(locator)));
+        Assertions.assertNull(_list.namedElementLocators().getSource(name));
         }
 
     private void setup()
@@ -134,5 +134,3 @@ public class VariableListEditorTests extends ComponentTest
     private static String VARIABLE_NAME2 = "element2";
     private static String SOURCE2 = "source2";
     }
-
-

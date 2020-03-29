@@ -2,7 +2,7 @@ package org.museautomation.ui.editors.suite;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
@@ -17,7 +17,7 @@ import org.museautomation.core.suite.*;
 public class ParameterListTaskSuiteEditorTests extends ComponentTest
     {
     @Test
-    public void display()
+    void display()
         {
         ParameterListTaskSuite suite = new ParameterListTaskSuite();
         suite.setTaskId(TEST_ID);
@@ -25,12 +25,12 @@ public class ParameterListTaskSuiteEditorTests extends ComponentTest
         _editor.editResource(_project, suite);
         waitForUiEvents();
 
-        Assert.assertTrue(exists(TEST_ID));
-        Assert.assertTrue(exists(DATA_ID));
+        Assertions.assertTrue(exists(TEST_ID));
+        Assertions.assertTrue(exists(DATA_ID));
         }
 
     @Test
-    public void configure()
+    void configure()
         {
         ParameterListTaskSuite suite = new ParameterListTaskSuite();
         _editor.editResource(_project, suite);
@@ -39,21 +39,21 @@ public class ParameterListTaskSuiteEditorTests extends ComponentTest
         clickOn(id(ParameterListTaskSuiteEditor.TEST_FIELD_ID));
         clickOn(TEST_ID);
         waitForUiEvents();
-        Assert.assertEquals(TEST_ID, suite.getTaskId());                // model changed
+        Assertions.assertEquals(TEST_ID, suite.getTaskId());                // model changed
 
         clickOn(id(ParameterListTaskSuiteEditor.DATATABLE_FIELD_ID));
         clickOn(DATA_ID);
         waitForUiEvents();
-        Assert.assertEquals(DATA_ID, suite.getDataTableId());           // model changed
+        Assertions.assertEquals(DATA_ID, suite.getDataTableId());           // model changed
 
         _editor.getUndoStack().undoAll();
         waitForUiEvents();
 
-        Assert.assertNull(suite.getTaskId());                           // changes reverted from model
-        Assert.assertNull(suite.getDataTableId());
+        Assertions.assertNull(suite.getTaskId());                           // changes reverted from model
+        Assertions.assertNull(suite.getDataTableId());
 
-        Assert.assertFalse(exists(TEST_ID));                            // changes reverted in UI
-        Assert.assertFalse(exists(DATA_ID));
+        Assertions.assertFalse(exists(TEST_ID));                            // changes reverted in UI
+        Assertions.assertFalse(exists(DATA_ID));
         }
 
     @Override
@@ -79,5 +79,3 @@ public class ParameterListTaskSuiteEditorTests extends ComponentTest
     private final static String TEST_ID = "test_id1";
     private final static String DATA_ID = "datatable_id2";
     }
-
-
