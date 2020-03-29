@@ -1,7 +1,7 @@
 package org.museautomation.parsing.valuesource;
 
 import org.antlr.v4.runtime.tree.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.parsing.valuesource.antlr.*;
 
 import java.util.*;
@@ -10,10 +10,10 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ExpressionParsingTests
+class ExpressionParsingTests
     {
     @Test
-    public void prefixedExpression() throws ExpressionParsingException
+    void prefixedExpression() throws ExpressionParsingException
         {
         checkPrefixed("$$", "\"abc\"");
         checkPrefixed("$", "\"def\"");
@@ -40,18 +40,18 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(prefix, holder._prefix);
-        Assert.assertEquals(expression, holder._expression);
+        Assertions.assertEquals(prefix, holder._prefix);
+        Assertions.assertEquals(expression, holder._expression);
         }
 
-    class PrefixHolder
+    static class PrefixHolder
         {
         String _prefix = null;
         String _expression = null;
         }
 
 
-    class ElementHolder
+    static class ElementHolder
         {
         String _type = null;
         String _qualifier = null;
@@ -59,7 +59,7 @@ public class ExpressionParsingTests
         }
 
     @Test
-    public void elementExpressionNoArgs() throws ExpressionParsingException
+    void elementExpressionNoArgs() throws ExpressionParsingException
         {
         final String type = "type";
         String string_to_parse = String.format("<%s>", type);
@@ -73,11 +73,11 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(type, holder._type);
+        Assertions.assertEquals(type, holder._type);
         }
 
     @Test
-    public void elementExpression1Arg() throws ExpressionParsingException
+    void elementExpression1Arg() throws ExpressionParsingException
         {
         final String type = "type";
         final String qualifier = "\"qualifier\"";
@@ -93,12 +93,12 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(type, holder._type);
-        Assert.assertEquals(qualifier, holder._qualifier);
+        Assertions.assertEquals(type, holder._type);
+        Assertions.assertEquals(qualifier, holder._qualifier);
         }
 
     @Test
-    public void elementExpression2Args() throws ExpressionParsingException
+    void elementExpression2Args() throws ExpressionParsingException
         {
         final String type = "type";
         final String qualifier = "\"qualifier\"";
@@ -116,19 +116,19 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(type, holder._type);
-        Assert.assertEquals(qualifier, holder._qualifier);
-        Assert.assertEquals(qualifier2, holder._qualifier2);
+        Assertions.assertEquals(type, holder._type);
+        Assertions.assertEquals(qualifier, holder._qualifier);
+        Assertions.assertEquals(qualifier2, holder._qualifier2);
         }
 
-    class ElementLookupHolder
+    static class ElementLookupHolder
         {
         String _page;
         String _element;
         }
 
     @Test
-    public void elementLookupExpression() throws ExpressionParsingException
+    void elementLookupExpression() throws ExpressionParsingException
         {
         final String page = "page1";
         final String element = "element1";
@@ -146,12 +146,12 @@ public class ExpressionParsingTests
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
 
-        Assert.assertEquals(page, holder._page);
-        Assert.assertEquals(element, holder._element);
+        Assertions.assertEquals(page, holder._page);
+        Assertions.assertEquals(element, holder._element);
         }
 
     @Test
-    public void elementLookupExpression2() throws ExpressionParsingException
+    void elementLookupExpression2() throws ExpressionParsingException
         {
         final String page = "\"page1\"";
         final String element = "\"element1\"";
@@ -169,18 +169,18 @@ public class ExpressionParsingTests
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
 
-        Assert.assertEquals(page, holder._page);
-        Assert.assertEquals(element, holder._element);
+        Assertions.assertEquals(page, holder._page);
+        Assertions.assertEquals(element, holder._element);
         }
 
-    class ArgumentedHolder
+    static class ArgumentedHolder
         {
         String _name;
         List<String> _arguments = new ArrayList<>();
         }
 
     @Test
-    public void argumentedExpressionNoArguments() throws ExpressionParsingException
+    void argumentedExpressionNoArguments() throws ExpressionParsingException
         {
         final String name = "f1";
         String string_to_parse = String.format("%s()", name);
@@ -194,11 +194,11 @@ public class ExpressionParsingTests
                 }
         };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(name, holder._name);
+        Assertions.assertEquals(name, holder._name);
         }
 
     @Test
-    public void argumentedExpression1Argument() throws ExpressionParsingException
+    void argumentedExpression1Argument() throws ExpressionParsingException
         {
         final String name = "f1";
         final String arg = "123";
@@ -214,12 +214,12 @@ public class ExpressionParsingTests
                 }
         };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(name, holder._name);
-        Assert.assertEquals(arg, holder._arguments.get(0));
+        Assertions.assertEquals(name, holder._name);
+        Assertions.assertEquals(arg, holder._arguments.get(0));
         }
 
     @Test
-    public void argumentedExpressionMultipleArguments() throws ExpressionParsingException
+    void argumentedExpressionMultipleArguments() throws ExpressionParsingException
         {
         final String name = "f1";
         final String arg0 = "123";
@@ -239,44 +239,44 @@ public class ExpressionParsingTests
                 }
         };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(name, holder._name);
-        Assert.assertEquals(arg0, holder._arguments.get(0));
-        Assert.assertEquals(arg1, holder._arguments.get(1));
-        Assert.assertEquals(arg2, holder._arguments.get(2));
+        Assertions.assertEquals(name, holder._name);
+        Assertions.assertEquals(arg0, holder._arguments.get(0));
+        Assertions.assertEquals(arg1, holder._arguments.get(1));
+        Assertions.assertEquals(arg2, holder._arguments.get(2));
         }
 
     @Test
-    public void arrayZeroLength() throws ExpressionParsingException
+    void arrayZeroLength() throws ExpressionParsingException
 	    {
 	    List<String> elements = parseTrivialArray("[]");
-        Assert.assertEquals(0, elements.size());
+        Assertions.assertEquals(0, elements.size());
         }
 
     @Test
-    public void arrayLengthOne() throws ExpressionParsingException
+    void arrayLengthOne() throws ExpressionParsingException
 	    {
         List<String> elements = parseTrivialArray("[123]");
-        Assert.assertEquals(1, elements.size());
-        Assert.assertEquals("123", elements.get(0));
+        Assertions.assertEquals(1, elements.size());
+        Assertions.assertEquals("123", elements.get(0));
         }
 
     @Test
-    public void arrayLengthTwo() throws ExpressionParsingException
+    void arrayLengthTwo() throws ExpressionParsingException
 	    {
         List<String> elements = parseArray("[123,456]");
-        Assert.assertEquals(2, elements.size());
-        Assert.assertEquals("123", elements.get(0));
-        Assert.assertEquals("456", elements.get(1));
+        Assertions.assertEquals(2, elements.size());
+        Assertions.assertEquals("123", elements.get(0));
+        Assertions.assertEquals("456", elements.get(1));
         }
 
     @Test
-    public void arrayLengthThree() throws ExpressionParsingException
+    void arrayLengthThree() throws ExpressionParsingException
 	    {
         List<String> elements = parseArray("[123,456,789]");
-        Assert.assertEquals(3, elements.size());
-        Assert.assertEquals("123", elements.get(0));
-        Assert.assertEquals("456", elements.get(1));
-        Assert.assertEquals("789", elements.get(2));
+        Assertions.assertEquals(3, elements.size());
+        Assertions.assertEquals("123", elements.get(0));
+        Assertions.assertEquals("456", elements.get(1));
+        Assertions.assertEquals("789", elements.get(2));
         }
 
     private List<String> parseTrivialArray(String string_to_parse) throws ExpressionParsingException
@@ -296,7 +296,7 @@ public class ExpressionParsingTests
 		    };
 
 	    ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-	    Assert.assertTrue(called.get());
+	    Assertions.assertTrue(called.get());
 	    return elements;
 	    }
 
@@ -318,11 +318,11 @@ public class ExpressionParsingTests
 		    };
 
 	    ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-	    Assert.assertTrue(called.get());
+	    Assertions.assertTrue(called.get());
 	    return elements;
 	    }
 
-    class BinaryHolder
+    static class BinaryHolder
         {
         String _operator;
         String _arg0;
@@ -330,7 +330,7 @@ public class ExpressionParsingTests
         }
 
     @Test
-    public void binaryExpression() throws ExpressionParsingException
+    void binaryExpression() throws ExpressionParsingException
         {
         final String operator = "<";
         final String arg0 = "123";
@@ -348,13 +348,13 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(operator, holder._operator);
-        Assert.assertEquals(arg0, holder._arg0);
-        Assert.assertEquals(arg1, holder._arg1);
+        Assertions.assertEquals(operator, holder._operator);
+        Assertions.assertEquals(arg0, holder._arg0);
+        Assertions.assertEquals(arg1, holder._arg1);
         }
 
     @Test
-    public void booleanExpression() throws ExpressionParsingException
+    void booleanExpression() throws ExpressionParsingException
         {
         final String operator = "||";
         final String arg0 = "true";
@@ -372,13 +372,13 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(operator, holder._operator);
-        Assert.assertEquals(arg0, holder._arg0);
-        Assert.assertEquals(arg1, holder._arg1);
+        Assertions.assertEquals(operator, holder._operator);
+        Assertions.assertEquals(arg0, holder._arg0);
+        Assertions.assertEquals(arg1, holder._arg1);
         }
 
     @Test
-    public void dotExpression() throws ExpressionParsingException
+    void dotExpression() throws ExpressionParsingException
         {
         final String operator = ".";
         final String arg0 = "\"abc\"";
@@ -396,12 +396,12 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(operator, holder._operator);
-        Assert.assertEquals(arg0, holder._arg0);
-        Assert.assertEquals(arg1, holder._arg1);
+        Assertions.assertEquals(operator, holder._operator);
+        Assertions.assertEquals(arg0, holder._arg0);
+        Assertions.assertEquals(arg1, holder._arg1);
         }
 
-    class ArrayItemHolder
+    static class ArrayItemHolder
         {
         String _bracket1;
         String _bracket2;
@@ -410,7 +410,7 @@ public class ExpressionParsingTests
         }
     
     @Test
-    public void arrayItemAccess() throws ExpressionParsingException
+    void arrayItemAccess() throws ExpressionParsingException
         {
         final String arg0 = "$\"list\"";
         final String arg1 = "0";
@@ -428,14 +428,14 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals("[", holder._bracket1);
-        Assert.assertEquals("]", holder._bracket2);
-        Assert.assertEquals(arg0, holder._arg0);
-        Assert.assertEquals(arg1, holder._arg1);
+        Assertions.assertEquals("[", holder._bracket1);
+        Assertions.assertEquals("]", holder._bracket2);
+        Assertions.assertEquals(arg0, holder._arg0);
+        Assertions.assertEquals(arg1, holder._arg1);
         }
 
     @Test
-    public void arrayItemAccessByVariable() throws ExpressionParsingException
+    void arrayItemAccessByVariable() throws ExpressionParsingException
         {
         final String arg0 = "$\"list\"";
         final String arg1 = "$\"index\"";
@@ -453,14 +453,14 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals("[", holder._bracket1);
-        Assert.assertEquals("]", holder._bracket2);
-        Assert.assertEquals(arg0, holder._arg0);
-        Assert.assertEquals(arg1, holder._arg1);
+        Assertions.assertEquals("[", holder._bracket1);
+        Assertions.assertEquals("]", holder._bracket2);
+        Assertions.assertEquals(arg0, holder._arg0);
+        Assertions.assertEquals(arg1, holder._arg1);
         }
 
     @Test
-    public void dotPrecedenceAboveBinaryExp() throws ExpressionParsingException
+    void dotPrecedenceAboveBinaryExp() throws ExpressionParsingException
         {
         // "abc" + "def"."ghi" is  "abc" + ("def"."ghi") rather than ("abc" + "def")."ghi"
         final String expression = "\"abc\" + \"def\".\"ghi\"";
@@ -481,12 +481,12 @@ public class ExpressionParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(expression, listener);
-        Assert.assertEquals("The '.' operator should be evalated first", ".", operators.get(0));
-        Assert.assertEquals("The '+' operator should be evalated second", "+", operators.get(1));
+        Assertions.assertEquals("The '.' operator should be evalated first", ".", operators.get(0));
+        Assertions.assertEquals("The '+' operator should be evalated second", "+", operators.get(1));
         }
 
     @Test
-    public void prefixPrecedence() throws ExpressionParsingException
+    void prefixPrecedence() throws ExpressionParsingException
         {
         String left = "$\"abc\"";
         String operator = "+";
@@ -494,13 +494,11 @@ public class ExpressionParsingTests
         String to_parse = String.format("%s %s %s", left, operator, right);
 
         ParseTree tree = ValueSourceStringExpressionParsing.parse(to_parse);
-        Assert.assertEquals(2, tree.getChildCount()); // two nodes: binary plus EOF
+        Assertions.assertEquals(2, tree.getChildCount()); // two nodes: binary plus EOF
         ParseTree binary = tree.getChild(0);
-        Assert.assertEquals(3, binary.getChildCount()); // three nodes: left, '+' and right
-        Assert.assertEquals(left, binary.getChild(0).getText());
-        Assert.assertEquals(operator, binary.getChild(1).getText());
-        Assert.assertEquals(right, binary.getChild(2).getText());
+        Assertions.assertEquals(3, binary.getChildCount()); // three nodes: left, '+' and right
+        Assertions.assertEquals(left, binary.getChild(0).getText());
+        Assertions.assertEquals(operator, binary.getChild(1).getText());
+        Assertions.assertEquals(right, binary.getChild(2).getText());
         }
     }
-
-

@@ -1,15 +1,15 @@
 package org.museautomation.parsing.valuesource;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.parsing.valuesource.antlr.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class LiteralParsingTests
+class LiteralParsingTests
     {
     @Test
-    public void singleQuoteString() throws ExpressionParsingException
+    void singleQuoteString() throws ExpressionParsingException
         {
         String expected_value = "'stuff'";
         check(expected_value, expected_value);
@@ -18,7 +18,7 @@ public class LiteralParsingTests
         }
 
     @Test
-    public void doubleQuoteString() throws ExpressionParsingException
+    void doubleQuoteString() throws ExpressionParsingException
         {
         String expected_value = "\"stuff\"";
         check(expected_value, expected_value);
@@ -27,7 +27,7 @@ public class LiteralParsingTests
         }
 
     @Test
-    public void trueLiteral() throws ExpressionParsingException
+    void trueLiteral() throws ExpressionParsingException
         {
         String expression = Boolean.TRUE.toString();
         check(expression, expression);
@@ -35,7 +35,7 @@ public class LiteralParsingTests
         }
 
     @Test
-    public void falseLiteral() throws ExpressionParsingException
+    void falseLiteral() throws ExpressionParsingException
         {
         String expression = Boolean.FALSE.toString();
         check(expression, expression);
@@ -43,7 +43,7 @@ public class LiteralParsingTests
         }
 
     @Test
-    public void nullLiteral() throws ExpressionParsingException
+    void nullLiteral() throws ExpressionParsingException
         {
         String expression = "null";
         check(expression, expression);
@@ -51,7 +51,7 @@ public class LiteralParsingTests
         }
 
     @Test
-    public void integerLiteral() throws ExpressionParsingException
+    void integerLiteral() throws ExpressionParsingException
         {
         String expression = Integer.toString(123);
         check(expression, expression);
@@ -60,7 +60,7 @@ public class LiteralParsingTests
         }
 
     @Test
-    public void zeroLiteral() throws ExpressionParsingException
+    void zeroLiteral() throws ExpressionParsingException
         {
         int value = 0;
         String expression = Integer.toString(value);
@@ -70,13 +70,13 @@ public class LiteralParsingTests
         }
 
     @Test
-    public void invalidInteger() throws ExpressionParsingException
+    void invalidInteger()
         {
         checkFailure("123a");
         }
 
     @Test
-    public void unquotedString() throws ExpressionParsingException
+    void unquotedString()
         {
         String expression = "ugh";
         checkFailure(expression);
@@ -103,16 +103,16 @@ public class LiteralParsingTests
                 }
             };
         ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-        Assert.assertEquals(expected_value, holder._object);
+        Assertions.assertEquals(expected_value, holder._object);
         }
 
-    private void checkFailure(String string_to_parse) throws ExpressionParsingException
+    private void checkFailure(String string_to_parse)
         {
         ValueSourceBaseListener listener = new ValueSourceBaseListener() {};
         try
             {
             ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
-            Assert.assertTrue("This should have thrown an exception", false);
+            Assertions.fail("This should have thrown an exception");
             }
         catch (ExpressionParsingException e)
             {
@@ -120,10 +120,8 @@ public class LiteralParsingTests
             }
         }
 
-    class ObjectHolder<T>
+    static class ObjectHolder<T>
         {
         T _object = null;
         }
     }
-
-
