@@ -22,6 +22,7 @@ public class StepTypeGroups
             for (StepDescriptor descriptor : project.getStepDescriptors().findAll())
                 group.add(descriptor, descriptor.getGroupName());
 
+            group.sortAll();
             all_groups.put(project, group);
             }
         return group;

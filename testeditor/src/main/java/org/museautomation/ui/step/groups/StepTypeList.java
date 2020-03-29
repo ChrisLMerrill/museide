@@ -73,6 +73,15 @@ public class StepTypeList implements StepTypeGroup
         _sub_groups.add(group);
         }
 
+    @Override
+    public void sortAll()
+        {
+        _sub_groups.sort(Comparator.comparing(StepTypeGroup::getName));
+        for (StepTypeGroup group : _sub_groups)
+            group.sortAll();
+        _types.sort(Comparator.comparing(StepDescriptor::getName));
+        }
+
     private String _name;
     private List<StepDescriptor> _types = new ArrayList<>();
     private List<StepTypeGroup> _sub_groups = new ArrayList<>();

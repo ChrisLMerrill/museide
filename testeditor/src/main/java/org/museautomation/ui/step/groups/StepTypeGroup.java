@@ -19,5 +19,7 @@ public interface StepTypeGroup
     List<StepTypeGroup> getSubGroups();
 
     void add(StepTypeGroup group);
+
+    void sortAll();
     }
 

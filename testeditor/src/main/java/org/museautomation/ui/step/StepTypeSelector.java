@@ -41,7 +41,6 @@ public abstract class StepTypeSelector
     private void addMenuEntries(ObservableList<MenuItem> item, StepTypeGroup types, MuseProject project)
         {
         List<StepTypeGroup> step_groups = types.getSubGroups();
-        step_groups.sort(Comparator.comparing(StepTypeGroup::getName));
         for (StepTypeGroup subgroup : step_groups)
             {
             Menu submenu = new Menu(subgroup.getName());
@@ -50,7 +49,6 @@ public abstract class StepTypeSelector
             }
 
         List<StepDescriptor> step_types = types.getStepTypes();
-        step_types.sort(Comparator.comparing(StepDescriptor::getName));
         for (StepDescriptor descriptor : step_types)
             {
             MenuItem sub_item = new MenuItem(descriptor.getName(), StepGraphicBuilder.getInstance().getStepIcon(descriptor, project));
