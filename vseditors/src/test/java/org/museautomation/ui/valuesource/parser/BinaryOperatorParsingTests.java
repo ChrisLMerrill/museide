@@ -1,6 +1,6 @@
 package org.museautomation.ui.valuesource.parser;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.parsing.valuesource.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.builtins.value.property.*;
@@ -19,26 +19,24 @@ import org.museautomation.core.values.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class BinaryOperatorParsingTests
+class BinaryOperatorParsingTests
     {
     @Test
-    public void parsePropertySource() throws ExpressionParsingException
+    void parsePropertySource() throws ExpressionParsingException
         {
         String target_value = "target";
         String property_value = "property";
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse(String.format("\"%s\".\"%s\"", target_value, property_value));
-        Assert.assertEquals(PropertySource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(PropertySource.TYPE_ID, configuration.getType());
 
         ValueSourceConfiguration target_source = configuration.getSource(PropertySource.TARGET_PARAM);
-        Assert.assertEquals(StringValueSource.TYPE_ID, target_source.getType());
-        Assert.assertEquals(target_value, target_source.getValue());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, target_source.getType());
+        Assertions.assertEquals(target_value, target_source.getValue());
 
         ValueSourceConfiguration property_source = configuration.getSource(PropertySource.NAME_PARAM);
-        Assert.assertEquals(StringValueSource.TYPE_ID, property_source.getType());
-        Assert.assertEquals(property_value, property_source.getValue());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, property_source.getType());
+        Assertions.assertEquals(property_value, property_source.getValue());
         }
 
-    MuseProject _project = new SimpleProject();
+    private MuseProject _project = new SimpleProject();
     }
-
-

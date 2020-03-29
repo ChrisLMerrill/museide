@@ -5,7 +5,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.list.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.project.*;
@@ -21,15 +21,15 @@ import java.util.concurrent.atomic.*;
 public class ValueSourceListEditorTests extends ComponentTest
     {
     @Test
-    public void editSubsource()
+    void editSubsource()
         {
         ValueSourceConfiguration source = setupSimpleSource();
         fillFieldAndTabAway("#" + ValueSourceListEditor.getEditorId(0), "123");
-        Assert.assertEquals(123L, source.getSourceList().get(0).getValue());
+        Assertions.assertEquals(123L, source.getSourceList().get(0).getValue());
         }
 
     @Test
-    public void addSubsources()
+    void addSubsources()
         {
         // create a source with no indexed subsources
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue("abc");
@@ -38,51 +38,51 @@ public class ValueSourceListEditorTests extends ComponentTest
 
         // add a new source
         clickOn("#" + ValueSourceListEditor.ADD_BUTTON_ID);
-        Assert.assertEquals(1, source.getSourceList().size());
+        Assertions.assertEquals(1, source.getSourceList().size());
         fillFieldAndTabAway("#" + ValueSourceListEditor.getEditorId(0), "123");
-        Assert.assertEquals(123L, source.getSourceList().get(0).getValue());
+        Assertions.assertEquals(123L, source.getSourceList().get(0).getValue());
 
         // add a second source
         clickOn("#" + ValueSourceListEditor.ADD_BUTTON_ID);
         fillFieldAndTabAway("#" + ValueSourceListEditor.getEditorId(1), "456");
-        Assert.assertEquals(2, source.getSourceList().size());
-        Assert.assertEquals(456L, source.getSourceList().get(1).getValue());
+        Assertions.assertEquals(2, source.getSourceList().size());
+        Assertions.assertEquals(456L, source.getSourceList().get(1).getValue());
         }
 
     @Test
-    public void removeFirstSubsource()
+    void removeFirstSubsource()
         {
         ValueSourceConfiguration source = setupSimpleSource();
 
         // delete the first source
         clickOn("#" + ValueSourceListEditor.getDeleteButtonId(0));
-        Assert.assertEquals(1, source.getSourceList().size());
-        Assert.assertEquals(SECOND_SOURCE_VALUE, source.getSource(0).getValue());
+        Assertions.assertEquals(1, source.getSourceList().size());
+        Assertions.assertEquals(SECOND_SOURCE_VALUE, source.getSource(0).getValue());
         }
 
     @Test
-    public void removeSecondSubsource()
+    void removeSecondSubsource()
         {
         ValueSourceConfiguration source = setupSimpleSource();
 
         // delete the second source
         clickOn("#" + ValueSourceListEditor.getDeleteButtonId(1));
-        Assert.assertEquals(1, source.getSourceList().size());
-        Assert.assertEquals(FIRST_SOURCE_VALUE, source.getSource(0).getValue());
+        Assertions.assertEquals(1, source.getSourceList().size());
+        Assertions.assertEquals(FIRST_SOURCE_VALUE, source.getSource(0).getValue());
         }
 
     @Test
-    public void removeTwoSubsources()
+    void removeTwoSubsources()
         {
         ValueSourceConfiguration source = setupSimpleSource();
 
         clickOn("#" + ValueSourceListEditor.getDeleteButtonId(0));
         clickOn("#" + ValueSourceListEditor.getDeleteButtonId(1));
-        Assert.assertNull(source.getSourceList());
+        Assertions.assertNull(source.getSourceList());
         }
 
     @Test
-    public void editSubsourceAdvanced()
+    void editSubsourceAdvanced()
         {
         setupSimpleSource();
 
@@ -109,48 +109,48 @@ public class ValueSourceListEditorTests extends ComponentTest
         clickOn("#" + ValueSourceListEditor.getAdvancedLinkId(0));
 
         // verify the expected name was sent
-        Assert.assertEquals("[0]", _pushed_name.get());
+        Assertions.assertEquals("[0]", _pushed_name.get());
         // and an editor of the right type
-        Assert.assertTrue(_pushed_editor.get() instanceof MultimodeValueSourceEditor);
+        Assertions.assertTrue(_pushed_editor.get() instanceof MultimodeValueSourceEditor);
         }
 
     @Test
-    public void initialSubsourcesDisplayed()
+    void initialSubsourcesDisplayed()
         {
         setupSimpleSource();
 
         Node first_editor = lookup("#" + ValueSourceListEditor.getEditorId(0)).query();
-        Assert.assertEquals(quoted(FIRST_SOURCE_VALUE), ((TextInputControl)first_editor).getText());
+        Assertions.assertEquals(quoted(FIRST_SOURCE_VALUE), ((TextInputControl)first_editor).getText());
 
         Node second_editor = lookup("#" + ValueSourceListEditor.getEditorId(1)).query();
-        Assert.assertEquals(quoted(SECOND_SOURCE_VALUE), ((TextInputControl)second_editor).getText());
+        Assertions.assertEquals(quoted(SECOND_SOURCE_VALUE), ((TextInputControl)second_editor).getText());
         }
 
     @Test
-    public void removeSourceListener() throws InterruptedException
+    void removeSourceListener() throws InterruptedException
         {
         ValueSourceConfiguration source = setupSimpleSource();
         _editor.setSource(source);
-        Assert.assertEquals(1, source.getListeners().size());
+        Assertions.assertEquals(1, source.getListeners().size());
 
         ComponentRemover.waitForRemoval(_container, _editor.getNode());
 
         // verify the value source no longer has a listener
-        Assert.assertEquals(0, source.getListeners().size());
+        Assertions.assertEquals(0, source.getListeners().size());
         }
 
     @Test
-    public void validChecks()
+    void validChecks()
         {
         setupSimpleSource();
 
-        Assert.assertTrue("not setup in a valid state", _editor.isValid());
+        Assertions.assertTrue(_editor.isValid(), "not setup in a valid state");
 
         fillFieldAndTabAway("#" + ValueSourceListEditor.getEditorId(0), "123aaa");
-        Assert.assertFalse("should have changed to invalid", _editor.isValid());
+        Assertions.assertFalse(_editor.isValid(), "should have changed to invalid");
 
         fillFieldAndTabAway("#" + ValueSourceListEditor.getEditorId(0), "123");
-        Assert.assertTrue("should have changed to back to valid", _editor.isValid());
+        Assertions.assertTrue(_editor.isValid(), "should have changed to back to valid");
         }
 
     private ValueSourceConfiguration setupSimpleSource()
@@ -186,5 +186,3 @@ public class ValueSourceListEditorTests extends ComponentTest
     private final static String FIRST_SOURCE_VALUE = "value1";
     private final static String SECOND_SOURCE_VALUE = "value2";
     }
-
-

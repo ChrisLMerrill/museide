@@ -5,7 +5,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.mocks.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.builtins.value.*;
@@ -26,22 +26,23 @@ import java.util.concurrent.atomic.*;
 public class FixedNameValueSourceEditorTests extends ComponentTest
     {
     @Test
-    public void initialDisplay()
+    void initialDisplay()
         {
         final String param_value = "a string value";
         SubsourceDescriptor value_descriptor = setupStep(param_value, null);
 
         // verify the name is displayed
-        Assert.assertEquals(value_descriptor.getDisplayName(), ((Labeled) lookup(id(FixedNameValueSourceEditor.getNameFieldId(value_descriptor.getName()))).query()).getText());
+        Assertions.assertEquals(value_descriptor.getDisplayName(), ((Labeled) lookup(id(FixedNameValueSourceEditor.getNameFieldId(value_descriptor.getName()))).query()).getText());
 
         // verify the value is displayed
         TextInputControl text_field = lookup(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))).query();
-        Assert.assertEquals(quoted(param_value), text_field.getText());
+        Assertions.assertEquals(quoted(param_value), text_field.getText());
 
         // verify the tooltip shows the description
-        Assert.assertEquals(value_descriptor.getDescription(), getTooltipText(text_field));
+        Assertions.assertEquals(value_descriptor.getDescription(), getTooltipText(text_field));
         }
 
+    @SuppressWarnings("SameParameterValue")
     private SubsourceDescriptor setupStep(String param_value, EditorStack stack)
         {
         StepDescriptor step_descriptor = _project.getStepDescriptors().get(LogMessage.class);
@@ -61,7 +62,7 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
         }
 
     @Test
-    public void requiredStepParameter()
+    void requiredStepParameter()
         {
         StepDescriptor step_descriptor = _project.getStepDescriptors().get(StoreVariable.class);
         SubsourceDescriptor value_descriptor = step_descriptor.getSubsourceDescriptors()[0];
@@ -77,13 +78,13 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
             });
         waitForUiEvents();
 
-        Assert.assertTrue("the edit field should be visible", exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
-        Assert.assertFalse("there should be no add button", exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
-        Assert.assertFalse("there should be no delete button", exists(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))), "the edit field should be visible");
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))), "there should be no add button");
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))), "there should be no delete button");
         }
 
     @Test
-    public void nullRequiredStepParameter()
+    void nullRequiredStepParameter()
         {
         StepDescriptor step_descriptor = _project.getStepDescriptors().get(StoreVariable.class);
         SubsourceDescriptor value_descriptor = step_descriptor.getSubsourceDescriptors()[0];
@@ -99,13 +100,13 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
             });
         waitForUiEvents();
 
-        Assert.assertTrue("the edit field should be visible", exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
-        Assert.assertFalse("there should be no add button", exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
-        Assert.assertFalse("there should be no delete button", exists(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))), "the edit field should be visible");
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))), "there should be no add button");
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName()))), "there should be no delete button");
         }
 
     @Test
-    public void optionalStepParameter()
+    void optionalStepParameter()
         {
         StepDescriptor step_descriptor = _project.getStepDescriptors().get(IncrementVariable.class);
         SubsourceDescriptor value_descriptor = step_descriptor.getSubsourceDescriptors()[1];
@@ -119,28 +120,28 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the editor is not visible
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
 
         // press the add button
         clickOn(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName())));
 
         // verify source added, editor visible, add button hidden
-        Assert.assertNotNull(step.getSource(value_descriptor.getName()));
-        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
+        Assertions.assertNotNull(step.getSource(value_descriptor.getName()));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
 
         // press the delete button
         clickOn(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName())));
         waitForUiEvents();
 
         // verify source removed, editor removed, add button visible
-        Assert.assertNull(step.getSource(value_descriptor.getName()));
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
-        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
+        Assertions.assertNull(step.getSource(value_descriptor.getName()));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
         }
 
     @Test
-    public void optionalValueSourceParameter()
+    void optionalValueSourceParameter()
         {
         ValueSourceDescriptor source_descriptor = _project.getValueSourceDescriptors().get(SourceWithOptionalNamedSubsource.class);
         SubsourceDescriptor value_descriptor = source_descriptor.getSubsourceDescriptors()[0];
@@ -154,28 +155,28 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the editor is not visible
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
 
         // press the add button
         clickOn(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName())));
 
         // verify source added, editor visible, add button hidden
-        Assert.assertNotNull(parent_source.getSource(value_descriptor.getName()));
-        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
+        Assertions.assertNotNull(parent_source.getSource(value_descriptor.getName()));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
 
         // press the delete button
         clickOn(id(FixedNameValueSourceEditor.getDeleteButtonId(value_descriptor.getName())));
         waitForUiEvents();
 
         // verify source removed, editor hidden, add button visible
-        Assert.assertNull(parent_source.getSource(value_descriptor.getName()));
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
-        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
+        Assertions.assertNull(parent_source.getSource(value_descriptor.getName()));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(value_descriptor.getName()))));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getAddButtonId(value_descriptor.getName()))));
         }
 
     @Test
-    public void moreLink()
+    void moreLink()
         {
         final String param_value = "a string value";
         AtomicBoolean pushed = new AtomicBoolean(false);
@@ -198,7 +199,7 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
         clickOn(id(FixedNameValueSourceEditor.getAdvancedLinkId(value_descriptor.getName())));
 
         // verify the editor stack was called
-        Assert.assertTrue(pushed.get());
+        Assertions.assertTrue(pushed.get());
         }
 
     @Override
@@ -210,4 +211,3 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
     private GridPane _grid = new GridPane();
     private MuseProject _project = new SimpleProject();
     }
-

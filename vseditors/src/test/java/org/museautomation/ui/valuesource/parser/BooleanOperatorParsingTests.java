@@ -1,6 +1,6 @@
 package org.museautomation.ui.valuesource.parser;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.parsing.valuesource.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.builtins.value.logic.*;
@@ -19,24 +19,22 @@ import org.museautomation.core.values.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class BooleanOperatorParsingTests
+class BooleanOperatorParsingTests
     {
     @Test
-    public void parseOrSource() throws ExpressionParsingException
+    void parseOrSource() throws ExpressionParsingException
         {
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("true || false");
-        Assert.assertEquals(OrValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(OrValueSource.TYPE_ID, configuration.getType());
 
         ValueSourceConfiguration left_source = configuration.getSource(0);
-        Assert.assertEquals(BooleanValueSource.TYPE_ID, left_source.getType());
-        Assert.assertEquals(true, left_source.getValue());
+        Assertions.assertEquals(BooleanValueSource.TYPE_ID, left_source.getType());
+        Assertions.assertEquals(true, left_source.getValue());
 
         ValueSourceConfiguration right_source = configuration.getSource(1);
-        Assert.assertEquals(BooleanValueSource.TYPE_ID, right_source.getType());
-        Assert.assertEquals(false, right_source.getValue());
+        Assertions.assertEquals(BooleanValueSource.TYPE_ID, right_source.getType());
+        Assertions.assertEquals(false, right_source.getValue());
         }
 
     private MuseProject _project = new SimpleProject();
     }
-
-

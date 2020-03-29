@@ -1,6 +1,6 @@
 package org.museautomation.ui.valuesource.parser;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.parsing.valuesource.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.*;
@@ -17,32 +17,33 @@ import org.museautomation.core.values.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StringConcatenationTests
+class StringConcatenationTests
     {
     @Test
-    public void stringConcatenation2() throws ExpressionParsingException
+    void stringConcatenation2() throws ExpressionParsingException
         {
         testMultipleOperands("+", AdditionSource.TYPE_ID, 123L, 456L);
         }
 
     @Test
-    public void stringConcatenation3() throws ExpressionParsingException
+    void stringConcatenation3() throws ExpressionParsingException
         {
         testMultipleOperands("+", AdditionSource.TYPE_ID, 123L, 456L, 789L);
         }
 
     @Test
-    public void stringConcatenation4() throws ExpressionParsingException
+    void stringConcatenation4() throws ExpressionParsingException
         {
         testMultipleOperands("+", AdditionSource.TYPE_ID, 11L, 22L, 33L, 44L);
         }
 
     @Test
-    public void stringConcatenation5() throws ExpressionParsingException
+    void stringConcatenation5() throws ExpressionParsingException
         {
         testMultipleOperands("+", AdditionSource.TYPE_ID, 11L, 22L, 33L, 44L, 55L);
         }
 
+    @SuppressWarnings("SameParameterValue")
     private void testMultipleOperands(String operator, String muse_type, Long... operands) throws ExpressionParsingException
         {
         StringBuilder builder = new StringBuilder();
@@ -56,17 +57,15 @@ public class StringConcatenationTests
         String to_parse = builder.toString();
 
         ValueSourceConfiguration config = new ValueSourceExpressionParser(_project).parse(to_parse);
-        Assert.assertNotNull(config);
-        Assert.assertEquals(muse_type, config.getType());
+        Assertions.assertNotNull(config);
+        Assertions.assertEquals(muse_type, config.getType());
         int index = 0;
         for (Long operand : operands)
             {
-            Assert.assertEquals(operand, config.getSource(index).getValue());
+            Assertions.assertEquals(operand, config.getSource(index).getValue());
             index++;
             }
         }
 
-    MuseProject _project = new SimpleProject();
+    private MuseProject _project = new SimpleProject();
     }
-
-

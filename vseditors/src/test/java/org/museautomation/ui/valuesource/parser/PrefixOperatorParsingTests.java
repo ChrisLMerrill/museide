@@ -1,6 +1,6 @@
 package org.museautomation.ui.valuesource.parser;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.parsing.valuesource.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.builtins.value.sysvar.*;
@@ -26,10 +26,10 @@ public class PrefixOperatorParsingTests
         {
         String var_name = "var1";
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("$\"" + var_name + "\"");
-        Assert.assertEquals(VariableValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(VariableValueSource.TYPE_ID, configuration.getType());
         ValueSourceConfiguration name_source = configuration.getSource();
-        Assert.assertEquals(StringValueSource.TYPE_ID, name_source.getType());
-        Assert.assertEquals(var_name, name_source.getValue());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, name_source.getType());
+        Assertions.assertEquals(var_name, name_source.getValue());
         }
 
     @Test
@@ -37,10 +37,10 @@ public class PrefixOperatorParsingTests
         {
         String var_name = "sysvar1";
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("$$\"" + var_name + "\"");
-        Assert.assertEquals(SystemVariableSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(SystemVariableSource.TYPE_ID, configuration.getType());
         ValueSourceConfiguration name_source = configuration.getSource();
-        Assert.assertEquals(StringValueSource.TYPE_ID, name_source.getType());
-        Assert.assertEquals(var_name, name_source.getValue());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, name_source.getType());
+        Assertions.assertEquals(var_name, name_source.getValue());
         }
 
     @Test
@@ -48,10 +48,10 @@ public class PrefixOperatorParsingTests
         {
         String resource_name = "resource1";
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("#\"" + resource_name + "\"");
-        Assert.assertEquals(ProjectResourceValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(ProjectResourceValueSource.TYPE_ID, configuration.getType());
         ValueSourceConfiguration name_source = configuration.getSource();
-        Assert.assertEquals(StringValueSource.TYPE_ID, name_source.getType());
-        Assert.assertEquals(resource_name, name_source.getValue());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, name_source.getType());
+        Assertions.assertEquals(resource_name, name_source.getValue());
         }
 
     MuseProject _project = new SimpleProject();

@@ -4,7 +4,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.values.*;
@@ -21,29 +21,29 @@ import java.util.concurrent.atomic.*;
 public class DefaultInlineVSETests extends ComponentTest
     {
     @Test
-    public void initiallyDisplayNullSource()
+    void initiallyDisplayNullSource()
         {
         TextField field = lookup("#" + DefaultInlineVSE.TEXT_ID).query();
         waitForUiEvents();
-        Assert.assertEquals("", field.getText());
-        Assert.assertTrue(field.isEditable());
-        Assert.assertTrue("should indicate invalid input", InputValidation.isShowingError(field));
+        Assertions.assertEquals("", field.getText());
+        Assertions.assertTrue(field.isEditable());
+        Assertions.assertTrue(InputValidation.isShowingError(field), "should indicate invalid input");
         }
 
     @Test
-    public void setSource()
+    void setSource()
         {
         final String text = "some text";
         _editor.setSource(ValueSourceConfiguration.forValue(text));
         waitForUiEvents();
 
         TextField field = lookup("#" + DefaultInlineVSE.TEXT_ID).query();
-        Assert.assertTrue(field.isEditable());
-        Assert.assertEquals(quoted(text), field.getText());
+        Assertions.assertTrue(field.isEditable());
+        Assertions.assertEquals(quoted(text), field.getText());
         }
 
     @Test
-    public void changeSource()
+    void changeSource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue("blah blah");
         _editor.setSource(source);
@@ -63,28 +63,28 @@ public class DefaultInlineVSETests extends ComponentTest
         fillFieldAndTabAway("#" + DefaultInlineVSE.TEXT_ID, quoted(text));
         waitForUiEvents();
 
-        Assert.assertNotNull(event_notified.get());
-        Assert.assertEquals(text, _editor.getSource().getValue());
+        Assertions.assertNotNull(event_notified.get());
+        Assertions.assertEquals(text, _editor.getSource().getValue());
         }
 
     @Test
-    public void removeSourceListener() throws InterruptedException
+    void removeSourceListener() throws InterruptedException
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue("any old source will do");
         _editor.setSource(source);
-        Assert.assertEquals(1, source.getListeners().size());
+        Assertions.assertEquals(1, source.getListeners().size());
 
         ComponentRemover.waitForRemoval(_container, _editor.getNode());
 
         // verify the value source no longer has a listener
-        Assert.assertEquals(0, source.getListeners().size());
+        Assertions.assertEquals(0, source.getListeners().size());
         }
 
     /**
      * For a source that is not text-editable (not ValueSourceStringExpressionSupporter)
      */
     @Test
-    public void nonEditableSource()
+    void nonEditableSource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(NameValuePairSource.TYPE_ID);
         source.addSource(NameValuePairSource.NAME_PARAM, ValueSourceConfiguration.forValue("name1"));
@@ -92,7 +92,7 @@ public class DefaultInlineVSETests extends ComponentTest
         _editor.setSource(source);
 
         TextField field = lookup("#" + DefaultInlineVSE.TEXT_ID).query();
-        Assert.assertFalse(field.isEditable());
+        Assertions.assertFalse(field.isEditable());
 //        Assert.assertTrue(field.getText().contains("name1"));
 //        Assert.assertTrue(field.getText().contains("value1"));
         }
@@ -110,5 +110,3 @@ public class DefaultInlineVSETests extends ComponentTest
     private DefaultInlineVSE _editor;
     private BorderPane _container;
     }
-
-

@@ -3,7 +3,7 @@ package org.museautomation.ui.valuesource;
 import javafx.scene.*;
 import javafx.scene.input.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.values.*;
 import org.museautomation.ui.extend.actions.*;
@@ -19,39 +19,39 @@ public class InlineNamedVSETests extends ComponentTest
 
 
 	@Test
-	public void showErrorWithWhitespaceInName()
+    void showErrorWithWhitespaceInName()
 	    {
 	    final Node name_field = _editor.getNameNode();
-	    Assert.assertTrue(InputValidation.isShowingValid(name_field));
+	    Assertions.assertTrue(InputValidation.isShowingValid(name_field));
 
 	    final FxRobotInterface robot = clickOn(name_field);
 	    robot.write("a1_-");
-	    Assert.assertTrue(InputValidation.isShowingValid(name_field));
+	    Assertions.assertTrue(InputValidation.isShowingValid(name_field));
 
 	    robot.write(" ");
-	    Assert.assertFalse(InputValidation.isShowingValid(name_field));
+	    Assertions.assertFalse(InputValidation.isShowingValid(name_field));
 
 	    robot.write("Z");
-	    Assert.assertFalse(InputValidation.isShowingValid(name_field));
+	    Assertions.assertFalse(InputValidation.isShowingValid(name_field));
 	    }
 
 	@Test
-	public void dontShowErrorWhenRenamingBackToOriginal()
+    void dontShowErrorWhenRenamingBackToOriginal()
 	    {
 	    final Node name_field = _editor.getNameNode();
 	    _editor.setSource(ValueSourceConfiguration.forValue("abc"));
 	    _editor.setName("name1");
 	    _editor.setNameValidator(name -> !name.equals("name1"));
 	    waitForUiEvents();
-	    Assert.assertTrue(InputValidation.isShowingValid(name_field));
+	    Assertions.assertTrue(InputValidation.isShowingValid(name_field));
 
 	    final FxRobotInterface robot = clickOn(name_field);
 	    robot.push(KeyCode.CONTROL, KeyCode.A).push(KeyCode.DELETE);
 	    robot.push().write("name");
-	    Assert.assertTrue(InputValidation.isShowingValid(name_field));
+	    Assertions.assertTrue(InputValidation.isShowingValid(name_field));
 
 	    robot.write("1");
-	    Assert.assertTrue(InputValidation.isShowingValid(name_field));
+	    Assertions.assertTrue(InputValidation.isShowingValid(name_field));
 	    }
 
 	@Override

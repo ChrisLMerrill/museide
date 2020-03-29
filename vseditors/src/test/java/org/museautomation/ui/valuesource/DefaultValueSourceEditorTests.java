@@ -3,7 +3,7 @@ package org.museautomation.ui.valuesource;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.list.*;
 import org.museautomation.ui.valuesource.mocks.*;
 import org.museautomation.builtins.condition.*;
@@ -21,7 +21,7 @@ import org.museautomation.ui.extend.edit.stack.*;
 public class DefaultValueSourceEditorTests extends ComponentTest
     {
     @Test
-    public void displayType()
+    void displayType()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(StringValueSource.TYPE_ID);
         ValueSourceDescriptor descriptor = new SimpleProject().getValueSourceDescriptors().get(source);
@@ -29,11 +29,11 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the type
-        Assert.assertEquals(descriptor.getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)).trim());
+        Assertions.assertEquals(descriptor.getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)).trim());
         }
 
     @Test
-    public void displayPrimitiveValue()
+    void displayPrimitiveValue()
         {
         final String the_string = "abc123";
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue(the_string);
@@ -41,28 +41,28 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the value (and nothing else) is shown
-        Assert.assertEquals(quoted(the_string), textOf(id(PrimitiveValueEditorField.INPUT_ID)));
+        Assertions.assertEquals(quoted(the_string), textOf(id(PrimitiveValueEditorField.INPUT_ID)));
         }
 
     @Test
-    public void displaySingleSubsource()
+    void displaySingleSubsource()
         {
         final String varname = "varname";
         ValueSourceConfiguration source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(varname));
         _editor.setSource(source);
         waitForUiEvents();
 
-        Assert.assertEquals("the edit field shows the wrong value", quoted(varname), textOf(id(DefaultValueSourceEditor.SINGLE_SUBSOURCE_FIELD_ID)));
-        Assert.assertTrue(exists(id(DefaultValueSourceEditor.SINGLE_SUBSOURCE_ADVANCED_LINK_ID)));
+        Assertions.assertEquals(quoted(varname), textOf(id(DefaultValueSourceEditor.SINGLE_SUBSOURCE_FIELD_ID)), "the edit field shows the wrong value");
+        Assertions.assertTrue(exists(id(DefaultValueSourceEditor.SINGLE_SUBSOURCE_ADVANCED_LINK_ID)));
         Node input_field = lookup(id(DefaultValueSourceEditor.SINGLE_SUBSOURCE_FIELD_ID)).query();
-        Assert.assertEquals("doesn't have the right prompt text", _project.getValueSourceDescriptors().get(source).getSubsourceDescriptors()[0].getDescription(), ((TextInputControl) input_field).getPromptText());
+        Assertions.assertEquals(_project.getValueSourceDescriptors().get(source).getSubsourceDescriptors()[0].getDescription(), ((TextInputControl) input_field).getPromptText(), "doesn't have the right prompt text");
 
         fillFieldAndTabAway(id(DefaultValueSourceEditor.SINGLE_SUBSOURCE_FIELD_ID), "");
 
         }
 
     @Test
-    public void displayNamedSubsource()
+    void displayNamedSubsource()
         {
         final String the_string = "abc123";
         ValueSourceConfiguration source = ValueSourceConfiguration.forTypeWithNamedSource(DateFormatValueSource.TYPE_ID, DateFormatValueSource.DATE_PARAM, the_string);
@@ -70,12 +70,12 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the editor for the param is present and contains the value
-        Assert.assertEquals("the edit field shows the wrong value", quoted(the_string), textOf(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))));
-        Assert.assertTrue("the 'more' link is missing", exists(id(FixedNameValueSourceEditor.getAdvancedLinkId(DateFormatValueSource.DATE_PARAM))));
+        Assertions.assertEquals(quoted(the_string), textOf(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))), "the edit field shows the wrong value");
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getAdvancedLinkId(DateFormatValueSource.DATE_PARAM))), "the 'more' link is missing");
         }
 
     @Test
-    public void displayIndexedSubsource()
+    void displayIndexedSubsource()
         {
         final String string0 = "abc123";
         final String string1 = "xyz789";
@@ -87,12 +87,12 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         waitForUiEvents();
 
         // verify the values are is shown
-        Assert.assertEquals(quoted(string0), textOf(id(ValueSourceListEditor.getEditorId(0))));
-        Assert.assertEquals(quoted(string1), textOf(id(ValueSourceListEditor.getEditorId(1))));
+        Assertions.assertEquals(quoted(string0), textOf(id(ValueSourceListEditor.getEditorId(0))));
+        Assertions.assertEquals(quoted(string1), textOf(id(ValueSourceListEditor.getEditorId(1))));
         }
 
     @Test
-    public void changeType()
+    void changeType()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue("abc");
         _editor.setSource(source);
@@ -103,39 +103,39 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         ValueSourceDescriptor target_type_descriptor = _project.getValueSourceDescriptors().get(VariableValueSource.class);
         clickOn(target_type_descriptor.getName());
 
-        Assert.assertEquals("the source type was not changed", VariableValueSource.TYPE_ID, source.getType());
-        Assert.assertEquals("the help field was not updated", _project.getValueSourceDescriptors().get(source).getShortDescription(), textOf(id(DefaultValueSourceEditor.TYPE_DESCRIPTION_ID)));
-        Assert.assertEquals("the type chooser is showing the wrong type", target_type_descriptor.getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
+        Assertions.assertEquals(VariableValueSource.TYPE_ID, source.getType(), "the source type was not changed");
+        Assertions.assertEquals(_project.getValueSourceDescriptors().get(source).getShortDescription(), textOf(id(DefaultValueSourceEditor.TYPE_DESCRIPTION_ID)), "the help field was not updated");
+        Assertions.assertEquals(target_type_descriptor.getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)), "the type chooser is showing the wrong type");
         }
 
     @Test
-    public void changeTypeUpdatesSourceAndFields()
+    void changeTypeUpdatesSourceAndFields()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forTypeWithNamedSource(EqualityCondition.TYPE_ID, EqualityCondition.LEFT_PARAM, 123L);
         _editor.setSource(source);
         waitForUiEvents();
 
         // verify correct params displayed
-        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))));
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))));
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.FORMAT_PARAM))));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(ListContainsSource.LIST_PARAM))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(ListContainsSource.TARGET_PARAM))));
 
         // change the type
         clickOn(id(DefaultValueSourceEditor.TYPE_FIELD_ID));
-        clickOn(_project.getValueSourceDescriptors().get(DateFormatValueSource.class).getName());
+        clickOn(_project.getValueSourceDescriptors().get(ListContainsSource.class).getName());
 
         // verify the source was changed to have the newly required parameters
-        Assert.assertNotNull(source.getSource(DateFormatValueSource.DATE_PARAM));
-        Assert.assertNotNull(source.getSource(DateFormatValueSource.FORMAT_PARAM));
+        Assertions.assertNotNull(source.getSource(ListContainsSource.LIST_PARAM));
+        Assertions.assertNotNull(source.getSource(ListContainsSource.TARGET_PARAM));
 
         // verify correct params displayed
-        Assert.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))));
-        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.DATE_PARAM))));
-        Assert.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(DateFormatValueSource.FORMAT_PARAM))));
+        Assertions.assertFalse(exists(id(FixedNameValueSourceEditor.getValueFieldId(EqualityCondition.LEFT_PARAM))));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(ListContainsSource.LIST_PARAM))));
+        Assertions.assertTrue(exists(id(FixedNameValueSourceEditor.getValueFieldId(ListContainsSource.TARGET_PARAM))));
         }
 
     @Test
-    public void addOptionalPrimitiveValue()
+    void addOptionalPrimitiveValue()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(SourceWithOptionalPrimitiveValue.TYPE_ID);
         _editor.setSource(source);
@@ -145,12 +145,12 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         clickOn(id(PrimitiveValueOptionalField.ADD_BUTTON_ID));
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), "123");
 
-        Assert.assertNotNull("value was not added", source.getValue());
-        Assert.assertTrue("value field is not there", exists(id(PrimitiveValueEditorField.INPUT_ID)));
+        Assertions.assertNotNull(source.getValue(), "value was not added");
+        Assertions.assertTrue(exists(id(PrimitiveValueEditorField.INPUT_ID)), "value field is not there");
         }
 
     @Test
-    public void removeOptionalPrimitiveValue()
+    void removeOptionalPrimitiveValue()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(SourceWithOptionalPrimitiveValue.TYPE_ID);
         source.setValue("abc");
@@ -159,8 +159,8 @@ public class DefaultValueSourceEditorTests extends ComponentTest
 
         clickOn(id(PrimitiveValueOptionalField.DELETE_BUTTON_ID));
 
-        Assert.assertNull("value was not nullified", source.getValue());
-        Assert.assertFalse("value field is still showing", exists(id(PrimitiveValueEditorField.INPUT_ID)));
+        Assertions.assertNull(source.getValue(), "value was not nullified");
+        Assertions.assertFalse(exists(id(PrimitiveValueEditorField.INPUT_ID)), "value field is still showing");
         }
 
 /*
@@ -180,7 +180,7 @@ public class DefaultValueSourceEditorTests extends ComponentTest
 */
 
     @Test
-    public void addOptionalNamedSubsource()
+    void addOptionalNamedSubsource()
         {
         final String the_string = "abc123";
         ValueSourceConfiguration source = ValueSourceConfiguration.forTypeWithNamedSource(DateFormatValueSource.TYPE_ID, DateFormatValueSource.DATE_PARAM, the_string);
@@ -190,11 +190,11 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         // add the source
         clickOn(id(FixedNameValueSourceEditor.getAddButtonId(DateFormatValueSource.FORMAT_PARAM)));
 
-        Assert.assertNotNull("subsource was not added", source.getSource(DateFormatValueSource.FORMAT_PARAM));
+        Assertions.assertNotNull(source.getSource(DateFormatValueSource.FORMAT_PARAM), "subsource was not added");
         }
 
     @Test
-    public void removeOptionalNamedSource()
+    void removeOptionalNamedSource()
         {
         final String the_string = "abc123";
         ValueSourceConfiguration source = ValueSourceConfiguration.forTypeWithNamedSource(SourceWithOptionalNamedSubsource.TYPE_ID, SourceWithOptionalNamedSubsource.OPT_PARAM, the_string);
@@ -202,12 +202,12 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         _editor.activate();
         waitForUiEvents();
 
-        Assert.assertNotNull("test not setup correctly", source.getSource(SourceWithOptionalNamedSubsource.OPT_PARAM));
+        Assertions.assertNotNull(source.getSource(SourceWithOptionalNamedSubsource.OPT_PARAM), "test not setup correctly");
 
         // remove the value
         clickOn(id(FixedNameValueSourceEditor.getDeleteButtonId(SourceWithOptionalNamedSubsource.OPT_PARAM)));
 
-        Assert.assertNull("subsource was not removed", source.getSource(SourceWithOptionalNamedSubsource.OPT_PARAM));
+        Assertions.assertNull(source.getSource(SourceWithOptionalNamedSubsource.OPT_PARAM), "subsource was not removed");
         }
 
 /*
@@ -227,19 +227,19 @@ public class DefaultValueSourceEditorTests extends ComponentTest
 */
 
     @Test
-    public void invalidWhenRequiredValueIsInvalid()
+    void invalidWhenRequiredValueIsInvalid()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(SourceWithRequiredPrimitiveValue.TYPE_ID);
         _editor.setSource(source);
         waitForUiEvents();
 
-        Assert.assertFalse("should be invalid", _editor.isValid());
+        Assertions.assertFalse(_editor.isValid(), "should be invalid");
 
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), quoted("abc"));
-        Assert.assertTrue("should be valid", _editor.isValid());
+        Assertions.assertTrue(_editor.isValid(), "should be valid");
 
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), "a1b2c");
-        Assert.assertFalse("should be invalid", _editor.isValid());
+        Assertions.assertFalse(_editor.isValid(), "should be invalid");
         }
 
     @Override
@@ -261,5 +261,3 @@ public class DefaultValueSourceEditorTests extends ComponentTest
     private DefaultValueSourceEditor _editor;
     private SimpleProject _project = new SimpleProject();
     }
-
-

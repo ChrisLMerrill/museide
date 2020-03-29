@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.extend.components.*;
 
 import java.util.concurrent.atomic.*;
@@ -16,62 +16,62 @@ import java.util.concurrent.atomic.*;
 public class PrimitiveValueEditorTests extends ComponentTest
     {
     @Test
-    public void acceptString()
+    void acceptString()
         {
         final String text = "abc";
         checkEntry(quoted(text), text, true);
         }
 
     @Test
-    public void acceptInteger()
+    void acceptInteger()
         {
         checkEntry("789", 789L, true);
         }
 
     @Test
-    public void acceptTrue()
+    void acceptTrue()
         {
         checkEntry(Boolean.TRUE.toString(), Boolean.TRUE, true);
         }
 
     @Test
-    public void acceptFalse()
+    void acceptFalse()
         {
         checkEntry(Boolean.FALSE.toString(), Boolean.FALSE, true);
         }
 
     @Test
-    public void displayString()
+    void displayString()
         {
         checkDisplay("abc", quoted("abc"));
         }
 
     @Test
-    public void displayInteger()
+    void displayInteger()
         {
         checkDisplay(123L, "123");
         }
 
     @Test
-    public void displayNull()
+    void displayNull()
         {
         checkDisplay(null, null);
         }
 
     @Test
-    public void displayTrue()
+    void displayTrue()
         {
         checkDisplay(Boolean.TRUE, Boolean.TRUE.toString());
         }
 
     @Test
-    public void displayFalse()
+    void displayFalse()
         {
         checkDisplay(Boolean.FALSE, Boolean.FALSE.toString());
         }
 
     @Test
-    public void changeListener()
+    void changeListener()
         {
         _editor.setValue(123L);
         AtomicLong counter = new AtomicLong();
@@ -85,12 +85,12 @@ public class PrimitiveValueEditorTests extends ComponentTest
         final String new_value = "abc";
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), quoted(new_value));
 
-        Assert.assertEquals("listener should be called once", 1, counter.get());
-        Assert.assertEquals("listener not passed the right value", new_value, value.get());
+        Assertions.assertEquals(1, counter.get(), "listener should be called once");
+        Assertions.assertEquals(new_value, value.get(), "listener not passed the right value");
         }
 
     @Test
-    public void noChangeNotificationForInvalidInput()
+    void noChangeNotificationForInvalidInput()
         {
         AtomicLong counter = new AtomicLong();
         _editor.setChangeListener(new_value -> counter.set(counter.get() + 1));
@@ -98,37 +98,38 @@ public class PrimitiveValueEditorTests extends ComponentTest
         final String new_value = "abc123";
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), new_value);  // not a valid entry because string is not quoted
 
-        Assert.assertEquals("listener should not be called", 0, counter.get());
+        Assertions.assertEquals(0, counter.get(), "listener should not be called");
         }
 
     @Test
-    public void changeValidationState()
+    void changeValidationState()
         {
         _editor.setValue("abc");
         TextField field = lookup("#" + PrimitiveValueEditorField.INPUT_ID).query();
-        Assert.assertFalse("should indicate valid input", InputValidation.isShowingError(field));
+        Assertions.assertFalse(InputValidation.isShowingError(field), "should indicate valid input");
 
         clickOn(field);
         type(KeyCode.HOME);
         type(KeyCode.A);
-        Assert.assertTrue("should indicate invalid input", InputValidation.isShowingError(field));
+        Assertions.assertTrue(InputValidation.isShowingError(field), "should indicate invalid input");
 
         type(KeyCode.BACK_SPACE);
-        Assert.assertFalse("should indicate valid input", InputValidation.isShowingError(field));
+        Assertions.assertFalse(InputValidation.isShowingError(field), "should indicate valid input");
         }
 
     private void checkDisplay(Object initial_value, String initial_display)
         {
         _editor.setValue(initial_value);
         waitForUiEvents();
-        Assert.assertEquals("initial value not displayed", initial_display, textOf(id(PrimitiveValueEditorField.INPUT_ID)));
+        Assertions.assertEquals(initial_display, textOf(id(PrimitiveValueEditorField.INPUT_ID)), "initial value not displayed");
         }
 
+    @SuppressWarnings("SameParameterValue")
     private void checkEntry(String entry, Object result, boolean is_valid)
         {
         fillFieldAndTabAway(id(PrimitiveValueEditorField.INPUT_ID), entry);
-        Assert.assertEquals("expected value is not returned from editor", result, _editor.getValue());
-        Assert.assertEquals("valid state not as expected", is_valid, _editor.isValid());
+        Assertions.assertEquals(result, _editor.getValue(), "expected value is not returned from editor");
+        Assertions.assertEquals(is_valid, _editor.isValid(), "valid state not as expected");
         }
 
     @Override

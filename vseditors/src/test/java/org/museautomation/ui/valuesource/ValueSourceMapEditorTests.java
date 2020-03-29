@@ -4,7 +4,7 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.ui.valuesource.map.*;
 import org.museautomation.builtins.step.*;
 import org.museautomation.core.project.*;
@@ -24,44 +24,44 @@ import java.util.concurrent.atomic.*;
 public class ValueSourceMapEditorTests extends ComponentTest
     {
     @Test
-    public void initialParametersDisplayed()
+    void initialParametersDisplayed()
         {
         setup();
-        Assert.assertTrue(exists(id(InlineNamedVSE.getNameFieldId(LogMessage.MESSAGE_PARAM))));
-        Assert.assertEquals(LogMessage.MESSAGE_PARAM, textOf(id(InlineNamedVSE.getNameFieldId(LogMessage.MESSAGE_PARAM))));
+        Assertions.assertTrue(exists(id(InlineNamedVSE.getNameFieldId(LogMessage.MESSAGE_PARAM))));
+        Assertions.assertEquals(LogMessage.MESSAGE_PARAM, textOf(id(InlineNamedVSE.getNameFieldId(LogMessage.MESSAGE_PARAM))));
 
-        Assert.assertTrue(exists(id(InlineNamedVSE.getValueFieldId(LogMessage.MESSAGE_PARAM))));
-        Assert.assertEquals(quoted(MESSAGE), textOf(id(InlineNamedVSE.getValueFieldId(LogMessage.MESSAGE_PARAM))));
+        Assertions.assertTrue(exists(id(InlineNamedVSE.getValueFieldId(LogMessage.MESSAGE_PARAM))));
+        Assertions.assertEquals(quoted(MESSAGE), textOf(id(InlineNamedVSE.getValueFieldId(LogMessage.MESSAGE_PARAM))));
 
-        Assert.assertTrue(exists(NAME2));
-        Assert.assertTrue(exists(quoted(VALUE2)));
+        Assertions.assertTrue(exists(NAME2));
+        Assertions.assertTrue(exists(quoted(VALUE2)));
         }
 
     @Test
-    public void changeName()
+    void changeName()
         {
         setup();
 
         final String new_name = "new_name";
         fillFieldAndTabAway(id(InlineNamedVSE.getNameFieldId(LogMessage.MESSAGE_PARAM)), new_name);
 
-        Assert.assertNotNull(_source.getSource(new_name));
-        Assert.assertNull(_source.getSource("source"));
+        Assertions.assertNotNull(_source.getSource(new_name));
+        Assertions.assertNull(_source.getSource("source"));
         }
 
     @Test
-    public void changeValue()
+    void changeValue()
         {
         setup();
 
         final String new_value = "new_value";
         fillFieldAndTabAway(id(InlineNamedVSE.getValueFieldId(LogMessage.MESSAGE_PARAM)), quoted(new_value));
 
-        Assert.assertEquals(new_value, _source.getSource(LogMessage.MESSAGE_PARAM).getValue());
+        Assertions.assertEquals(new_value, _source.getSource(LogMessage.MESSAGE_PARAM).getValue());
         }
 
     @Test
-    public void preventNameChangeToDuplicate()
+    void preventNameChangeToDuplicate()
         {
         setup();
         waitForUiEvents();
@@ -69,64 +69,64 @@ public class ValueSourceMapEditorTests extends ComponentTest
         Node name_field = lookup(NAME2).query();
         fillFieldAndTabAway(name_field, LogMessage.MESSAGE_PARAM);
 
-        Assert.assertNotNull(_source.getSource(NAME2));  // name was not changed
-        Assert.assertTrue(InputValidation.isShowingError(name_field));
-        Assert.assertFalse(_editor.isValid());
+        Assertions.assertNotNull(_source.getSource(NAME2));  // name was not changed
+        Assertions.assertTrue(InputValidation.isShowingError(name_field));
+        Assertions.assertFalse(_editor.isValid());
         }
 
     @Test
-    public void addSource()
+    void addSource()
         {
         setup();
         clickOn("#" + ValueSourceMapEditor.ADD_BUTTON_ID);
-        Assert.assertNotNull(_source.getSource("name1"));
-        Assert.assertTrue(exists(quoted(_source.getSource("name1").getValue())));
+        Assertions.assertNotNull(_source.getSource("name1"));
+        Assertions.assertTrue(exists(quoted(_source.getSource("name1").getValue())));
         }
 
     @Test
-    public void removeFirstSource()
+    void removeFirstSource()
         {
         setup();
         clickOn("#" + ValueSourceMapEditor.getRemoveButtonId(LogMessage.MESSAGE_PARAM));
 
-        Assert.assertNull(_source.getSource(LogMessage.MESSAGE_PARAM));       // was deleted from source
-        Assert.assertFalse(exists(LogMessage.MESSAGE_PARAM));        // was removed from UI
-        Assert.assertFalse(exists(id(ValueSourceMapEditor.getRemoveButtonId(LogMessage.MESSAGE_PARAM))));
-        Assert.assertFalse(exists(id(ValueSourceMapEditor.getAdvancedLinkId(LogMessage.MESSAGE_PARAM))));
+        Assertions.assertNull(_source.getSource(LogMessage.MESSAGE_PARAM));       // was deleted from source
+        Assertions.assertFalse(exists(LogMessage.MESSAGE_PARAM));        // was removed from UI
+        Assertions.assertFalse(exists(id(ValueSourceMapEditor.getRemoveButtonId(LogMessage.MESSAGE_PARAM))));
+        Assertions.assertFalse(exists(id(ValueSourceMapEditor.getAdvancedLinkId(LogMessage.MESSAGE_PARAM))));
         }
 
     @Test
-    public void removeLastSource()
+    void removeLastSource()
         {
         setup();
         clickOn(id(ValueSourceMapEditor.getRemoveButtonId(NAME2)));
         waitForUiEvents();
 
-        Assert.assertNull(_source.getSource(NAME2));       // was deleted from source
-        Assert.assertFalse(exists(NAME2));        // was removed from UI
-        Assert.assertFalse(exists(id(ValueSourceMapEditor.getRemoveButtonId(NAME2))));
-        Assert.assertFalse(exists(id(ValueSourceMapEditor.getAdvancedLinkId(NAME2))));
+        Assertions.assertNull(_source.getSource(NAME2));       // was deleted from source
+        Assertions.assertFalse(exists(NAME2));        // was removed from UI
+        Assertions.assertFalse(exists(id(ValueSourceMapEditor.getRemoveButtonId(NAME2))));
+        Assertions.assertFalse(exists(id(ValueSourceMapEditor.getAdvancedLinkId(NAME2))));
         }
 
     @Test
-    public void validInvalidTransitions()
+    void validInvalidTransitions()
         {
         setup();
 
         // starts out valid
-        Assert.assertTrue(_editor.isValid());
+        Assertions.assertTrue(_editor.isValid());
 
         // make it invalid
         fillFieldAndTabAway(id(InlineNamedVSE.getValueFieldId(LogMessage.MESSAGE_PARAM)), "invalid");
-        Assert.assertFalse(_editor.isValid());
+        Assertions.assertFalse(_editor.isValid());
 
         // return it to valid
         fillFieldAndTabAway(id(InlineNamedVSE.getValueFieldId(LogMessage.MESSAGE_PARAM)), "123");
-        Assert.assertTrue(_editor.isValid());
+        Assertions.assertTrue(_editor.isValid());
         }
 
     @Test
-    public void useAdvancedEditor()
+    void useAdvancedEditor()
         {
         setup();
 
@@ -153,13 +153,13 @@ public class ValueSourceMapEditorTests extends ComponentTest
         clickOn("#" + ValueSourceMapEditor.getAdvancedLinkId(LogMessage.MESSAGE_PARAM));
 
         // verify the expected name was sent
-        Assert.assertEquals(LogMessage.MESSAGE_PARAM, _pushed_name.get());
+        Assertions.assertEquals(LogMessage.MESSAGE_PARAM, _pushed_name.get());
         // and an editor of the right type
-        Assert.assertTrue(_pushed_editor.get() instanceof MultimodeValueSourceEditor);
+        Assertions.assertTrue(_pushed_editor.get() instanceof MultimodeValueSourceEditor);
         }
 
     @Test
-    public void showAdvancedEditorAfterChange()
+    void showAdvancedEditorAfterChange()
         {
         setup();
 
@@ -167,7 +167,7 @@ public class ValueSourceMapEditorTests extends ComponentTest
         clickOn("#" + ValueSourceMapEditor.getAdvancedLinkId(NAME2));
 
         // check the initial value shown
-        Assert.assertTrue("original value not shown", exists(quoted(VALUE2)));
+        Assertions.assertTrue(exists(quoted(VALUE2)), "original value not shown");
 
         // close advanced editor
         clickOn(id(Buttons.CANCEL_ID));
@@ -179,12 +179,12 @@ public class ValueSourceMapEditorTests extends ComponentTest
         // click on the more button
         clickOn("#" + ValueSourceMapEditor.getAdvancedLinkId(NAME2));
 
-        Assert.assertFalse("original value still showing", exists(quoted(VALUE2)));
-        Assert.assertTrue("change value not shown", exists(newval));
+        Assertions.assertFalse(exists(quoted(VALUE2)), "original value still showing");
+        Assertions.assertTrue(exists(newval), "change value not shown");
         }
 
     @Test
-    public void showChangeMadeInAdvancedEditor()
+    void showChangeMadeInAdvancedEditor()
         {
         setup();
 
@@ -196,24 +196,24 @@ public class ValueSourceMapEditorTests extends ComponentTest
         waitForUiEvents();
 
         // check the change is reflected
-        Assert.assertFalse("original value still showing", exists(quoted(VALUE2)));
-        Assert.assertTrue("new value not shown", exists(quoted(newval)));
+        Assertions.assertFalse(exists(quoted(VALUE2)), "original value still showing");
+        Assertions.assertTrue(exists(quoted(newval)), "new value not shown");
         }
 
     @Test
-    public void removeSourceListener() throws InterruptedException
+    void removeSourceListener() throws InterruptedException
         {
         setup();
-        Assert.assertEquals(1, _source.getListeners().size());
+        Assertions.assertEquals(1, _source.getListeners().size());
 
         ComponentRemover.waitForRemoval(_container, _editor.getNode());
 
         // verify the value source no longer has a listener
-        Assert.assertEquals(0, _source.getListeners().size());
+        Assertions.assertEquals(0, _source.getListeners().size());
         }
 
     @Test
-    public void hideParamsByName()
+    void hideParamsByName()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(CallFunction.TYPE_ID);
         source.addSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue("function-id"));
@@ -222,11 +222,11 @@ public class ValueSourceMapEditorTests extends ComponentTest
         Platform.runLater(() -> _editor.setSource(source));
         waitForUiEvents();
 
-        Assert.assertFalse("hidden name is not hidden", exists(id(InlineNamedVSE.getValueFieldId(CallFunction.ID_PARAM))));
+        Assertions.assertFalse(exists(id(InlineNamedVSE.getValueFieldId(CallFunction.ID_PARAM))), "hidden name is not hidden");
         }
 
     @Test
-    public void showDescribedSource()
+    void showDescribedSource()
         {
         MockContainsDescribedSources container = new MockContainsDescribedSources();
         container.getSubsources().addSource("param1", ValueSourceConfiguration.forValue("value1"));
@@ -234,55 +234,55 @@ public class ValueSourceMapEditorTests extends ComponentTest
         Platform.runLater(() -> _editor.setSource(container.getSubsources(), container.getSubsourceDescriptors()));
         waitForUiEvents();
 
-        Assert.assertTrue("Param1 name not displayed", exists(container.getSubsourceDescriptors()[0].getDisplayName()));
-        Assert.assertTrue("Param1 value not displayed", exists(quoted("value1")));
-        Assert.assertFalse(exists(id(ValueSourceMapEditor.getRemoveButtonId("param1"))));
+        Assertions.assertTrue(exists(container.getSubsourceDescriptors()[0].getDisplayName()), "Param1 name not displayed");
+        Assertions.assertTrue(exists(quoted("value1")), "Param1 value not displayed");
+        Assertions.assertFalse(exists(id(ValueSourceMapEditor.getRemoveButtonId("param1"))));
 
-        Assert.assertTrue("Opt Param1 name not displayed", exists(container.getSubsourceDescriptors()[1].getDisplayName()));
-        Assert.assertTrue("Opt Param1 value not displayed", exists(quoted("value1")));
-        Assert.assertTrue(exists(id(ValueSourceMapEditor.getRemoveButtonId("optparam1"))));
+        Assertions.assertTrue(exists(container.getSubsourceDescriptors()[1].getDisplayName()), "Opt Param1 name not displayed");
+        Assertions.assertTrue(exists(quoted("value1")), "Opt Param1 value not displayed");
+        Assertions.assertTrue(exists(id(ValueSourceMapEditor.getRemoveButtonId("optparam1"))));
 
-        Assert.assertTrue("Opt Param2 name not displayed", exists(container.getSubsourceDescriptors()[2].getDisplayName()));
+        Assertions.assertTrue(exists(container.getSubsourceDescriptors()[2].getDisplayName()), "Opt Param2 name not displayed");
         }
 
     @Test
-    public void noDeleteButtonForRequiredDescribedSubsource()
+    void noDeleteButtonForRequiredDescribedSubsource()
         {
         MockContainsDescribedSources container = new MockContainsDescribedSources();
         Platform.runLater(() -> _editor.setSource(container.getSubsources(), container.getSubsourceDescriptors()));
         waitForUiEvents();
 
-        Assert.assertFalse(exists(ValueSourceMapEditor.getRemoveButtonId("param1")));
+        Assertions.assertFalse(exists(ValueSourceMapEditor.getRemoveButtonId("param1")));
         }
 
     @Test
-    public void removeOptionalDescribedSource()
+    void removeOptionalDescribedSource()
         {
         MockContainsDescribedSources container = new MockContainsDescribedSources();
         container.getSubsources().addSource("optparam1", ValueSourceConfiguration.forValue("abc"));
         Platform.runLater(() -> _editor.setSource(container.getSubsources(), container.getSubsourceDescriptors()));
         waitForUiEvents();
 
-        Assert.assertTrue(exists(id(ValueSourceMapEditor.getRemoveButtonId("optparam1"))));
+        Assertions.assertTrue(exists(id(ValueSourceMapEditor.getRemoveButtonId("optparam1"))));
         clickOn(id(ValueSourceMapEditor.getRemoveButtonId("optparam1")));
         waitForUiEvents();
-        Assert.assertFalse("delete button should be gone", exists(id(ValueSourceMapEditor.getRemoveButtonId("optparam1"))));
-        Assert.assertTrue("add button should appear", exists(id(ValueSourceMapEditor.getAddButtonId("optparam1"))));
+        Assertions.assertFalse(exists(id(ValueSourceMapEditor.getRemoveButtonId("optparam1"))), "delete button should be gone");
+        Assertions.assertTrue(exists(id(ValueSourceMapEditor.getAddButtonId("optparam1"))), "add button should appear");
 
-        Assert.assertNull(container.getSubsources().getSource("optparam1"));
+        Assertions.assertNull(container.getSubsources().getSource("optparam1"));
         }
 
     @Test
-    public void hideAddButtonWhenCustomNotAllowed()
+    void hideAddButtonWhenCustomNotAllowed()
         {
         _editor.setAllowCustomSources(false);
         waitForUiEvents();
 
-        Assert.assertFalse(exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)));
+        Assertions.assertFalse(exists(id(ValueSourceMapEditor.ADD_BUTTON_ID)));
         }
 
     @Test
-    public void showChangeMadeInAdvancedEditorForDescribedSource()
+    void showChangeMadeInAdvancedEditorForDescribedSource()
         {
         MockContainsDescribedSources container = new MockContainsDescribedSources();
         final String value1 = "value1";
@@ -298,8 +298,8 @@ public class ValueSourceMapEditorTests extends ComponentTest
         waitForUiEvents();
 
         // check the change is reflected
-        Assert.assertFalse("original value still showing", exists(quoted(value1)));
-        Assert.assertTrue("new value not shown", exists(quoted(newval)));
+        Assertions.assertFalse(exists(quoted(value1)), "original value still showing");
+        Assertions.assertTrue(exists(quoted(newval)), "new value not shown");
         }
 
     private void setup()
@@ -338,7 +338,7 @@ public class ValueSourceMapEditorTests extends ComponentTest
     @MuseSubsourceDescriptor(displayName = "Param 1", description = "A description of param 1", type = SubsourceDescriptor.Type.Named, name = "param1")
    	@MuseSubsourceDescriptor(displayName = "Opt Param1", description = "an optional parameter", type = SubsourceDescriptor.Type.Named, name = "optparam1", optional =  true)
    	@MuseSubsourceDescriptor(displayName = "Opt Param2", description = "second optional parameter", type = SubsourceDescriptor.Type.Named, name = "optparam2", optional =  true)
-    class MockContainsDescribedSources
+    static class MockContainsDescribedSources
 	    {
 	    SubsourceDescriptor[] getSubsourceDescriptors()
 		    {

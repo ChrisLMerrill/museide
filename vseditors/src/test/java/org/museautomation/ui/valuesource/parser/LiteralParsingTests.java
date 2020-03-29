@@ -1,6 +1,6 @@
 package org.museautomation.ui.valuesource.parser;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.parsing.valuesource.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.*;
@@ -17,25 +17,25 @@ import org.museautomation.core.values.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class LiteralParsingTests
+class LiteralParsingTests
     {
     @Test
-    public void parseNull() throws ExpressionParsingException
+    void parseNull() throws ExpressionParsingException
         {
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("null");
-        Assert.assertNotNull(configuration);
-        Assert.assertEquals(NullValueSource.TYPE_ID, configuration.getType());
-        Assert.assertNull(configuration.getValue());
+        Assertions.assertNotNull(configuration);
+        Assertions.assertEquals(NullValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertNull(configuration.getValue());
         }
 
     @Test
-    public void parseString() throws ExpressionParsingException
+    void parseString() throws ExpressionParsingException
         {
         testStringParsing("abc");
         }
 
     @Test
-    public void parseEmptyString() throws ExpressionParsingException
+    void parseEmptyString() throws ExpressionParsingException
         {
         testStringParsing("");
         }
@@ -51,45 +51,45 @@ public class LiteralParsingTests
     private void testStringParsing(String s) throws ExpressionParsingException
         {
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("\"" + s + "\"");
-        Assert.assertNotNull(configuration);
-        Assert.assertEquals(StringValueSource.TYPE_ID, configuration.getType());
-        Assert.assertEquals(s, configuration.getValue());
+        Assertions.assertNotNull(configuration);
+        Assertions.assertEquals(StringValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(s, configuration.getValue());
         }
 
     @Test
-    public void parseBooleanTrue() throws ExpressionParsingException
+    void parseBooleanTrue() throws ExpressionParsingException
         {
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("true");
-        Assert.assertNotNull(configuration);
-        Assert.assertEquals(BooleanValueSource.TYPE_ID, configuration.getType());
-        Assert.assertEquals(true, configuration.getValue());
+        Assertions.assertNotNull(configuration);
+        Assertions.assertEquals(BooleanValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(true, configuration.getValue());
         }
 
     @Test
-    public void parseBooleanFalse() throws ExpressionParsingException
+    void parseBooleanFalse() throws ExpressionParsingException
         {
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("false");
-        Assert.assertNotNull(configuration);
-        Assert.assertEquals(BooleanValueSource.TYPE_ID, configuration.getType());
-        Assert.assertEquals(false, configuration.getValue());
+        Assertions.assertNotNull(configuration);
+        Assertions.assertEquals(BooleanValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(false, configuration.getValue());
         }
 
     @Test
-    public void parseInteger() throws ExpressionParsingException
+    void parseInteger() throws ExpressionParsingException
         {
         ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("123");
-        Assert.assertNotNull(configuration);
-        Assert.assertEquals(IntegerValueSource.TYPE_ID, configuration.getType());
-        Assert.assertEquals(123L, configuration.getValue());
+        Assertions.assertNotNull(configuration);
+        Assertions.assertEquals(IntegerValueSource.TYPE_ID, configuration.getType());
+        Assertions.assertEquals(123L, configuration.getValue());
         }
 
     @Test
-    public void parseUnrecognizedLiteral() throws ExpressionParsingException
+    void parseUnrecognizedLiteral()
         {
         try
             {
             new ValueSourceExpressionParser(_project).parse("blah");
-            Assert.assertNull("should have thrown an exception", "notnull");
+            Assertions.fail("should have thrown an exception");
             }
         catch (ExpressionParsingException e)
             {
@@ -97,7 +97,5 @@ public class LiteralParsingTests
             }
         }
 
-    MuseProject _project = new SimpleProject();
+    private MuseProject _project = new SimpleProject();
     }
-
-

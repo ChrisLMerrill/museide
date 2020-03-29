@@ -2,7 +2,7 @@ package org.museautomation.ui.valuesource;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.values.*;
@@ -15,18 +15,18 @@ import org.museautomation.ui.extend.edit.*;
 public class ValueSourceEditorStackTests extends ComponentTest
     {
     @Test
-    public void displaySource()
+    void displaySource()
         {
         final String string = "string_value";
         ValueSourceConfiguration config = ValueSourceConfiguration.forValue(string);
         _stack.setSource(config);
         waitForUiEvents();
 
-        Assert.assertTrue(exists(quoted(string)));
+        Assertions.assertTrue(exists(quoted(string)));
         }
 
     @Test
-    public void cancelChanges()
+    void cancelChanges()
         {
         final String string = "string_value";
         ValueSourceConfiguration config = ValueSourceConfiguration.forValue(string);
@@ -38,11 +38,11 @@ public class ValueSourceEditorStackTests extends ComponentTest
 
         clickOn(id(Buttons.CANCEL_ID));
 
-        Assert.assertEquals(string, config.getValue());
+        Assertions.assertEquals(string, config.getValue());
         }
 
     @Test
-    public void commitChanges()
+    void commitChanges()
         {
         final String string = "string_value";
         ValueSourceConfiguration config = ValueSourceConfiguration.forValue(string);
@@ -55,11 +55,11 @@ public class ValueSourceEditorStackTests extends ComponentTest
 
         clickOn(id(Buttons.SAVE_ID));
 
-        Assert.assertEquals(new_value, config.getValue());
+        Assertions.assertEquals(new_value, config.getValue());
         }
 
     @Test
-    public void viewSubsource()
+    void viewSubsource()
         {
         final String varname = "var1";
         ValueSourceConfiguration config = ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(varname));
@@ -67,40 +67,25 @@ public class ValueSourceEditorStackTests extends ComponentTest
         waitForUiEvents();
 
         // verify showing a variable source
-        Assert.assertEquals(_project.getValueSourceDescriptors().get(VariableValueSource.TYPE_ID).getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
+        Assertions.assertEquals(_project.getValueSourceDescriptors().get(VariableValueSource.TYPE_ID).getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
 
         clickOn(id(DefaultValueSourceEditor.SINGLE_SUBSOURCE_ADVANCED_LINK_ID));
         // after clicking more> link, should be showing string source
-        Assert.assertEquals(_project.getValueSourceDescriptors().get(StringValueSource.TYPE_ID).getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
+        Assertions.assertEquals(_project.getValueSourceDescriptors().get(StringValueSource.TYPE_ID).getName(), textOf(id(DefaultValueSourceEditor.TYPE_FIELD_ID)));
         }
 
     @Override
     protected Node createComponentNode()
         {
-        _canceled = false;
-        _committed = false;
         _project = new SimpleProject();
-        _stack = new ValueSourceEditorStack(new EditInProgress<ValueSourceConfiguration>()
+        _stack = new ValueSourceEditorStack(new EditInProgress<>()
             {
-            @Override
-            public void cancel()
-                {
-                _canceled = true;
-                }
-
-            @Override
-            public void commit(ValueSourceConfiguration target)
-                {
-                _committed = true;
-                }
+            @Override public void cancel() { }
+            @Override public void commit(ValueSourceConfiguration target) { }
             }, _project, new UndoStack());
         return _stack.getNode();
         }
 
     private ValueSourceEditorStack _stack;
-    private boolean _canceled;
-    private boolean _committed;
     private SimpleProject _project;
     }
-
-
