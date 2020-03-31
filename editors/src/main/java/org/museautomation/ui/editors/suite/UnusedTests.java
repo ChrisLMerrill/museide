@@ -29,14 +29,14 @@ public class UnusedTests
     void addUnusedTestIds(List<String> target_list)
         {
         // add tests
-    List<ResourceToken> tests = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
-        for (ResourceToken token : tests)
+        List<ResourceToken<MuseResource>> tests = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
+        for (ResourceToken<MuseResource> token : tests)
             if (!_suite.getTaskIds().contains(token.getId()))
                 target_list.add(token.getId());
 
         // add test suites
-        List<ResourceToken> suites = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTaskSuite.TaskSuiteResourceType()));
-        for (ResourceToken token : suites)
+        List<ResourceToken<MuseResource>> suites = _project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTaskSuite.TaskSuiteResourceType()));
+        for (ResourceToken<MuseResource> token : suites)
             if (!_suite.getTaskIds().contains(token.getId()))
                 target_list.add(token.getId());
         }

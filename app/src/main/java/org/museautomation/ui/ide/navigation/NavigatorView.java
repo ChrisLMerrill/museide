@@ -104,8 +104,8 @@ public class NavigatorView
     private void detectAndWarnFileExtensionChange()
         {
         int count = 0;
-        List<ResourceToken> tokens = _project.getResourceStorage().findResources(ResourceQueryParameters.forAllResources());
-        for (ResourceToken token : tokens)
+        List<ResourceToken<MuseResource>> tokens = _project.getResourceStorage().findResources(ResourceQueryParameters.forAllResources());
+        for (ResourceToken<MuseResource> token : tokens)
             {
             Object meta = token.metadata().getMetadataField("filename");
             if (meta != null && meta.toString().endsWith(".json"))

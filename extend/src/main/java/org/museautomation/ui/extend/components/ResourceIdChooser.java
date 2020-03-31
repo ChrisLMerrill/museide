@@ -24,8 +24,8 @@ public class ResourceIdChooser extends ComboBox<String>
         {
         setId(CHOOSER_ID);
 
-        List<ResourceToken> tokens = project.getResourceStorage().findResources(new ResourceQueryParameters(type));
-        for (ResourceToken token : tokens)
+        List<ResourceToken<MuseResource>> tokens = project.getResourceStorage().findResources(new ResourceQueryParameters(type));
+        for (ResourceToken<MuseResource> token : tokens)
             getItems().add(token.getId());
         if (initial_id != null)
             getSelectionModel().select(initial_id);

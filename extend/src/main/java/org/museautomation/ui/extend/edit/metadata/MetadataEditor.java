@@ -6,8 +6,8 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import org.museautomation.ui.extend.edit.*;
 import org.museautomation.core.util.*;
+import org.museautomation.ui.extend.edit.*;
 
 import java.util.*;
 

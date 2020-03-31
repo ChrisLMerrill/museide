@@ -67,15 +67,15 @@ class ResourceGroupNode extends ResourceTreeNode
         if (_children == null)
             {
             _children = new ArrayList<>();
-            List<ResourceToken> resources = _project.getResourceStorage().findResources(new ResourceQueryParameters(_type));
+            List<ResourceToken<MuseResource>> resources = _project.getResourceStorage().findResources(new ResourceQueryParameters(_type));
             resources.sort(Comparator.comparing(ResourceInfo::getId));
-            for (ResourceToken resource : resources)
+            for (ResourceToken<MuseResource> resource : resources)
                 _children.add(new ResourceNode(resource, _project));
             }
         return _children;
         }
 
-    private void addChild(ResourceToken new_child)
+    private void addChild(ResourceToken<MuseResource> new_child)
         {
         List<ResourceTreeNode> children = getChildren();
         int add_index = 0;
@@ -94,7 +94,7 @@ class ResourceGroupNode extends ResourceTreeNode
             listener.childAdded(add_index, new_node);
         }
 
-    private void removeChild(ResourceToken remove_child)
+    private void removeChild(ResourceToken<MuseResource> remove_child)
         {
         List<ResourceTreeNode> children = getChildren();
         for (int i = 0; i < children.size(); i++)
