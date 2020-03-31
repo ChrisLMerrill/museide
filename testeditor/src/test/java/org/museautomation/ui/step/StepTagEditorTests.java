@@ -19,17 +19,17 @@ public class StepTagEditorTests extends ComponentTest
     void removeTag()
 	    {
 	    StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
-	    step.addTag("tag1");
+	    step.tags().addTag("tag1");
 	    _editor.setStep(step);
 	    waitForUiEvents();
 
 	    Assertions.assertTrue(exists("tag1"), "tag not shown");
 	    clickOn(id(TagsEditor.DELETE_ID));
-	    Assertions.assertFalse(step.hasTag("tag1"), "tag was not removed");
+	    Assertions.assertFalse(step.tags().hasTag("tag1"), "tag was not removed");
 
 	    _undo.undoLastAction();
 	    waitForUiEvents();
-	    Assertions.assertTrue(step.hasTag("tag1"), "tag was not restored");
+	    Assertions.assertTrue(step.tags().hasTag("tag1"), "tag was not restored");
 	    }
 
 	@Override

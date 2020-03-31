@@ -16,8 +16,8 @@ public class StepTagEditor implements ChangeEventListener
 	public StepTagEditor(StepEditContext context)
 		{
 		_context = context;
-		_editor.setDeleteListener(tag -> new RemoveTagFromStepAction(_step, tag).execute(_context.getUndo()));
-		_editor.setAddListener(tag -> new AddTagToStepAction(_step, tag).execute(_context.getUndo()));
+		_editor.setDeleteListener(tag -> new RemoveTagAction(_step, tag).execute(_context.getUndo()));
+		_editor.setAddListener(tag -> new AddTagAction(_step, tag).execute(_context.getUndo()));
 
 		new NodeParentChangeListener(_editor.getNode())
 			{

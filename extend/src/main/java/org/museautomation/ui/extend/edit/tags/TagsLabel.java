@@ -4,7 +4,7 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import org.museautomation.core.util.*;
+import org.museautomation.core.metadata.*;
 
 import java.util.*;
 
@@ -34,7 +34,7 @@ public class TagsLabel
 	private void showTags()
 		{
 		final List<Label> labels = new ArrayList<>();
-		for (String tag : _tags.getTags())
+		for (String tag : _tags.tags().getTags())
 			{
 			Label label = new Label(tag);
 			label.getStyleClass().add(TAG_STYLE);

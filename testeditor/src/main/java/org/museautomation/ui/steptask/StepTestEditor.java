@@ -13,7 +13,6 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
-import org.museautomation.core.values.*;
 import org.museautomation.ui.event.*;
 import org.museautomation.ui.extend.edit.*;
 import org.museautomation.ui.extend.edit.step.*;
@@ -22,10 +21,7 @@ import org.museautomation.ui.extend.javafx.*;
 import org.museautomation.ui.steptask.actions.*;
 import org.museautomation.ui.steptask.execution.*;
 import org.museautomation.ui.steptree.*;
-import org.museautomation.ui.valuesource.map.*;
 import org.slf4j.*;
-
-import java.util.*;
 
 /**
  * Edit a SteppedTask (or anything else that implements ContainsStep, in theory).
@@ -79,9 +75,12 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
         step_tab.closableProperty().setValue(false);
 
         ParamsTab params_tab = new ParamsTab(getProject(), getUndoStack(), _task);
-        TabPane tabs = new TabPane(step_tab, params_tab.getTab());
-        tabs.sideProperty().setValue(Side.LEFT);
 
+        MetadataTab metadata_tab = new MetadataTab(getUndoStack());
+        metadata_tab.setsetResource(_task);
+
+        TabPane tabs = new TabPane(step_tab, params_tab.getTab(), metadata_tab.getTab());
+        tabs.sideProperty().setValue(Side.LEFT);
         return tabs;
         }
 

@@ -6,8 +6,8 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import org.museautomation.core.metadata.*;
 import org.museautomation.ui.extend.edit.*;
-import org.museautomation.core.util.*;
 
 import java.util.*;
 
@@ -46,7 +46,7 @@ public class TagsEditor
 	private void showTags()
 		{
 		final List<Node> tag_nodes = new ArrayList<>();
-		for (String tag : _tags.getTags())
+		for (String tag : _tags.tags().getTags())
 			{
 			Label label = new Label(tag);
 			if (_delete_listener == null)
@@ -122,9 +122,9 @@ public class TagsEditor
 	private DeleteListener _delete_listener = null;
 	private AddListener _add_listener = null;
 
-	public final static String ADD_BUTTON_ID = "omuet-add-id";
-	public final static String ADD_FIELD_ID = "omuet-add-field-id";
-	public final static String DELETE_ID = "omuet-delete-id";
+	public final static String ADD_BUTTON_ID = "omuieet-add-id";
+	public final static String ADD_FIELD_ID = "omuieet-add-field-id";
+	public final static String DELETE_ID = "omuieet-delete-id";
 
 	public interface DeleteListener
 		{

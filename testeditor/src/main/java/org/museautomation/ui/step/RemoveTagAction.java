@@ -1,23 +1,23 @@
 package org.museautomation.ui.step;
 
-import org.museautomation.core.step.*;
+import org.museautomation.core.metadata.*;
 import org.museautomation.ui.extend.actions.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class RemoveTagFromStepAction extends UndoableAction
+public class RemoveTagAction extends UndoableAction
 	{
-	public RemoveTagFromStepAction(StepConfiguration step, String tag)
+	public RemoveTagAction(Taggable step, String tag)
 		{
-		_step = step;
+		_taggable = step;
 		_tag = tag;
 		}
 
 	@Override
 	protected boolean executeImplementation()
 		{
-		_removed = _step.removeTag(_tag);
+		_removed = _taggable.tags().removeTag(_tag);
 		return true;
 		}
 
@@ -25,11 +25,11 @@ public class RemoveTagFromStepAction extends UndoableAction
 	protected boolean undoImplementation()
 		{
 		if (_removed)
-			_step.addTag(_tag);
+			_taggable.tags().addTag(_tag);
 		return true;
 		}
 
-	private StepConfiguration _step;
+	private Taggable _taggable;
 	private String _tag;
 	private boolean _removed;
 	}
