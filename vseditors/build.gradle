@@ -74,5 +74,5 @@ javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 javadoc.options.addStringOption('Xdoclint:none', '-html5')
 
 wrapper {
-    gradleVersion = '6.0.1'
+    gradleVersion = '6.3'
 }
