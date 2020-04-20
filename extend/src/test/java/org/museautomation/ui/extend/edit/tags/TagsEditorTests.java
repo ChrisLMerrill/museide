@@ -28,7 +28,7 @@ public class TagsEditorTests extends ComponentTest
     void displayOne()
 		{
 		MockTaggable tags = new MockTaggable();
-		tags.addTag("abc");
+		tags.tags().addTag("abc");
 		_editor.setTags(tags);
 		waitForUiEvents();
 
@@ -41,8 +41,8 @@ public class TagsEditorTests extends ComponentTest
     void displayTwo()
 		{
 		MockTaggable tags = new MockTaggable();
-		tags.addTag("abc");
-		tags.addTag("def");
+		tags.tags().addTag("abc");
+		tags.tags().addTag("def");
 		_editor.setTags(tags);
 		waitForUiEvents();
 
@@ -66,7 +66,7 @@ public class TagsEditorTests extends ComponentTest
 		fillFieldAndPressEnter(id(TagsEditor.ADD_FIELD_ID), "newtag");
 		Assertions.assertEquals("newtag", add_listener_called.get(), "tag add listener not called");
 
-		tags.addTag("newtag");
+		tags.tags().addTag("newtag");
 		_editor.refresh();
 		waitForUiEvents();
 		Set<Node> tag_nodes = lookup(byClass(TagsLabel.TAG_STYLE)).queryAll();
@@ -108,8 +108,8 @@ public class TagsEditorTests extends ComponentTest
     void removeTag()
 		{
 		MockTaggable tags = new MockTaggable();
-		tags.addTag("abc");
-		tags.addTag("def");
+		tags.tags().addTag("abc");
+		tags.tags().addTag("def");
 		AtomicReference<String> delete_listener_called = new AtomicReference<>(null);
 		_editor.setDeleteListener(delete_listener_called::set);
 		_editor.setTags(tags);
@@ -131,12 +131,12 @@ public class TagsEditorTests extends ComponentTest
 		clickOn(def_delete_button);
 		Assertions.assertEquals("def", delete_listener_called.get(), "delete listener called with wrong tag");
 
-		tags.removeTag("abc");
+		tags.tags().removeTag("abc");
 		_editor.refresh();
 		waitForUiEvents();
 		Assertions.assertFalse(exists("abc"), "abc tag is still showing");
 		Assertions.assertTrue(exists("def"), "def tag is missing");
-		tags.removeTag("def");
+		tags.tags().removeTag("def");
 		_editor.refresh();
 		waitForUiEvents();
 		Assertions.assertFalse(exists("def"), "def tag is still showing");

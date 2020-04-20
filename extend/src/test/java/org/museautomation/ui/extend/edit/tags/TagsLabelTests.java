@@ -24,7 +24,7 @@ public class TagsLabelTests extends ComponentTest
     void displayOne()
 	    {
 	    MockTaggable tags = new MockTaggable();
-	    tags.addTag("abc");
+	    tags.tags().addTag("abc");
 	    _label.setTags(tags);
 	    waitForUiEvents();
 
@@ -37,8 +37,8 @@ public class TagsLabelTests extends ComponentTest
     void displayTwo()
 	    {
 	    MockTaggable tags = new MockTaggable();
-	    tags.addTag("abc");
-	    tags.addTag("def");
+	    tags.tags().addTag("abc");
+	    tags.tags().addTag("def");
 	    _label.setTags(tags);
 	    waitForUiEvents();
 
