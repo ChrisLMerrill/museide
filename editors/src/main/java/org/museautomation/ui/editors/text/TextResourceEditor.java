@@ -3,7 +3,6 @@ package org.museautomation.ui.editors.text;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import org.fxmisc.richtext.*;
 import org.museautomation.core.*;
 import org.museautomation.ui.extend.edit.*;
 
@@ -18,7 +17,7 @@ public class TextResourceEditor extends BaseResourceEditor
         {
         _borders = new BorderPane();
         _text = new TextField();
-        _editor = new CodeArea();
+        _editor = new TextArea();
         _borders.setCenter(_editor);
 
         _editor.setOnKeyTyped(event ->
@@ -84,7 +83,7 @@ public class TextResourceEditor extends BaseResourceEditor
 
     private BorderPane _borders;
     private TextField _text;
-    private CodeArea _editor;
+    private TextArea _editor;
     private boolean _changed = false;
     private Set<ValidationStateListener> _validation_listeners = new HashSet<>();
     private ValidationStateSource _validation_source = new ValidationStateSource()

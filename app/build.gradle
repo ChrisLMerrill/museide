@@ -20,7 +20,7 @@ application {
 }
 
 javafx {
-    version = "12.0.2"
+    version = "14.0.1"
     modules = [ 'javafx.controls' ]
 }
 
@@ -39,15 +39,15 @@ dependencies
     implementation 'org.museautomation:muse-commandline:[0.23,)'
     implementation 'org.museautomation:muse-extensions:[0.7,)'
 
-    implementation 'org.museautomation:ide-extend:[0.7,)'
-    implementation 'org.museautomation:ide-step-test-editor:[0.7,)'
-    implementation 'org.museautomation:ide-editors:[0.7,)'
-    implementation 'org.museautomation:ide-valuesource:[0.9,)'
-    implementation 'net.christophermerrill:FancyFxTree:[3.5,)'
-    implementation 'net.christophermerrill:ShadowboxFx:[1.3,)'
+    implementation 'org.museautomation:ide-extend:[0.10,)'
+    implementation 'org.museautomation:ide-step-test-editor:[0.10,)'
+    implementation 'org.museautomation:ide-editors:[0.10,)'
+    implementation 'org.museautomation:ide-valuesource:[0.10,)'
+    implementation 'net.christophermerrill:FancyFxTree:[3.6,)'
+    implementation 'net.christophermerrill:ShadowboxFx:[1.4,)'
 
     implementation 'org.openjfx:javafx-controls:12.0.2'
-    implementation 'org.controlsfx:controlsfx:11.0.0'
+    implementation 'org.controlsfx:controlsfx:11.0.1'
     implementation files('lib/openjfx-dialogs-1.0.3.jar')
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
@@ -122,5 +122,5 @@ tasks.withType(JavaCompile) {
 }
 
 wrapper {
-    gradleVersion = '6.0.1'
+    gradleVersion = '6.3'
 }
