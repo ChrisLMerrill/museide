@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.museautomation'
-version '0.8'
+version '0.10'
 
 javafx {
     version = "14.0.1"
