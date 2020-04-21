@@ -41,7 +41,7 @@ dependencies
 
     implementation 'org.museautomation:ide-extend:[0.10,)'
     implementation 'org.museautomation:ide-step-test-editor:[0.10,)'
-    implementation 'org.museautomation:ide-editors:[0.10,)'
+    implementation 'org.museautomation:ide-editors:[0.8,)'
     implementation 'org.museautomation:ide-valuesource:[0.10,)'
     implementation 'net.christophermerrill:FancyFxTree:[3.6,)'
     implementation 'net.christophermerrill:ShadowboxFx:[1.4,)'
