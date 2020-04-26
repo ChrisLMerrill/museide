@@ -1,6 +1,7 @@
 package org.museautomation.ui.ide.navigation.resources;
 
 import javafx.collections.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.stage.*;
@@ -18,11 +19,12 @@ import java.util.*;
  */
 public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<ResourceTreeNodeFacade>
     {
-    public ResourceTreeOperationHandler(MuseProject project, ResourceEditors editors, UndoStack undo)
+    public ResourceTreeOperationHandler(MuseProject project, ResourceEditors editors, UndoStack undo, Node node)
         {
         _project = project;
         _editors = editors;
         _undo = undo;
+        _node = node;
         }
 
     @Override
@@ -41,6 +43,7 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
                     dialog.setTitle("Unsupported Operation");
                     dialog.setHeaderText(null);
                     dialog.initStyle(StageStyle.UTILITY);
+                    dialog.initOwner(_node.getScene().getWindow());
                     dialog.show();
                     }
                 }
@@ -85,6 +88,7 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
         dialog.setTitle("Confirm delete");
         dialog.setHeaderText(null);
         dialog.initStyle(StageStyle.UTILITY);
+        dialog.initOwner(_node.getScene().getWindow());
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK)
             {
@@ -129,6 +133,7 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
                 ResourceGroupNode group = (ResourceGroupNode) selected_items.get(0).getValue().getModelNode();
                 CreateResourcePanel dialog = new CreateResourcePanel(_project, _undo);
                 dialog.setType(group.getType());
+                dialog.getDialog().initOwner(_node.getScene().getWindow());
                 dialog.getDialog().show();
                 });
 
@@ -142,6 +147,7 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
     private MuseProject _project;
     private ResourceEditors _editors;
     private UndoStack _undo;
+    private Node _node;
 
     private List<ResourceTreeNodeFacade> _selections = Collections.emptyList();
     private UndoableAction _paste_action = null;

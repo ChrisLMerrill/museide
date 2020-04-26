@@ -58,7 +58,7 @@ public class ProjectNavigator
             BorderPane border_pane = new BorderPane();
             _node = new NotificationPane(border_pane);
 
-            ResourceTreeOperationHandler ops_handler = new ResourceTreeOperationHandler(_project, _editors, _undo);
+            ResourceTreeOperationHandler ops_handler = new ResourceTreeOperationHandler(_project, _editors, _undo, _node);
             _tree = new ProjectResourceTree(_project, ops_handler);
             border_pane.setCenter(_tree.getNode());
 
