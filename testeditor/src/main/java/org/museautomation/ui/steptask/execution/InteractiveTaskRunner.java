@@ -1,13 +1,18 @@
 package org.museautomation.ui.steptask.execution;
 
+import org.museautomation.builtins.plugins.input.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
+import org.museautomation.core.plugins.*;
 import org.museautomation.core.steptask.*;
 import org.museautomation.core.task.*;
+import org.museautomation.core.task.input.*;
 import org.museautomation.ui.extend.edit.step.*;
 import org.slf4j.*;
+
+import java.util.*;
 
 /**
  * Provides management of execution of a SteppedTask on a separate thread, with the ability
@@ -32,6 +37,21 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
 		    _started = true;
 		    }
 	    }
+
+    @Override
+    protected List<MusePlugin> getAdditionalPlugins(TaskConfiguration config)
+        {
+        List<MusePlugin> plugins = new ArrayList<>();
+
+        for (TaskInputProvider provider : _input_providers)
+            plugins.add(new InputProviderPlugin(provider));
+        return plugins;
+        }
+
+    public void addInputProvider(TaskInputProvider provider)
+        {
+        _input_providers.add(provider);
+        }
 
     @Override
     public void run()
@@ -141,8 +161,9 @@ public class InteractiveTaskRunner extends ThreadedTaskRunner implements Runnabl
     private boolean _paused = false;
     private boolean _started = false;
     private SteppedTaskExecutor _executor;
-    private Breakpoints _breakpoints;
+    private final Breakpoints _breakpoints;
     private boolean _resume_from_breakpoint = false;
+    private final List<TaskInputProvider> _input_providers = new ArrayList<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(InteractiveTaskRunner.class);
 

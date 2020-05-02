@@ -6,6 +6,7 @@ import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.task.*;
+import org.museautomation.core.task.input.*;
 import org.museautomation.ui.extend.edit.step.*;
 import org.museautomation.ui.steptree.*;
 
@@ -37,7 +38,7 @@ public class InteractiveTestControllerImpl extends BaseInteractiveTestController
 		{
 		if (_state.equals(InteractiveTaskState.IDLE))
 			{
-			_provider = task_provider;
+			_task_provider = task_provider;
 			InteractiveTaskRunner runner = getRunner();
 			runner.start();
 			setState(InteractiveTaskState.STARTING);
@@ -51,14 +52,16 @@ public class InteractiveTestControllerImpl extends BaseInteractiveTestController
 
 	private InteractiveTaskRunner getRunner()
 		{
-		if (_runner == null && _provider != null)
+		if (_runner == null && _task_provider != null)
 			{
-			BasicTaskConfiguration config = new BasicTaskConfiguration(_provider.getTask());
+			BasicTaskConfiguration config = new BasicTaskConfiguration(_task_provider.getTask());
 			config.addPlugin(new EventListener());
 			final PauseOnFailureOrError pauser = new PauseOnFailureOrError();
 			config.addPlugin(pauser);
 
-			_runner = new InteractiveTaskRunner(new ProjectExecutionContext(_provider.getProject()), config, _breakpoints);
+			_runner = new InteractiveTaskRunner(new ProjectExecutionContext(_task_provider.getProject()), config, _breakpoints);
+            for (TaskInputProvider provider : _input_providers)
+                _runner.addInputProvider(provider);
 			pauser.setRunner(_runner);
 			}
 		return _runner;
@@ -169,10 +172,15 @@ public class InteractiveTestControllerImpl extends BaseInteractiveTestController
 	@SuppressWarnings("unused") // used in GUI
 	public void runOneStep(SteppedTaskProvider provider)
 		{
-		_provider = provider;
+		_task_provider = provider;
 		getRunner().requestPause();
 		run(provider);
 		}
+
+    public void addInputProvider(TaskInputProvider provider)
+        {
+        _input_providers.add(provider);
+        }
 
 	public TaskResult getResult()
 		{
@@ -180,8 +188,9 @@ public class InteractiveTestControllerImpl extends BaseInteractiveTestController
 		}
 
 	private InteractiveTaskState _state = InteractiveTaskState.IDLE;
-	private SteppedTaskProvider _provider;
+	private SteppedTaskProvider _task_provider;
 	private InteractiveTaskRunner _runner;
 	private TaskResult _result = null;
-    private Breakpoints _breakpoints = new TaskBreakpoints();
+    private final Breakpoints _breakpoints = new TaskBreakpoints();
+    private final List<TaskInputProvider> _input_providers = new ArrayList<>();
 	}
