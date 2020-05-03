@@ -84,8 +84,6 @@ public class DefaultInlineVSE extends BaseValueSourceEditor implements ValueSour
         ValueSourceConfiguration new_source = checkInput(_text.getText());
         if (isValid() && !Objects.equals(new_source, getSource()))
             {
-            if (getSource() == null)
-                super.setSource(ValueSourceConfiguration.forValue(null));
             // merge the new source into the existing
             merge(new_source, getSource());
             }
@@ -175,7 +173,7 @@ public class DefaultInlineVSE extends BaseValueSourceEditor implements ValueSour
         ValueSourceStringExpressionSupporters supporters = new ValueSourceStringExpressionSupporters(getProject());
         String editable_string = supporters.toString(getSource(), new RootStringExpressionContext(getProject()));
 
-        if (editable_string == null)
+        if (getSource().getType() != null && editable_string == null)
             {
             _text.setText(getProject().getValueSourceDescriptors().get(getSource()).getInstanceDescription(getSource(), new RootStringExpressionContext(getProject())));
             _able_to_enable = false;
@@ -184,6 +182,8 @@ public class DefaultInlineVSE extends BaseValueSourceEditor implements ValueSour
             }
         else
             {
+            if (editable_string == null)
+                editable_string = "";
             _text.setText(editable_string);
             _able_to_enable = true;
 

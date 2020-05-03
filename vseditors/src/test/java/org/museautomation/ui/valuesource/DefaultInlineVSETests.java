@@ -31,6 +31,36 @@ public class DefaultInlineVSETests extends ComponentTest
         }
 
     @Test
+    void workWithEmptySource()
+        {
+        ValueSourceConfiguration source = new ValueSourceConfiguration();
+        _editor.setSource(source);
+        waitForUiEvents();
+        TextField field = lookup("#" + DefaultInlineVSE.TEXT_ID).query();
+        waitForUiEvents();
+        Assertions.assertEquals("", field.getText());
+        Assertions.assertTrue(field.isEditable());
+        Assertions.assertTrue(InputValidation.isShowingError(field), "should indicate invalid input");
+
+        AtomicReference<ValueChangeEvent> event_notified = new AtomicReference<>(null);
+        source.addChangeListener(new ValueSourceChangeObserver()
+            {
+            @Override
+            public void valueChanged(ValueChangeEvent event, Object old_value, Object new_value)
+                {
+                event_notified.set(event);
+                }
+            });
+
+        final String text = "some text";
+        fillFieldAndTabAway("#" + DefaultInlineVSE.TEXT_ID, quoted(text));
+        waitForUiEvents();
+
+        Assertions.assertNotNull(event_notified.get());
+        Assertions.assertEquals(text, _editor.getSource().getValue());
+        }
+
+    @Test
     void setSource()
         {
         final String text = "some text";
