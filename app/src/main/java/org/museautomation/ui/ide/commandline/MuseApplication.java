@@ -3,11 +3,11 @@ package org.museautomation.ui.ide.commandline;
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.stage.*;
-import org.museautomation.ui.ide.*;
-import org.museautomation.ui.settings.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.ui.extend.components.*;
+import org.museautomation.ui.extend.glyphs.*;
+import org.museautomation.ui.settings.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -40,14 +40,14 @@ public abstract class MuseApplication extends Application
         stage.setScene(scene);
         StageSettings.get(getSettingsName()).register(stage);
         stage.setTitle(name);
-        IdeWindow.initIcons(stage);
+        Icons.setIcons(stage);
         stage.show();
         }
 
     protected abstract String getSettingsName();
 
     @Override
-    public void stop() throws Exception
+    public void stop()
         {
         Closer.get().closeAll();
         }

@@ -8,9 +8,10 @@ import javafx.scene.control.*;
 import javafx.stage.*;
 import net.christophermerrill.ShadowboxFx.*;
 import org.jetbrains.annotations.*;
+import org.museautomation.ui.extend.components.*;
+import org.museautomation.ui.extend.glyphs.*;
 import org.museautomation.ui.ide.navigation.*;
 import org.museautomation.ui.settings.*;
-import org.museautomation.ui.extend.components.*;
 import org.slf4j.*;
 
 import java.util.concurrent.atomic.*;
@@ -38,7 +39,7 @@ public class IdeApplication extends Application
         shadowbox.getChildren().add(_splitter);
 
         stage.setTitle(getTitle());
-        IdeWindow.initIcons(stage);
+        Icons.setIcons(stage);
         Scene scene = new Scene(shadowbox, 700, 500);
         scene.getStylesheets().add(getClass().getResource("/ide.css").toExternalForm());
         stage.setScene(scene);

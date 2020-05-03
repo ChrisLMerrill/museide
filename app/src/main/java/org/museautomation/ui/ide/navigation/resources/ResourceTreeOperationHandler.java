@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.stage.*;
 import net.christophermerrill.FancyFxTree.*;
+import org.museautomation.ui.extend.glyphs.*;
 import org.museautomation.ui.ide.*;
 import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
@@ -132,6 +133,7 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
                 {
                 ResourceGroupNode group = (ResourceGroupNode) selected_items.get(0).getValue().getModelNode();
                 CreateResourcePanel dialog = new CreateResourcePanel(_project, _undo);
+                Icons.setIcons(dialog.getDialog().getDialogPane());
                 dialog.setType(group.getType());
                 dialog.getDialog().initOwner(_node.getScene().getWindow());
                 dialog.getDialog().show();
