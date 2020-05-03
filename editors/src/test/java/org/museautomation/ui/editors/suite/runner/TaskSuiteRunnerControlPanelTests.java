@@ -102,7 +102,7 @@ public class TaskSuiteRunnerControlPanelTests extends ComponentTest
 
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         SimpleTaskSuite suite = new SimpleTaskSuite();
         MockStepTask task = new MockStepTask();

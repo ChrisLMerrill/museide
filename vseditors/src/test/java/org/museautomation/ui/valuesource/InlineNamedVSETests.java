@@ -55,7 +55,7 @@ public class InlineNamedVSETests extends ComponentTest
 	    }
 
 	@Override
-	protected Node createComponentNode()
+    public Node createComponentNode()
 		{
 		_editor = new InlineNamedVSE(new SimpleProject(), new UndoStack());
 		return _editor.getNode();

@@ -18,7 +18,6 @@ dependencies {
     implementation 'org.museautomation:muse-selenium:[0.22,)'
     implementation 'org.museautomation:ide-extend:[0.10,)'
     implementation 'org.museautomation:ide-valuesource:[0.10,)'
-    implementation 'org.museautomation:ide-step-test-editor:[0.10,)'
 
     // external
     implementation 'org.openjfx:javafx-controls:14.0.1'

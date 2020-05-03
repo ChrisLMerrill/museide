@@ -204,14 +204,14 @@ public class DefaultStepEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _editor = new DefaultStepEditor(new RootStepEditContext(_project, new UndoStack(), null));
         return _editor.getNode();
         }
 
     @Override
-    protected double getDefaultHeight()
+    public double getDefaultHeight()
         {
         return super.getDefaultHeight() * 2;
         }

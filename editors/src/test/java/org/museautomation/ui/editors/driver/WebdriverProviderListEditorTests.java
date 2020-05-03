@@ -58,7 +58,7 @@ public class WebdriverProviderListEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _editor = new WebDriverProviderListEditor();
         _list = new WebDriverProviderList();
@@ -76,7 +76,7 @@ public class WebdriverProviderListEditorTests extends ComponentTest
         }
 
     @Override
-    protected double getDefaultHeight()
+    public double getDefaultHeight()
         {
         return super.getDefaultHeight() * 2;
         }

@@ -203,7 +203,7 @@ public class FixedNameValueSourceEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         return _grid;
         }

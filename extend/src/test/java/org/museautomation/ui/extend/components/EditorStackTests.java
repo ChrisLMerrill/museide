@@ -210,7 +210,7 @@ public class EditorStackTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _edits = new Stack<>();
 

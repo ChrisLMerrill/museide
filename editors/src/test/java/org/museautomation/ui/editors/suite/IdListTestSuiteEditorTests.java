@@ -161,7 +161,7 @@ public class IdListTestSuiteEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _project = new SimpleProject();
         _editor = new IdListTaskSuiteEditor();

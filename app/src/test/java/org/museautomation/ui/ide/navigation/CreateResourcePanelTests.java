@@ -83,7 +83,7 @@ public class CreateResourcePanelTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode() throws IOException
+    public Node createComponentNode() throws IOException
         {
         MuseProject project = new SimpleProject();
         SteppedTest test1 = new SteppedTest();

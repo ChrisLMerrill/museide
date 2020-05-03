@@ -108,7 +108,7 @@ public class StepEditorStackTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _cancelled = false;
         _committed = false;

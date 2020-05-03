@@ -118,7 +118,7 @@ public class ImportCandidatesTableTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _table = new ImportCandidatesTable();
         return _table.getNode();

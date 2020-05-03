@@ -26,7 +26,7 @@ public class InlineStepEditorContainerTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _step = new StepConfiguration(ReturnStep.TYPE_ID);
         _step.addSource(ReturnStep.VALUE_PARAM, ValueSourceConfiguration.forValue(""));

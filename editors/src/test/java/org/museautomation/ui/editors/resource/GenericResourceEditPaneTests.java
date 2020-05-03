@@ -44,7 +44,7 @@ public class GenericResourceEditPaneTests extends ComponentTest
 		}
 
 	@Override
-	protected Node createComponentNode()
+    public Node createComponentNode()
 		{
 		GenericResourceConfigEditPane pane = new GenericResourceConfigEditPane(_project, _undo);
 

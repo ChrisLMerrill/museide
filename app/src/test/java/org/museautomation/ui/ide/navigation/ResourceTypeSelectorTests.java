@@ -52,7 +52,7 @@ public class ResourceTypeSelectorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _selector = new ResourceTypeAndSubtypeSelector(_project);
         return _selector.getNode();

@@ -312,7 +312,7 @@ public class ValueSourceMapEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _container = new StackPane();
         _editor = new ValueSourceMapEditor(new SimpleProject(), new UndoStack());
@@ -321,7 +321,7 @@ public class ValueSourceMapEditorTests extends ComponentTest
         }
 
     @Override
-    protected double getDefaultHeight()
+    public double getDefaultHeight()
         {
         return 400;
         }

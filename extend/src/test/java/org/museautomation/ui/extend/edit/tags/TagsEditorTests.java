@@ -143,13 +143,13 @@ public class TagsEditorTests extends ComponentTest
 		}
 
 	@Override
-	protected boolean fillToWidthAndHeight()
+    public boolean fillToWidthAndHeight()
 		{
 		return false;
 		}
 
 	@Override
-	protected Node createComponentNode()
+    public Node createComponentNode()
 		{
 		_editor = new TagsEditor();
 		return _editor.getNode();

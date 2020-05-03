@@ -126,7 +126,7 @@ public class ImportCandidatesPaneTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile(PROJECT_FOLDER, getClass())));
         _import_pane = new ImportCandidatesPane(_project);
@@ -135,7 +135,7 @@ public class ImportCandidatesPaneTests extends ComponentTest
 
 
     @Override
-    protected double getDefaultHeight()
+    public double getDefaultHeight()
         {
         return super.getDefaultHeight() + 100;
         }

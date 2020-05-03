@@ -52,7 +52,7 @@ public class TextFieldValidatorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         BorderPane root = new BorderPane();
 

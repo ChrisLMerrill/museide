@@ -34,7 +34,7 @@ public class ResourceIdChooserTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode() throws Exception
+    public Node createComponentNode() throws Exception
         {
         MuseProject project = new SimpleProject();
         VariableList list1 = new VariableList();

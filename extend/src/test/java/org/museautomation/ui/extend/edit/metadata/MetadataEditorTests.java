@@ -227,7 +227,7 @@ public class MetadataEditorTests extends ComponentTest
 	    }
 
 	@Override
-	protected Node createComponentNode()
+    public Node createComponentNode()
 		{
 		return _editor.getNode();
 		}

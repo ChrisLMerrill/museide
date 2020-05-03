@@ -52,7 +52,7 @@ public class MultimodeStepEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         return _node;
         }

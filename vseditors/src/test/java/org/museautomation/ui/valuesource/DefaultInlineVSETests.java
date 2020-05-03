@@ -98,7 +98,7 @@ public class DefaultInlineVSETests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _container = new BorderPane();
         _editor = new DefaultInlineVSE(new SimpleProject(), new UndoStack());

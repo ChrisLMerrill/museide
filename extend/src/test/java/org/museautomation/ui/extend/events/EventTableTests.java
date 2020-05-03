@@ -1,17 +1,15 @@
-package org.museautomation.ui.event;
+package org.museautomation.ui.extend.events;
 
 import javafx.scene.*;
 import net.christophermerrill.testfx.*;
 import org.junit.jupiter.api.*;
+import org.mockito.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.util.*;
 
 import java.util.concurrent.*;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 /**
@@ -60,21 +58,21 @@ public class EventTableTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
-        _event1 = mock(MuseEvent.class);
-        when(_event1.getTypeId()).thenReturn("mockevent");
-        when(_event1.getAttribute(MuseEvent.DESCRIPTION)).thenReturn("event1");
-        when(_event1.getTimestamp()).thenReturn(0L);
-        when(_event1.hasTag(MuseEvent.FAILURE)).thenReturn(false);
-        when(_event1.hasTag(MuseEvent.ERROR)).thenReturn(false);
+        _event1 = Mockito.mock(MuseEvent.class);
+        Mockito.when(_event1.getTypeId()).thenReturn("mockevent");
+        Mockito.when(_event1.getAttribute(MuseEvent.DESCRIPTION)).thenReturn("event1");
+        Mockito.when(_event1.getTimestamp()).thenReturn(0L);
+        Mockito.when(_event1.hasTag(MuseEvent.FAILURE)).thenReturn(false);
+        Mockito.when(_event1.hasTag(MuseEvent.ERROR)).thenReturn(false);
 
-        _event2 = mock(MuseEvent.class);
-        when(_event2.getTypeId()).thenReturn("mockevent");
-        when(_event2.getAttribute(MuseEvent.DESCRIPTION)).thenReturn("event2");
-        when(_event2.getTimestamp()).thenReturn(TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS));
-        when(_event2.hasTag(MuseEvent.FAILURE)).thenReturn(false);
-        when(_event2.hasTag(MuseEvent.ERROR)).thenReturn(false);
+        _event2 = Mockito.mock(MuseEvent.class);
+        Mockito.when(_event2.getTypeId()).thenReturn("mockevent");
+        Mockito.when(_event2.getAttribute(MuseEvent.DESCRIPTION)).thenReturn("event2");
+        Mockito.when(_event2.getTimestamp()).thenReturn(TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS));
+        Mockito.when(_event2.hasTag(MuseEvent.FAILURE)).thenReturn(false);
+        Mockito.when(_event2.hasTag(MuseEvent.ERROR)).thenReturn(false);
 
         EventLogger logger = new EventLogger();
         logger.eventRaised(_event1);

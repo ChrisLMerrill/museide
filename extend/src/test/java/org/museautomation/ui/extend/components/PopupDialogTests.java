@@ -41,7 +41,7 @@ public class PopupDialogTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _close_on_ok = true;
         _ok_pressed = false;

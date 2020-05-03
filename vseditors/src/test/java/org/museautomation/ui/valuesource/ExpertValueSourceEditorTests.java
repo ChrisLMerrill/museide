@@ -233,7 +233,7 @@ public class ExpertValueSourceEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _project = new SimpleProject();
         _editor = new ExpertValueSourceEditor(_project, new UndoStack());
@@ -253,7 +253,7 @@ public class ExpertValueSourceEditorTests extends ComponentTest
         }
 
     @Override
-    protected double getDefaultHeight()
+    public double getDefaultHeight()
         {
         return 400;
         }

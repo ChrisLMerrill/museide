@@ -117,7 +117,7 @@ public class WebdriverProviderEditorTests extends ComponentTest
         Assertions.assertNull(chrome.getAbsolutePath());
         }
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _root.setBottom(new Button("accepts focus"));
         return _root;

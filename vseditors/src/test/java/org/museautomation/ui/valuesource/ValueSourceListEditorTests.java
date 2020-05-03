@@ -166,7 +166,7 @@ public class ValueSourceListEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _container = new StackPane();
         _editor = new ValueSourceListEditor(new SimpleProject(), new UndoStack());
@@ -175,7 +175,7 @@ public class ValueSourceListEditorTests extends ComponentTest
         }
 
     @Override
-    protected double getDefaultHeight()
+    public double getDefaultHeight()
         {
         return 400;
         }

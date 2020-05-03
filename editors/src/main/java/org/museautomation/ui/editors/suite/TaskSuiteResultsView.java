@@ -3,9 +3,9 @@ package org.museautomation.ui.editors.suite;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import org.museautomation.ui.event.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
+import org.museautomation.ui.extend.events.*;
 
 import java.util.*;
 

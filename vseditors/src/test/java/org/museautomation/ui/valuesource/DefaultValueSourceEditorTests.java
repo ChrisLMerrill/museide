@@ -243,7 +243,7 @@ public class DefaultValueSourceEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         UndoStack undo = new UndoStack();
         _editor = new DefaultValueSourceEditor(_project, undo);

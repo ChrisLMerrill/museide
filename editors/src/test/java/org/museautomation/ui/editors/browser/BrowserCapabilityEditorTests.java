@@ -67,7 +67,7 @@ public class BrowserCapabilityEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _editor = new BrowserCapabilitiesEditor();
         return _editor.getNode();

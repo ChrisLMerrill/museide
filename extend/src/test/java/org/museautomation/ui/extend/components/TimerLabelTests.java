@@ -44,7 +44,7 @@ public class TimerLabelTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _timer = new TimerLabel("s");
         _timer.setId(TIMER);

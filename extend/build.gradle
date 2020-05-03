@@ -28,6 +28,7 @@ dependencies {
     implementation 'de.jensd:fontawesomefx-octicons:4.3.0-11'
 
     testImplementation 'net.christophermerrill:TestFxUtils:[2.0,)'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5+'
 }
 

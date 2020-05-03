@@ -182,7 +182,7 @@ public class MetadataTabTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _other_field = new TextField("Something to receive focus.");
         _stack = new UndoStack();

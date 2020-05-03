@@ -33,7 +33,7 @@ public class StepTagEditorTests extends ComponentTest
 	    }
 
 	@Override
-	protected Node createComponentNode()
+    public Node createComponentNode()
 		{
 		_undo = new UndoStack();
 		_editor = new StepTagEditor(new RootStepEditContext(new SimpleProject(), _undo, null));
@@ -41,7 +41,7 @@ public class StepTagEditorTests extends ComponentTest
 		}
 
 	@Override
-	protected boolean fillToWidthAndHeight()
+    public boolean fillToWidthAndHeight()
 		{
 		return false;
 		}

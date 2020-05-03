@@ -486,7 +486,7 @@ public class StepTree2Tests extends ComponentTest
 		}
 
 	@Override
-	protected Node createComponentNode()
+    public Node createComponentNode()
 		{
 		_project = new SimpleProject();
 		_undo_stack = new UndoStack();

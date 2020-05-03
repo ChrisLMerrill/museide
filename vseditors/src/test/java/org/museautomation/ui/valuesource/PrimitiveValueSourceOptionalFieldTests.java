@@ -113,7 +113,7 @@ public class PrimitiveValueSourceOptionalFieldTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _editor = new PrimitiveValueOptionalField(true);
         return _editor.getNode();

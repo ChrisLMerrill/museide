@@ -1,4 +1,4 @@
-package org.museautomation.ui.event;
+package org.museautomation.ui.extend.events;
 
 import javafx.application.*;
 import org.museautomation.core.*;

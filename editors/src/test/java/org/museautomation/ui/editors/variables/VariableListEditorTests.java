@@ -121,7 +121,7 @@ public class VariableListEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _editor = new VariableListEditor();
         return _editor.getNode();

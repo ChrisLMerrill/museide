@@ -53,7 +53,7 @@ public class BaseResourceEditorTests extends ComponentTest
 	    }
 
 	@Override
-	protected Node createComponentNode()
+	public Node createComponentNode()
 		{
 		_editor = new SampleResourceEditor();
 		return _editor.getNode();

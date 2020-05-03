@@ -54,7 +54,7 @@ public class MultimodeValueSourceEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         return _node;
         }

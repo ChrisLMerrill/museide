@@ -45,7 +45,7 @@ public class ProjectResourceTreeTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode() throws IOException
+    public Node createComponentNode() throws IOException
         {
         SteppedTask test = new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID));
         test.setId(TEST1_ID);
@@ -53,12 +53,12 @@ public class ProjectResourceTreeTests extends ComponentTest
         _project.getResourceStorage().addResource(test);
 
         _editors = new MockResourceEditors();
-        _tree = new ProjectResourceTree(_project, new ResourceTreeOperationHandler(_project, _editors, new UndoStack()));
+        _tree = new ProjectResourceTree(_project, new ResourceTreeOperationHandler(_project, _editors, new UndoStack(), null));
         return _tree.getNode();
         }
 
     @Override
-    protected double getDefaultHeight()
+    public double getDefaultHeight()
         {
         return 800;
         }

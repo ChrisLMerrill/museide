@@ -99,7 +99,7 @@ public class GridPaneRowTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         GridPane pane = new GridPane();
         _rows = new GridPaneRows(pane);

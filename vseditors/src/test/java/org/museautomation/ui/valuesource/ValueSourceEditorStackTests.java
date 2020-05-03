@@ -75,7 +75,7 @@ public class ValueSourceEditorStackTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _project = new SimpleProject();
         _stack = new ValueSourceEditorStack(new EditInProgress<>()

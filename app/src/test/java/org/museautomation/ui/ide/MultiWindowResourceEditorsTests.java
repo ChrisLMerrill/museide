@@ -39,7 +39,7 @@ public class MultiWindowResourceEditorsTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         return new Label("placeholder node");
         }

@@ -57,7 +57,7 @@ public class ParameterListTaskSuiteEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode() throws Exception
+    public Node createComponentNode() throws Exception
         {
         _project = new SimpleProject();
 

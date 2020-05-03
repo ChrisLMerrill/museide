@@ -49,7 +49,7 @@ public class TagsLabelTests extends ComponentTest
 	    }
 
 	@Override
-	protected Node createComponentNode()
+    public Node createComponentNode()
 		{
 		_label = new TagsLabel();
 		return _label.getNode();

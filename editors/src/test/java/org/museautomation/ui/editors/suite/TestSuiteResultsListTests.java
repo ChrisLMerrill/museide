@@ -45,7 +45,7 @@ public class TestSuiteResultsListTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _results = new ArrayList<>();
         _results.add(TaskResult.create("success", "success", "passed"));

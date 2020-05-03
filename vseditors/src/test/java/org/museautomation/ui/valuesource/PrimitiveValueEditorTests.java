@@ -133,7 +133,7 @@ public class PrimitiveValueEditorTests extends ComponentTest
         }
 
     @Override
-    protected Node createComponentNode()
+    public Node createComponentNode()
         {
         _editor = new PrimitiveValueEditorField();
         BorderPane node = new BorderPane();
