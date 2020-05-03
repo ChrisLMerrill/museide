@@ -12,6 +12,8 @@ import org.museautomation.ui.extend.actions.*;
 import org.museautomation.ui.extend.glyphs.*;
 import org.museautomation.ui.valuesource.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -28,8 +30,6 @@ public class TaskInputValueEditorRow
         _use_default.setId(USE_DEFAULT_ID);
         _use_default.setGraphic(Glyphs.create("FA:ARROW_LEFT"));
         _use_default.setTooltip(new Tooltip("Use default value"));
-        _satisfied_icon.setId(REQUIRED_SATISFIED_ICON_ID);
-        _not_satisfied_icon.setId(REQUIRED_NOT_SATISFIED_ICON_ID);
 
         source.addChangeListener(e -> setSatisfactionIcon(isSatisfied()));
         _use_default.setOnAction(event ->
@@ -53,14 +53,24 @@ public class TaskInputValueEditorRow
     private void setSatisfactionIcon(boolean satisifed)
         {
         if (satisifed)
-            {   
-            _satisfaction_label.setGraphic(_satisfied_icon);
-            _satisfaction_label.setId(REQUIRED_SATISFIED_ICON_ID);
+            {
+            if (!REQUIRED_SATISFIED_ICON_ID.equals(_satisfaction_label.getId()))
+                {
+                _satisfaction_label.setGraphic(_satisfied_icon);
+                _satisfaction_label.setId(REQUIRED_SATISFIED_ICON_ID);
+                for (SatisfactionListener listener : _listeners)
+                    listener.satisfactionChanged(false, true);
+                }
             }
         else
-              {
-            _satisfaction_label.setGraphic(_not_satisfied_icon);
-            _satisfaction_label.setId(REQUIRED_NOT_SATISFIED_ICON_ID);
+            {
+            if (!REQUIRED_NOT_SATISFIED_ICON_ID.equals(_satisfaction_label.getId()))
+                {
+                _satisfaction_label.setGraphic(_not_satisfied_icon);
+                _satisfaction_label.setId(REQUIRED_NOT_SATISFIED_ICON_ID);
+                for (SatisfactionListener listener : _listeners)
+                    listener.satisfactionChanged(true, false);
+                }
             }
         }
 
@@ -72,6 +82,11 @@ public class TaskInputValueEditorRow
             _use_default.setDisable(true);
         _name.setText(input.getName());
         _type.setText(input.getType().getName());
+        }
+
+    public TaskInput getInput()
+        {
+        return _input;
         }
 
     public boolean isSatisfied()
@@ -115,6 +130,11 @@ public class TaskInputValueEditorRow
             }
         }
 
+    public void addSatisfactionChangeListener(SatisfactionListener listener)
+        {
+        _listeners.add(listener);
+        }
+
     private TaskInput _input;
     private ValueSourceConfiguration _default_source;
     private final MuseExecutionContext _context;
@@ -126,9 +146,15 @@ public class TaskInputValueEditorRow
     private final Label _satisfaction_label = new Label();
     private final Node _satisfied_icon = Glyphs.create("FA:CHECK_CIRCLE", Color.GREEN, 20);
     private final Node _not_satisfied_icon = Glyphs.create("FA:EXCLAMATION_CIRCLE", Color.RED, 20);
+    private final List<SatisfactionListener> _listeners = new ArrayList<>();
 
     public final static String VALUE_FIELD_ID = "omuit-tiver-value-field";
     public final static String USE_DEFAULT_ID = "omuit-tiver-use-default";
     public final static String REQUIRED_NOT_SATISFIED_ICON_ID = "omuit-tiver-not-satified-icon";
     public final static String REQUIRED_SATISFIED_ICON_ID = "omuit-tiver-satified-icon";
+
+    public interface SatisfactionListener
+        {
+        void satisfactionChanged(boolean old_value, boolean new_value);
+        }
     }

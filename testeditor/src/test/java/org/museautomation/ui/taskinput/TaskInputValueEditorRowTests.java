@@ -14,6 +14,8 @@ import org.museautomation.core.task.*;
 import org.museautomation.core.task.input.*;
 import org.museautomation.core.values.*;
 
+import java.util.concurrent.atomic.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -33,7 +35,8 @@ public class TaskInputValueEditorRowTests extends ComponentTest
         assertTrue(exists(_input.getType().getName()));
         assertTrue(exists(id(TaskInputValueEditorRow.REQUIRED_SATISFIED_ICON_ID)));
 
-        assertFalse(_row.isSatisfied());
+        assertTrue(_satisifed.get());
+        assertTrue(_row.isSatisfied());
         }
 
     @Test
@@ -42,8 +45,8 @@ public class TaskInputValueEditorRowTests extends ComponentTest
         setupInput(new StringValueType(), false, ValueSourceConfiguration.forValue(DEF_VAL));
         waitForUiEvents();
         assertNull(_row.getResolvedInput());
+        assertTrue(_satisifed.get());
         }
-
 
     @Test
     public void displayRequiredInputNoDefault()
@@ -58,6 +61,7 @@ public class TaskInputValueEditorRowTests extends ComponentTest
         assertTrue(exists(id(TaskInputValueEditorRow.REQUIRED_NOT_SATISFIED_ICON_ID)));
 
         assertFalse(_row.isSatisfied());
+        assertFalse(_satisifed.get());
         }
 
     @Test
@@ -69,9 +73,11 @@ public class TaskInputValueEditorRowTests extends ComponentTest
         final String val1 = "value1";
 
         assertFalse(_row.isSatisfied());
+        assertFalse(_satisifed.get());
         assertTrue(exists(id(TaskInputValueEditorRow.REQUIRED_NOT_SATISFIED_ICON_ID)));
         fillFieldAndTabAway(id(TaskInputValueEditorRow.VALUE_FIELD_ID), quoted(val1));
         assertTrue(_row.isSatisfied());
+        assertTrue(_satisifed.get());
         assertEquals(quoted(val1), textOf(id(TaskInputValueEditorRow.VALUE_FIELD_ID)));
         assertTrue(exists(id(TaskInputValueEditorRow.REQUIRED_SATISFIED_ICON_ID)));
 
@@ -87,10 +93,12 @@ public class TaskInputValueEditorRowTests extends ComponentTest
         waitForUiEvents();
 
         assertFalse(_row.isSatisfied());
+        assertFalse(_satisifed.get());
         assertTrue(exists(id(TaskInputValueEditorRow.REQUIRED_NOT_SATISFIED_ICON_ID)));
         clickOn(id(TaskInputValueEditorRow.USE_DEFAULT_ID));
         assertEquals(quoted(DEF_VAL), textOf(id(TaskInputValueEditorRow.VALUE_FIELD_ID)));
         assertTrue(_row.isSatisfied());
+        assertTrue(_satisifed.get());
         assertTrue(exists(id(TaskInputValueEditorRow.REQUIRED_SATISFIED_ICON_ID)));
 
         ResolvedTaskInput resolved = _row.getResolvedInput();
@@ -102,6 +110,7 @@ public class TaskInputValueEditorRowTests extends ComponentTest
         {
         _input = new TaskInput(NAME1, type.getId(), required);
         _input.setDefault(default_val);
+        _row.addSatisfactionChangeListener(_listener);
         _row.setInput(_input);
         Platform.runLater(() -> _row.addToGrid(_grid, 0));
         waitForUiEvents();
@@ -120,6 +129,9 @@ public class TaskInputValueEditorRowTests extends ComponentTest
     private final GridPane _grid = new GridPane();
     private TaskInputValueEditorRow _row;
     private TaskInput _input;
+
+    private final AtomicBoolean _satisifed = new AtomicBoolean(true);
+    private final TaskInputValueEditorRow.SatisfactionListener _listener = (old_value, new_value) -> _satisifed.set(new_value);
 
     private final static String NAME1 = "name1";
     private final static String DEF_VAL = "default-val";

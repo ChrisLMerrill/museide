@@ -30,7 +30,16 @@ public class TaskInputValuesEditor
             {
             for (int i = 0; i < inputs.size(); i++)
                 {
-                TaskInputValueEditorRow row = new TaskInputValueEditorRow(_context);
+                final TaskInputValueEditorRow row = new TaskInputValueEditorRow(_context);
+                row.addSatisfactionChangeListener((old_value, new_value) ->
+                    {
+                    boolean was_satisfied = isSatisfied();
+                    _inputs_satisfied.put(row.getInput().getName(), new_value);
+                    boolean is_satisifed = isSatisfied();
+                    if (was_satisfied != is_satisifed)
+                        for (InputsSatisfiedListener listener : _listeners)
+                            listener.satisfactionChanged(was_satisfied, is_satisifed);
+                    });
                 row.setInput(inputs.get(i));
                 row.addToGrid(_grid, i);
                 _rows.add(row);
@@ -40,8 +49,8 @@ public class TaskInputValuesEditor
 
     public boolean isSatisfied()
         {
-        for (TaskInputValueEditorRow row : _rows)
-            if (!row.isSatisfied())
+        for (boolean satisfied : _inputs_satisfied.values())
+            if (!satisfied)
                 return false;
         return true;
         }
@@ -58,7 +67,19 @@ public class TaskInputValuesEditor
         return resolved_inputs;
         }
 
+    public void addSatisfactionChangeListener(InputsSatisfiedListener listener)
+        {
+        _listeners.add(listener);
+        }
+
     private final GridPane _grid = new GridPane();
     private final MuseExecutionContext _context;
     private final List<TaskInputValueEditorRow> _rows = new ArrayList<>();
+    private final List<InputsSatisfiedListener> _listeners = new ArrayList<>();
+    private final Map<String,Boolean> _inputs_satisfied = new HashMap<>();
+
+    public interface InputsSatisfiedListener
+        {
+        void satisfactionChanged(boolean old_value, boolean new_value);
+        }
     }

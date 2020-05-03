@@ -13,6 +13,7 @@ import org.museautomation.core.values.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -33,8 +34,11 @@ public class TaskInputValuesEditorTests extends ComponentTest
         inputs.add(input4);
 
         // set the inputs
+        _satisifed.set(true);
+        _editor.addSatisfactionChangeListener(_listener);
         _editor.setInputs(inputs);
         waitForUiEvents();
+        assertFalse(_satisifed.get());
 
         // verify each is displayed
         assertTrue(exists(input1.getName()));
@@ -50,15 +54,18 @@ public class TaskInputValuesEditorTests extends ComponentTest
         clickOn(lookup(id(TaskInputValueEditorRow.USE_DEFAULT_ID)).nth(0).queryButton()); // in the second row
 
         // verify valid
+        assertTrue(_satisifed.get());
         assertTrue(_editor.isSatisfied());
 
         // edit a non-required with invalid value
         fillFieldAndTabAway(lookup(id(TaskInputValueEditorRow.VALUE_FIELD_ID)).nth(2).query(), quoted("val1"));
         assertFalse(_editor.isSatisfied());  // should now be invalid
+        assertFalse(_satisifed.get());
 
         // edit a non-required with valid value
         fillFieldAndTabAway(lookup(id(TaskInputValueEditorRow.VALUE_FIELD_ID)).nth(2).query(), "123");
         assertTrue(_editor.isSatisfied());  // should now be valid
+        assertTrue(_satisifed.get());
 
         // verify the values collected
         List<ResolvedTaskInput> resolved_list = _editor.getResolvedInputs();
@@ -91,4 +98,6 @@ public class TaskInputValuesEditorTests extends ComponentTest
         }
 
     private TaskInputValuesEditor _editor;
+    private final AtomicBoolean _satisifed = new AtomicBoolean();
+    private final TaskInputValuesEditor.InputsSatisfiedListener _listener = (old_value, new_value) -> _satisifed.set(new_value);
     }
