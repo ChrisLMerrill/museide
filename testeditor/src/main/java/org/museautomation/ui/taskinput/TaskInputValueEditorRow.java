@@ -76,11 +76,13 @@ public class TaskInputValueEditorRow
 
     public boolean isSatisfied()
         {
+        ValueSourceConfiguration source = _editor.getSource();
+        if (source == null)
+            return false;
+        if (source.equals(new ValueSourceConfiguration()) && !_input.isRequired())
+            return true;
         try
             {
-            ValueSourceConfiguration source = _editor.getSource();
-            if (source == null)
-                return false;
             Object value = source.createSource(_context.getProject()).resolveValue(_context);
             return _input.getType().isInstance(value);
             }
