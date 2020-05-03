@@ -84,6 +84,8 @@ public class DefaultInlineVSE extends BaseValueSourceEditor implements ValueSour
         ValueSourceConfiguration new_source = checkInput(_text.getText());
         if (isValid() && !Objects.equals(new_source, getSource()))
             {
+            if (getSource() == null)
+                super.setSource(ValueSourceConfiguration.forValue(null));
             // merge the new source into the existing
             merge(new_source, getSource());
             }
