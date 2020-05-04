@@ -3,19 +3,19 @@ package org.museautomation.ui.valuesource;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
-import org.museautomation.parsing.valuesource.*;
-import org.museautomation.ui.valuesource.actions.*;
-import org.museautomation.ui.valuesource.parser.*;
 import org.museautomation.core.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.util.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.values.events.*;
 import org.museautomation.core.values.strings.*;
+import org.museautomation.parsing.valuesource.*;
 import org.museautomation.ui.extend.actions.*;
 import org.museautomation.ui.extend.components.*;
 import org.museautomation.ui.extend.edit.*;
 import org.museautomation.ui.extend.edit.step.*;
+import org.museautomation.ui.valuesource.actions.*;
+import org.museautomation.ui.valuesource.parser.*;
 
 import java.util.*;
 
@@ -91,6 +91,11 @@ public class DefaultInlineVSE extends BaseValueSourceEditor implements ValueSour
 
     private ValueSourceConfiguration checkInput(String new_value)
         {
+        if (new_value.length() == 0)
+            {
+            InputValidation.setValid(_text, true);
+            return new ValueSourceConfiguration();
+            }
         ValueSourceConfiguration new_config;
         try
             {

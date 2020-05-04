@@ -40,7 +40,7 @@ public class DefaultInlineVSETests extends ComponentTest
         waitForUiEvents();
         Assertions.assertEquals("", field.getText());
         Assertions.assertTrue(field.isEditable());
-        Assertions.assertTrue(InputValidation.isShowingError(field), "should indicate invalid input");
+        Assertions.assertFalse(InputValidation.isShowingError(field), "blank is valid");
 
         AtomicReference<ValueChangeEvent> event_notified = new AtomicReference<>(null);
         source.addChangeListener(new ValueSourceChangeObserver()
@@ -56,6 +56,7 @@ public class DefaultInlineVSETests extends ComponentTest
         fillFieldAndTabAway("#" + DefaultInlineVSE.TEXT_ID, quoted(text));
         waitForUiEvents();
 
+        Assertions.assertFalse(InputValidation.isShowingError(field), "should indicate invalid input");
         Assertions.assertNotNull(event_notified.get());
         Assertions.assertEquals(text, _editor.getSource().getValue());
         }
