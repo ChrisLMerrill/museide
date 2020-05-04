@@ -8,7 +8,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import org.controlsfx.control.*;
 import org.controlsfx.control.action.*;
-import org.museautomation.builtins.step.userinput.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.execution.*;
@@ -22,9 +21,12 @@ import org.museautomation.ui.extend.javafx.*;
 import org.museautomation.ui.steptask.actions.*;
 import org.museautomation.ui.steptask.execution.*;
 import org.museautomation.ui.steptree.*;
+import org.museautomation.ui.taskinput.*;
 import org.slf4j.*;
 
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * Edit a SteppedTask (or anything else that implements ContainsStep, in theory).
@@ -267,10 +269,25 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
         @Override
         public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresolvedTaskInputs inputs, MuseExecutionContext context)
             {
-            ArrayList<ResolvedTaskInput> newly_resolved = new ArrayList<>();
-            newly_resolved.add(new ResolvedTaskInput(WaitForUserInputStep.CONTINUE_INPUT_NAME, false, new ResolvedInputSource.InputProviderSource(this)));
-            newly_resolved.add(new ResolvedTaskInput(WaitForUserInputStep.MESSAGE_INPUT_NAME, "Kill this thing!", new ResolvedInputSource.InputProviderSource(this)));
-            return newly_resolved;
+            CountDownLatch latch = new CountDownLatch(1);
+            AtomicReference<List<ResolvedTaskInput>> list_holder = new AtomicReference<>(null);
+            Platform.runLater(() ->
+                {
+                TaskInputDialog dialog = new TaskInputDialog(inputs, context);
+                Optional<List<ResolvedTaskInput>> result = dialog.createDialog().showAndWait();
+                list_holder.set(result.orElse(Collections.emptyList()));
+                latch.countDown();
+                });
+
+            try
+                {
+                latch.await();
+                }
+            catch (InterruptedException e)
+                {
+                LOG.error("TaskInputDialog was interrupted before completion.");
+                }
+            return list_holder.get();
             }
 
         @Override
@@ -279,7 +296,6 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
             return "default interactive TaskInputProvider";
             }
         };
-
 
     final static Logger LOG = LoggerFactory.getLogger(StepTestEditor.class);
     }

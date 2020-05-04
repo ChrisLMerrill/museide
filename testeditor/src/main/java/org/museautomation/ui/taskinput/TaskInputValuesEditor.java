@@ -17,6 +17,9 @@ public class TaskInputValuesEditor
     public TaskInputValuesEditor(MuseExecutionContext context)
         {
         _context = context;
+
+        _grid.setVgap(5.0);
+        _grid.setHgap(5.0);
         }
 
     public Node getNode()
