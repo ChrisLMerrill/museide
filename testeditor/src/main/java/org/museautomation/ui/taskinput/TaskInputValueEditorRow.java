@@ -43,6 +43,7 @@ public class TaskInputValueEditorRow
         {
         grid.add(_name, 0, row_index);
         grid.add(_editor.getNode(), 1, row_index);
+        GridPane.setHgrow(_editor.getNode(), Priority.ALWAYS);
         if (_input.getDefault() != null)
             grid.add(_use_default, 2, row_index);
         grid.add(_type, 3, row_index);

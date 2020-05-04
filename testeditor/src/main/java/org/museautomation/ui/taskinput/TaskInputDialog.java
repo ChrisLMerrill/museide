@@ -41,9 +41,9 @@ public class TaskInputDialog
         editor.addSatisfactionChangeListener((old, satisifed) -> ok_button.setDisable(!satisifed));
 
         editor.setInputs(_inputs.list());  // TODO push UnresolvedTaskInputs into the other classes
-        dialog.getDialogPane().setMinHeight(300);
-        dialog.getDialogPane().setMinWidth(400);
         dialog.getDialogPane().setContent(editor.getNode());
+        dialog.getDialogPane().setMinWidth(400);
+        dialog.getDialogPane().setMinHeight(150 + _inputs.list().size() * 25);
         dialog.setResizable(true);
 
         return dialog;
