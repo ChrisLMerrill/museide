@@ -27,11 +27,11 @@ public class TaskInputValuesEditorTests extends ComponentTest
         TaskInput input2 = createInput("name2", new StringValueType(), true, ValueSourceConfiguration.forValue("default2"));
         TaskInput input3 = createInput("name3", new IntegerValueType(), false, null);
         TaskInput input4 = createInput("name4", new BooleanValueType(), false, ValueSourceConfiguration.forValue(true));
-        List<TaskInput> inputs = new ArrayList<>();
-        inputs.add(input1);
-        inputs.add(input2);
-        inputs.add(input3);
-        inputs.add(input4);
+        TaskInputSet inputs = new TaskInputSet();
+        inputs.addInput(input1);
+        inputs.addInput(input2);
+        inputs.addInput(input3);
+        inputs.addInput(input4);
 
         // set the inputs
         _satisifed.set(true);
@@ -54,8 +54,8 @@ public class TaskInputValuesEditorTests extends ComponentTest
         clickOn(lookup(id(TaskInputValueEditorRow.USE_DEFAULT_ID)).nth(0).queryButton()); // in the second row
 
         // verify valid
-        assertTrue(_satisifed.get());
         assertTrue(_editor.isSatisfied());
+        assertTrue(_satisifed.get());
 
         // edit a non-required with invalid value
         fillFieldAndTabAway(lookup(id(TaskInputValueEditorRow.VALUE_FIELD_ID)).nth(2).query(), quoted("val1"));

@@ -2,6 +2,7 @@ package org.museautomation.ui.taskinput;
 
 import javafx.scene.control.*;
 import org.museautomation.core.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.task.input.*;
 import org.museautomation.ui.extend.*;
 import org.museautomation.ui.extend.icons.*;
@@ -13,7 +14,7 @@ import java.util.*;
  */
 public class TaskInputDialog
     {
-    public TaskInputDialog(UnresolvedTaskInputs inputs, MuseExecutionContext context)
+    public TaskInputDialog(TaskInputSet inputs, MuseExecutionContext context)
         {
         _inputs = inputs;
         _context = context;
@@ -40,15 +41,15 @@ public class TaskInputDialog
             });
         editor.addSatisfactionChangeListener((old, satisifed) -> ok_button.setDisable(!satisifed));
 
-        editor.setInputs(_inputs.list());  // TODO push UnresolvedTaskInputs into the other classes
+        editor.setInputs(_inputs);
         dialog.getDialogPane().setContent(editor.getNode());
         dialog.getDialogPane().setMinWidth(400);
-        dialog.getDialogPane().setMinHeight(150 + _inputs.list().size() * 25);
+        dialog.getDialogPane().setMinHeight(150 + _inputs.all().size() * 25);
         dialog.setResizable(true);
 
         return dialog;
         }
 
-    private final UnresolvedTaskInputs _inputs;
+    private final TaskInputSet _inputs;
     private final MuseExecutionContext _context;
     }

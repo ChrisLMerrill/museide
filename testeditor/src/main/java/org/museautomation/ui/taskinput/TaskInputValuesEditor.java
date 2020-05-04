@@ -27,11 +27,12 @@ public class TaskInputValuesEditor
         return _grid;
         }
 
-    public void setInputs(List<TaskInput> inputs)
+    public void setInputs(TaskInputSet inputs)
         {
         Platform.runLater(() ->
             {
-            for (int i = 0; i < inputs.size(); i++)
+            int index = 0;
+            for (TaskInput input : inputs.all())
                 {
                 final TaskInputValueEditorRow row = new TaskInputValueEditorRow(_context);
                 row.addSatisfactionChangeListener((old_value, new_value) ->
@@ -43,9 +44,10 @@ public class TaskInputValuesEditor
                         for (InputsSatisfiedListener listener : _listeners)
                             listener.satisfactionChanged(was_satisfied, is_satisifed);
                     });
-                row.setInput(inputs.get(i));
-                row.addToGrid(_grid, i);
+                row.setInput(input);
+                row.addToGrid(_grid, index);
                 _rows.add(row);
+                index++;
                 }
             });
         }

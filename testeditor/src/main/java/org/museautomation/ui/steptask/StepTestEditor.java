@@ -13,6 +13,7 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.task.input.*;
 import org.museautomation.ui.extend.edit.*;
 import org.museautomation.ui.extend.events.*;
@@ -267,7 +268,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
     TaskInputProvider provider = new TaskInputProvider()  // TODO build a provider GUI
         {
         @Override
-        public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresolvedTaskInputs inputs, MuseExecutionContext context)
+        public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, TaskInputSet inputs, MuseExecutionContext context)
             {
             CountDownLatch latch = new CountDownLatch(1);
             AtomicReference<List<ResolvedTaskInput>> list_holder = new AtomicReference<>(null);
