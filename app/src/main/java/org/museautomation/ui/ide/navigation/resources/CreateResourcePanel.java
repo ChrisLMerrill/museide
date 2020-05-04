@@ -5,6 +5,7 @@ import javafx.event.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.museautomation.ui.extend.*;
 import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
@@ -27,7 +28,7 @@ public class CreateResourcePanel
 
     private void createContent()
         {
-        _grid.getStylesheets().add(getClass().getResource("/ide.css").toExternalForm());
+        _grid.getStylesheets().add(Styles.get("ide"));
         _grid.setVgap(5);
         _grid.setHgap(5);
 

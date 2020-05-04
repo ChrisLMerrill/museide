@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.stage.*;
 import net.christophermerrill.FancyFxTree.*;
-import org.museautomation.ui.extend.glyphs.*;
+import org.museautomation.ui.extend.icons.*;
 import org.museautomation.ui.ide.*;
 import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
@@ -146,10 +146,10 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
         return null;
         }
 
-    private MuseProject _project;
-    private ResourceEditors _editors;
-    private UndoStack _undo;
-    private Node _node;
+    private final MuseProject _project;
+    private final ResourceEditors _editors;
+    private final UndoStack _undo;
+    private final Node _node;
 
     private List<ResourceTreeNodeFacade> _selections = Collections.emptyList();
     private UndoableAction _paste_action = null;

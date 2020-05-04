@@ -51,7 +51,7 @@ public abstract class BaseResourceEditor implements MuseResourceEditor
             _border_pane.setTop(button_bar);
 
             Parent main_area = getEditorArea();
-//            main_area.getStylesheets().add(getClass().getResource("/ide.css").toExternalForm());
+//            _scene.getStylesheets().add(Styles.find("ide"));
             _border_pane.setCenter(main_area);
             }
         return _notifier;
@@ -60,7 +60,7 @@ public abstract class BaseResourceEditor implements MuseResourceEditor
     private Scene createScene()
         {
         _scene = new Scene(getNode());
-//        _scene.getStylesheets().add(getClass().getResource("/ide.css").toExternalForm());
+//        _scene.getStylesheets().add(Styles.find("ide"));
 
         _scene.setOnKeyPressed(event ->
             {

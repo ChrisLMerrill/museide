@@ -6,7 +6,7 @@ import javafx.stage.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.ui.extend.components.*;
-import org.museautomation.ui.extend.glyphs.*;
+import org.museautomation.ui.extend.icons.*;
 import org.museautomation.ui.settings.*;
 import org.slf4j.*;
 

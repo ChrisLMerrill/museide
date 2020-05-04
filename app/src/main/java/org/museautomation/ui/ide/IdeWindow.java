@@ -1,7 +1,7 @@
 package org.museautomation.ui.ide;
 
 import javafx.stage.*;
-import org.museautomation.ui.extend.glyphs.*;
+import org.museautomation.ui.extend.icons.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
