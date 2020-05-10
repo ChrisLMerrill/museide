@@ -23,7 +23,10 @@ public class DefaultStepCellRenderer implements StepCellRenderer
 	@Override
 	public String getStepLabel()
 		{
-		return _context.getProject().getStepDescriptors().get(_step).getShortDescription(_step);
+        String desc = _context.getProject().getStepDescriptors().get(_step).getShortDescription(_step);
+        if (desc.length() > 120)
+            desc = desc.substring(0, 120) + "...";
+        return desc;
 		}
 
 	private StepEditContext _context;
