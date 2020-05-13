@@ -7,10 +7,7 @@ import javafx.scene.paint.*;
 import org.museautomation.core.*;
 import org.museautomation.core.task.*;
 import org.museautomation.core.task.input.*;
-import org.museautomation.core.values.*;
-import org.museautomation.ui.extend.actions.*;
 import org.museautomation.ui.extend.glyphs.*;
-import org.museautomation.ui.valuesource.*;
 
 import java.util.*;
 
@@ -21,29 +18,21 @@ public class TaskInputValueEditorRow
     {
     public TaskInputValueEditorRow(MuseExecutionContext context)
         {
-        _context = context;
-        _editor = new DefaultInlineVSE(context.getProject(), new UndoStack());
-        _editor.getNode().setId(VALUE_FIELD_ID);
-        ValueSourceConfiguration source = new ValueSourceConfiguration();
-        _editor.setSource(source);
+        _input_field = new ValueSourceInputField(context);
+        _input_field.getNode().setId(VALUE_FIELD_ID);
+        _input_field.addListener(this::setSatisfactionIcon);
 
         _use_default.setId(USE_DEFAULT_ID);
         _use_default.setGraphic(Glyphs.create("FA:ARROW_LEFT"));
         _use_default.setTooltip(new Tooltip("Use default value"));
-
-        source.addChangeListener(e -> setSatisfactionIcon(isSatisfied()));
-        _use_default.setOnAction(event ->
-            {
-            _editor.setSource(_default_source);
-            setSatisfactionIcon(isSatisfied());
-            });
+        _use_default.setOnAction(event -> _input_field.useDefault());
         }
 
     public void addToGrid(GridPane grid, int row_index)
         {
         grid.add(_name, 0, row_index);
-        grid.add(_editor.getNode(), 1, row_index);
-        GridPane.setHgrow(_editor.getNode(), Priority.ALWAYS);
+        grid.add(_input_field.getNode(), 1, row_index);
+        GridPane.setHgrow(_input_field.getNode(), Priority.ALWAYS);
         if (_input.getDefault() != null)
             grid.add(_use_default, 2, row_index);
         grid.add(_type, 3, row_index);
@@ -78,10 +67,11 @@ public class TaskInputValueEditorRow
     public void setInput(TaskInput input)
         {
         _input = input;
-        _default_source = input.getDefault();
-        if (_default_source == null)
+        _input_field.setTaskInput(input);
+        if (input.getDefault()  == null)
             _use_default.setDisable(true);
-        _name.setText(input.getName());
+
+        _name.setText(new UiFriendlyMetadata(input.metadata()).getString("label", input.getName()));
         _type.setText(input.getType().getName());
         }
 
@@ -92,43 +82,12 @@ public class TaskInputValueEditorRow
 
     public boolean isSatisfied()
         {
-        ValueSourceConfiguration source = _editor.getSource();
-        if (source == null)
-            return false;
-        if (source.equals(new ValueSourceConfiguration()) && !_input.isRequired())
-            return true;
-        try
-            {
-            Object value = source.createSource(_context.getProject()).resolveValue(_context);
-            return _input.getType().isInstance(value);
-            }
-        catch (MuseExecutionError e)
-            {
-            return false;
-            }
-        }
-
-    public boolean isDefault()
-        {
-        if (_default_source == null)
-            return false;
-        return _default_source.equals(_editor.getSource());
+        return _input_field.isSatisfied();
         }
 
     public ResolvedTaskInput getResolvedInput()
         {
-        try
-            {
-            Object value = _editor.getSource().createSource(_context.getProject()).resolveValue(_context);
-            ResolvedInputSource source = new ResolvedInputSource.UserInputSource();
-            if (isDefault())
-                source = new ResolvedInputSource.DefaultValueSource();
-            return new ResolvedTaskInput(_input.getName(), value, source);
-            }
-        catch (MuseExecutionError e)
-            {
-            return null;
-            }
+        return _input_field.getResolvedInput();
         }
 
     public void addSatisfactionChangeListener(SatisfactionListener listener)
@@ -137,11 +96,9 @@ public class TaskInputValueEditorRow
         }
 
     private TaskInput _input;
-    private ValueSourceConfiguration _default_source;
-    private final MuseExecutionContext _context;
 
     private final Label _name = new Label();
-    private final DefaultInlineVSE _editor;
+    private TaskInputField _input_field;
     private final Button _use_default = new Button();
     private final Label _type = new Label();
     private final Label _satisfaction_label = new Label();

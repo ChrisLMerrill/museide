@@ -26,7 +26,7 @@ public class TaskInputDialog
 
         Dialog<List<ResolvedTaskInput>> dialog = new Dialog<>();
         dialog.setTitle("Input required");
-        dialog.setHeaderText("Provide this data:");
+        dialog.setHeaderText("The task requires these inputs:");
         Icons.setIcons(dialog.getDialogPane());
         Styles.applyToScene("ide", dialog.getDialogPane().getScene());
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
