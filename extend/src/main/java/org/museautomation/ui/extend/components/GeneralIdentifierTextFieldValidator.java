@@ -22,6 +22,7 @@ public class GeneralIdentifierTextFieldValidator
 			char c = identifier.charAt(i);
 			if (!(Character.isLetterOrDigit(c)
 				|| c == '-'
+				|| c == '.'
 				|| c == '_'))
 				valid = false;
 			}
