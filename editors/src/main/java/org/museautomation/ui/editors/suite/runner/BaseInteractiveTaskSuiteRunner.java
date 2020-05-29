@@ -35,32 +35,32 @@ public abstract class BaseInteractiveTaskSuiteRunner extends SimpleTaskSuiteRunn
     protected Listener _listener = new Listener()
         {
         @Override
-        public void testSuiteStarted(MuseTaskSuite suite)
+        public void taskSuiteStarted(MuseTaskSuite suite)
             {
             for (Listener listener : _listeners)
-                listener.testSuiteStarted(suite);
+                listener.taskSuiteStarted(suite);
             }
 
         @Override
-        public void testSuiteCompleted(MuseTaskSuite suite)
+        public void taskSuiteCompleted(MuseTaskSuite suite)
             {
             for (Listener listener : _listeners)
-                listener.testSuiteCompleted(suite);
+                listener.taskSuiteCompleted(suite);
             _complete = true;
             }
 
         @Override
-        public void testStarted(TaskConfiguration test_config, TaskRunner test_runner)
+        public void taskStarted(TaskConfiguration test_config, TaskRunner test_runner)
             {
             for (Listener listener : _listeners)
-                listener.testStarted(test_config, test_runner);
+                listener.taskStarted(test_config, test_runner);
             }
 
         @Override
-        public void testCompleted(TaskResult result, int completed, Integer total, EventLog log)
+        public void taskCompleted(TaskResult result, int completed, Integer total, EventLog log)
 	        {
             for (Listener listener : _listeners)
-                listener.testCompleted(result, completed, total, log);
+                listener.taskCompleted(result, completed, total, log);
             }
         };
 

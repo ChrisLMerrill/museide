@@ -63,38 +63,38 @@ public class TaskSuiteRunnerControlPanel
 		_grid.add(_suite_timer, 2, 0);
 
 		_complete_label = new Label();
-		_complete_label.setText("0 tests complete");
+		_complete_label.setText("0 tasks complete");
 		_complete_label.setId(COMPLETE_LABEL_ID);
 		GridPane.setValignment(_complete_label, VPos.BOTTOM);
 		GridPane.setVgrow(_complete_label, Priority.SOMETIMES);
 		_grid.add(_complete_label, 0, 1, 3, 1);
 
 		_failed_label = new Label();
-		_failed_label.setText("0 tests failed");
+		_failed_label.setText("0 tasks failed");
 		_failed_label.setId(FAILED_LABEL_ID);
 		_grid.add(_failed_label, 0, 2, 3, 1);
 
 		_error_label = new Label();
-		_error_label.setText("0 tests encountered errors");
+		_error_label.setText("0 tasks encountered errors");
 		_error_label.setId(ERROR_LABEL_ID);
 		_grid.add(_error_label, 0, 3, 3, 1);
 
-		Label test_label = new Label("Test: ");
-		_grid.add(test_label, 0, 4);
-		GridPane.setValignment(test_label, VPos.BOTTOM);
-		GridPane.setVgrow(test_label, Priority.SOMETIMES);
+		Label task_label = new Label("Task: ");
+		_grid.add(task_label, 0, 4);
+		GridPane.setValignment(task_label, VPos.BOTTOM);
+		GridPane.setVgrow(task_label, Priority.SOMETIMES);
 
-		_test_name = new Label();
-		_test_name.setId(TEST_LABEL_ID);
-		_grid.add(_test_name, 1, 4);
-		GridPane.setValignment(_test_name, VPos.BOTTOM);
-		GridPane.setVgrow(_test_name, Priority.ALWAYS);
-		GridPane.setHgrow(_test_name, Priority.ALWAYS);
+		_task_name = new Label();
+		_task_name.setId(TASK_LABEL_ID);
+		_grid.add(_task_name, 1, 4);
+		GridPane.setValignment(_task_name, VPos.BOTTOM);
+		GridPane.setVgrow(_task_name, Priority.ALWAYS);
+		GridPane.setHgrow(_task_name, Priority.ALWAYS);
 
-		_test_timer = new TimerLabel("mm:ss");
-		_grid.add(_test_timer, 2, 4);
-		GridPane.setHalignment(_test_timer, HPos.RIGHT);
-		GridPane.setValignment(_test_timer, VPos.BOTTOM);
+		_task_timer = new TimerLabel("mm:ss");
+		_grid.add(_task_timer, 2, 4);
+		GridPane.setHalignment(_task_timer, HPos.RIGHT);
+		GridPane.setValignment(_task_timer, VPos.BOTTOM);
 
 		_grid.add(new Label("Step: "), 0, 5);
 		_step_name = new Label();
@@ -109,7 +109,7 @@ public class TaskSuiteRunnerControlPanel
 		_runner_listener = new InteractiveTaskSuiteRunner.Listener()
 			{
 			@Override
-			public void testSuiteStarted(MuseTaskSuite suite)
+			public void taskSuiteStarted(MuseTaskSuite suite)
 				{
 				_suite_timer.clear();
 				_suite_timer.start();
@@ -119,7 +119,7 @@ public class TaskSuiteRunnerControlPanel
 				}
 
 			@Override
-			public void testSuiteCompleted(MuseTaskSuite suite)
+			public void taskSuiteCompleted(MuseTaskSuite suite)
 				{
 				_suite_timer.stop();
 				_runner.removeListener(this);
@@ -141,31 +141,31 @@ public class TaskSuiteRunnerControlPanel
 				}
 
 			@Override
-			public void testStarted(TaskConfiguration test_config, TaskRunner test_runner)
+			public void taskStarted(TaskConfiguration task_config, TaskRunner task_runner)
 				{
-				Platform.runLater(() -> _test_name.setText(test_config.name()));
+				Platform.runLater(() -> _task_name.setText(task_config.name()));
 
-				_current_context = test_runner.getExecutionContext();
+				_current_context = task_runner.getExecutionContext();
 				_current_context.addEventListener(_step_event_listener);
 
-				_test_timer.clear();
-				_test_timer.start();
+				_task_timer.clear();
+				_task_timer.start();
 				}
 
 			@Override
-			public void testCompleted(TaskResult result, int completed, Integer total, EventLog log)
+			public void taskCompleted(TaskResult result, int completed, Integer total, EventLog log)
 				{
 				String total_string = "?";
 				if (total != null)
 					total_string = total.toString();
-				String complete_message = completed + " of " + total_string + " tests complete";
+				String complete_message = completed + " of " + total_string + " tasks complete";
 
 				String errors_message;
 				String failures_message;
 				if (result == null)
 					{
 					failures_message = "Error/failure status unknown";
-					errors_message = "suggestion: Add a Test Result Calculator (test plugin) to the project";
+					errors_message = "suggestion: Add a Task Result Calculator (task plugin) to the project";
 					}
 				else
 					{
@@ -177,22 +177,22 @@ public class TaskSuiteRunnerControlPanel
 							_failures++;
 						}
 
-					errors_message = _errors + " test(s) encountered errors";
-					failures_message = _failures + " test(s) failed";
+					errors_message = _errors + " tasks(s) encountered errors";
+					failures_message = _failures + " tasks(s) failed";
 					_results.add(result);
 					if (log != null)
 						_logs.put(result, log);
 					}
 
-				_test_timer.stop();
-				_test_timer.clear();
+				_task_timer.stop();
+				_task_timer.clear();
 
 				Platform.runLater(() ->
 				{
 				_complete_label.setText(complete_message);
 				_failed_label.setText(failures_message);
 				_error_label.setText(errors_message);
-				_test_name.setText("");
+				_task_name.setText("");
 				});
 
 				_current_context.removeEventListener(_step_event_listener);
@@ -248,11 +248,11 @@ public class TaskSuiteRunnerControlPanel
 		return _runner;
 		}
 
-	private MuseProject _project;
-	private MuseTaskSuite _suite;
+	private final MuseProject _project;
+	private final MuseTaskSuite _suite;
 	private InteractiveTaskSuiteRunner _runner;
 	private CloseListener _close_listener;
-	private InteractiveTaskSuiteRunner.Listener _runner_listener;
+	private final InteractiveTaskSuiteRunner.Listener _runner_listener;
 
 	private List<TaskResult> _results = new ArrayList<>();
 	private Map<TaskResult, EventLog> _logs;
@@ -261,11 +261,11 @@ public class TaskSuiteRunnerControlPanel
 	private final Label _complete_label;
 	private final Label _failed_label;
 	private final Label _error_label;
-	private final Label _test_name;
+	private final Label _task_name;
 	private final Label _step_name;
 
 	private final TimerLabel _suite_timer;
-	private final TimerLabel _test_timer;
+	private final TimerLabel _task_timer;
 	private final TimerLabel _step_timer;
 
 	private int _failures = 0;
@@ -281,7 +281,7 @@ public class TaskSuiteRunnerControlPanel
 	public static final String COMPLETE_LABEL_ID = "omuesr-tsrcp-complete_label";
 	public static final String FAILED_LABEL_ID = "omuesr-tsrcp-failed_label";
 	public static final String ERROR_LABEL_ID = "omuesr-tsrcp-error_label";
-	public static final String TEST_LABEL_ID = "omuesr-tsrcp-test_label";
+	public static final String TASK_LABEL_ID = "omuesr-tsrcp-task_label";
 	public static final String STEP_LABEL_ID = "omuesr-tsrcp-step_label";
 
 	public interface CloseListener
@@ -289,7 +289,7 @@ public class TaskSuiteRunnerControlPanel
 		void close(boolean show_result_details);
 		}
 
-	private MuseEventListener _step_event_listener = new MuseEventListener()
+	private final MuseEventListener _step_event_listener = new MuseEventListener()
 		{
 		@Override
 		public void eventRaised(MuseEvent event)
@@ -324,6 +324,6 @@ public class TaskSuiteRunnerControlPanel
 				}
 			}
 
-		private Map<Long, StepConfiguration> _dynamically_loaded_steps = new HashMap<>();
+		private final Map<Long, StepConfiguration> _dynamically_loaded_steps = new HashMap<>();
 		};
 	}

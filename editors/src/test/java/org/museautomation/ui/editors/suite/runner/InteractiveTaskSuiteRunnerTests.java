@@ -47,7 +47,7 @@ class InteractiveTaskSuiteRunnerTests
         runner.addListener(new InteractiveTaskSuiteRunner.Listener()
             {
             @Override
-            public void testStarted(TaskConfiguration task_config, TaskRunner task_runner)
+            public void taskStarted(TaskConfiguration task_config, TaskRunner task_runner)
                 {
                 _task_config = task_config;
                 started_task.set(task_config.task());
@@ -62,7 +62,7 @@ class InteractiveTaskSuiteRunnerTests
                 }
 
             @Override
-            public void testCompleted(TaskResult result, int completed, Integer total, EventLog log)
+            public void taskCompleted(TaskResult result, int completed, Integer total, EventLog log)
                 {
                 finished_task.set(_task_config.task());
                 test_result.set(result);
@@ -70,13 +70,13 @@ class InteractiveTaskSuiteRunnerTests
                 }
 
             @Override
-            public void testSuiteStarted(MuseTaskSuite suite)
+            public void taskSuiteStarted(MuseTaskSuite suite)
                 {
                 started_suite.set(suite);
                 }
 
             @Override
-            public void testSuiteCompleted(MuseTaskSuite suite)
+            public void taskSuiteCompleted(MuseTaskSuite suite)
 	            {
                 finished_suite.set(suite);
                 }

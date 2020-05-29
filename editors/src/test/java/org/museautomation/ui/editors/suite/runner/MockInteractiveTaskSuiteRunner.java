@@ -39,13 +39,13 @@ class MockInteractiveTaskSuiteRunner extends BaseInteractiveTaskSuiteRunner
     @SuppressWarnings("SameParameterValue")
     void finishTest(TaskResult result, int completed, int total, EventLog log)
         {
-        _listener.testCompleted(result, completed, total, log);
+        _listener.taskCompleted(result, completed, total, log);
         }
 
     TaskRunner startTest(TaskConfiguration config)
         {
         SimpleTaskRunner test_runner = new SimpleTaskRunner(new DefaultTaskExecutionContext(_project, config.task()));
-        _listener.testStarted(config, test_runner);
+        _listener.taskStarted(config, test_runner);
         return test_runner;
         }
 

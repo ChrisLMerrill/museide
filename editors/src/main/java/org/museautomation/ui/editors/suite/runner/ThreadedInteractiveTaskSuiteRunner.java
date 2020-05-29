@@ -51,9 +51,9 @@ public class ThreadedInteractiveTaskSuiteRunner extends BaseInteractiveTaskSuite
         _total = _suite.getTotalTaskCount(_project);
         _number_completed = 0;
 
-        _listener.testSuiteStarted(_suite);
+        _listener.taskSuiteStarted(_suite);
         super.execute(_project, _suite, _manual_plugins);
-        _listener.testSuiteCompleted(_suite);
+        _listener.taskSuiteCompleted(_suite);
 
         synchronized (this)
             {
@@ -69,7 +69,7 @@ public class ThreadedInteractiveTaskSuiteRunner extends BaseInteractiveTaskSuite
         _number_completed++;
 
         TaskResult result = TaskResult.find(configuration.context());
-	    _listener.testCompleted(result, _number_completed, _total, configuration.context().getEventLog());
+	    _listener.taskCompleted(result, _number_completed, _total, configuration.context().getEventLog());
 
 	    return completed;
 	    }
@@ -79,7 +79,7 @@ public class ThreadedInteractiveTaskSuiteRunner extends BaseInteractiveTaskSuite
     protected SimpleTaskRunner createRunner(TaskConfiguration configuration)
 	    {
 	    _runner = new BlockingThreadedTaskRunner(_context, configuration);
-	    _listener.testStarted(configuration, _runner);
+	    _listener.taskStarted(configuration, _runner);
 	    return _runner;
 	    }
 

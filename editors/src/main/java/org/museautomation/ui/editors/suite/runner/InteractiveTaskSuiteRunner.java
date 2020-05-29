@@ -20,10 +20,10 @@ public interface InteractiveTaskSuiteRunner extends MuseTaskSuiteRunner
 
     interface Listener
         {
-        void testSuiteStarted(MuseTaskSuite suite);
-        void testSuiteCompleted(MuseTaskSuite suite);
+        void taskSuiteStarted(MuseTaskSuite suite);
+        void taskSuiteCompleted(MuseTaskSuite suite);
 
-        void testStarted(TaskConfiguration test_config, TaskRunner test_runner);
-        void testCompleted(TaskResult result, int completed, Integer total, EventLog log);
+        void taskStarted(TaskConfiguration test_config, TaskRunner test_runner);
+        void taskCompleted(TaskResult result, int completed, Integer total, EventLog log);
         }
     }

@@ -96,7 +96,7 @@ public class TaskSuiteRunnerControlPanelTests extends ComponentTest
 	    test_runner.getExecutionContext().raiseEvent(StartStepEventType.create(message_step, new SingleStepExecutionContext(new DefaultSteppedTaskExecutionContext(new SimpleProject(), task), message_step, true)));
 	    waitForUiEvents();
 
-	    Assertions.assertEquals(task.getDescription(), textOf(id(TaskSuiteRunnerControlPanel.TEST_LABEL_ID)));
+	    Assertions.assertEquals(task.getDescription(), textOf(id(TaskSuiteRunnerControlPanel.TASK_LABEL_ID)));
 	    Assertions.assertTrue(textOf(id(TaskSuiteRunnerControlPanel.STEP_LABEL_ID)).toLowerCase().contains("log"));
 	    }
 
