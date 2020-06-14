@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class ProjectNode extends ResourceTreeNode
     {
-    ProjectNode(MuseProject project, List<ResourceGroupNode> nodes)
+    ProjectNode(MuseProject project, List<ResourceTreeNode> nodes)
         {
         super(project);
         _children.addAll(nodes);

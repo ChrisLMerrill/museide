@@ -14,12 +14,12 @@ public class ResourceTypeProjectNodeFactory implements ProjectNodeFactory
     public ProjectNode createProjectNode(MuseProject project)
         {
         // create the nodes
-        List<ResourceGroupNode> nodes = new ArrayList<>();
+        List<ResourceTreeNode> nodes = new ArrayList<>();
         for (ResourceType type : project.getResourceTypes().getPrimary())
             nodes.add(new ResourceTypeGroupNode(project, type));
 
         // sort the nodes
-        nodes.sort(Comparator.comparing(ResourceGroupNode::getTreeLabel));
+        nodes.sort(Comparator.comparing(ResourceTreeNode::getTreeLabel));
 
         return new ProjectNode(project, nodes);
         }
