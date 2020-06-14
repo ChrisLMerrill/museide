@@ -38,6 +38,7 @@ public class ThreadedInteractiveTaskSuiteRunner extends BaseInteractiveTaskSuite
 
     public void stop()
         {
+        super.stop();
         synchronized (_runner)
             {
             if (_runner != null)
