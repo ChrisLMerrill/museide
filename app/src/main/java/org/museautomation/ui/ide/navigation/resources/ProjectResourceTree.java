@@ -17,7 +17,7 @@ public class ProjectResourceTree
         _project = project;
         _tree_view = new FancyTreeView<>(ops_handler, true);
         _tree_view.getStylesheets().add(Styles.getDefaultTreeStyles());
-        setFactory(ResourceNodeFactories.getCurrentFactory());
+        setFactory(getFactory());
         project.addResourceListener(new ProjectResourceListener()
             {
             @Override
@@ -63,6 +63,14 @@ public class ProjectResourceTree
 
     public ResourceTreeNodeFactory getFactory()
         {
+        if (_factory == null)
+            {
+            ProjectResourceTreeSettings settings = ProjectResourceTreeSettings.get(_project);
+            if (settings.getNodeFactoryName() == null)
+                _factory = ResourceNodeFactories.getDefault();
+            else
+                _factory = ResourceNodeFactories.getByName(settings.getNodeFactoryName());
+            }
         return _factory;
         }
 
@@ -71,6 +79,13 @@ public class ProjectResourceTree
         _factory = factory;
         _root_node = _factory.createNode(_project);
         _tree_view.setRoot(new ResourceTreeNodeFacade(_root_node));
+
+        ProjectResourceTreeSettings settings = ProjectResourceTreeSettings.get(_project);
+        if (!factory.getName().equals(settings.getNodeFactoryName()))
+            {
+            settings.setNodeFactoryName(factory.getName());
+            settings.save();
+            }
         }
 
     private final MuseProject _project;

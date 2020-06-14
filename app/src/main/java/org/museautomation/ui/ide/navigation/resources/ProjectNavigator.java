@@ -4,17 +4,10 @@ import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
 import javafx.stage.*;
 import net.christophermerrill.ShadowboxFx.*;
 import org.controlsfx.control.*;
 import org.jetbrains.annotations.*;
-import org.museautomation.ui.ide.*;
-import org.museautomation.ui.ide.navigation.*;
-import org.museautomation.ui.ide.navigation.resources.actions.*;
-import org.museautomation.ui.ide.navigation.resources.nodes.*;
-import org.museautomation.ui.seideimport.*;
-import org.museautomation.ui.settings.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.storage.*;
@@ -23,6 +16,12 @@ import org.museautomation.ui.extend.components.*;
 import org.museautomation.ui.extend.edit.*;
 import org.museautomation.ui.extend.glyphs.*;
 import org.museautomation.ui.extend.javafx.*;
+import org.museautomation.ui.ide.*;
+import org.museautomation.ui.ide.navigation.*;
+import org.museautomation.ui.ide.navigation.resources.actions.*;
+import org.museautomation.ui.ide.navigation.resources.nodes.*;
+import org.museautomation.ui.seideimport.*;
+import org.museautomation.ui.settings.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -199,7 +198,7 @@ public class ProjectNavigator
             // remember this folder
             RecentFileSettings.get().setRecentPath(selections.get(0).getParent());
 
-            ImportCandidates candidates = ImportCandidates.build(_project, (File[]) selections.toArray(new File[selections.size()]));
+            ImportCandidates candidates = ImportCandidates.build(_project, selections.toArray(new File[0]));
             if (candidates.size() == 0)
                 return;
 
@@ -241,11 +240,6 @@ public class ProjectNavigator
         _project_closer = project_closer;
         }
 
-    public void requestFocus()
-        {
-        _tree.requestFocus();
-        }
-
     private final MuseProject _project;
     private final ResourceEditors _editors;
     private final UndoStack _undo = new UndoStack();
@@ -259,6 +253,7 @@ public class ProjectNavigator
 
     private final static List<ProjectNavigatorAdditionalButtonProvider> BUTTON_PROVIDERS = new ArrayList<>();
 
+    @SuppressWarnings("unused") // allows additons of buttons by other projects
     public static void addButtonProvider(ProjectNavigatorAdditionalButtonProvider provider)
         {
         BUTTON_PROVIDERS.add(provider);

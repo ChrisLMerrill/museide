@@ -7,11 +7,9 @@ import java.util.*;
  */
 public class ResourceNodeFactories
     {
-    public static ResourceTreeNodeFactory getCurrentFactory()
+    public static ResourceTreeNodeFactory getDefault()
         {
-        // TODO save the last-used for a project?
         return new ResourceTypeProjectNodeFactory();
-//        return new ResourcePathProjectNodeFactory();
         }
 
     public static List<ResourceTreeNodeFactory> getFactories()
@@ -20,5 +18,13 @@ public class ResourceNodeFactories
         factories.add(new ResourceTypeProjectNodeFactory());
         factories.add(new ResourcePathProjectNodeFactory());
         return factories;
+        }
+
+    public static ResourceTreeNodeFactory getByName(String name)
+        {
+        for (ResourceTreeNodeFactory factory : getFactories())
+            if (name.equals(factory.getName()))
+                return factory;
+        return getDefault();
         }
     }
