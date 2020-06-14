@@ -7,6 +7,7 @@ public class ProjectNodeFactories
     {
     public static ResourceTreeNodeFactory getCurrentFactory()
         {
-        return new ResourcePathProjectNodeFactory();
+        return new ResourceTypeProjectNodeFactory();
+//        return new ResourcePathProjectNodeFactory();
         }
     }

@@ -75,7 +75,7 @@ public abstract class ResourceGroupNode extends ResourceTreeNode
         for (int i = 0; i < children.size(); i++)
             {
             ResourceTreeNode child_node = children.get(i);
-            if (new_node.getTreeLabel().compareTo(child_node.getTreeLabel()) > 0)
+            if (new_node.getTreeLabel().toLowerCase().compareTo(child_node.getTreeLabel().toLowerCase()) > 0)
                 add_index++;
             else
                 break;

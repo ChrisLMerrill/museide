@@ -32,7 +32,7 @@ public class ResourceTypeGroupNode extends ResourceGroupNode
     protected List<ResourceTreeNode> getInitialChildList()
         {
         List<ResourceToken<MuseResource>> resources = _project.getResourceStorage().findResources(new ResourceQueryParameters(_type));
-        resources.sort(Comparator.comparing(ResourceInfo::getId));
+        resources.sort(Comparator.comparing(token -> token.getId().toLowerCase()));
 
         List<ResourceTreeNode> children = new ArrayList<>();
         for (ResourceToken<MuseResource> resource : resources)

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 import org.museautomation.core.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.project.*;
+import org.museautomation.core.resource.storage.*;
 
 import java.io.*;
 
@@ -39,11 +40,11 @@ public class ResourcePathGroupNodeTests
         SimpleProject project = new SimpleProject();
         MuseResource resource1 = new MockTask();
         resource1.setId("resX");
-        resource1.metadata().setMetadataField("path", "path1");
+        resource1.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path1");
         project.getResourceStorage().addResource(resource1);
         MuseResource resource2 = new MockTask();
         resource2.setId("resA");
-        resource2.metadata().setMetadataField("path", "path1");
+        resource2.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path1");
         project.getResourceStorage().addResource(resource2);
 
         ResourceTreeNode node = new ResourcePathProjectNodeFactory().createNode(project);
@@ -67,11 +68,11 @@ public class ResourcePathGroupNodeTests
         SimpleProject project = new SimpleProject();
         MuseResource resource1 = new MockTask();
         resource1.setId("resX");
-        resource1.metadata().setMetadataField("path", "path1");
+        resource1.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path1");
         project.getResourceStorage().addResource(resource1);
         MuseResource resource2 = new MockTask();
         resource2.setId("resA");
-        resource2.metadata().setMetadataField("path", "path2");
+        resource2.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path2");
         project.getResourceStorage().addResource(resource2);
 
         ResourceTreeNode node = new ResourcePathProjectNodeFactory().createNode(project);
@@ -97,11 +98,11 @@ public class ResourcePathGroupNodeTests
         SimpleProject project = new SimpleProject();
         MuseResource resource1 = new MockTask();
         resource1.setId("resX");
-        resource1.metadata().setMetadataField("path", "path1");
+        resource1.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path1");
         project.getResourceStorage().addResource(resource1);
         MuseResource resource2 = new MockTask();
         resource2.setId("resA");
-        resource2.metadata().setMetadataField("path", "path1/path2");
+        resource2.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path1/path2");
         project.getResourceStorage().addResource(resource2);
 
         ResourceTreeNode node = new ResourcePathProjectNodeFactory().createNode(project);
@@ -127,11 +128,11 @@ public class ResourcePathGroupNodeTests
         SimpleProject project = new SimpleProject();
         MuseResource resource1 = new MockTask();
         resource1.setId("resX");
-        resource1.metadata().setMetadataField("path", "path1");
+        resource1.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path1");
         project.getResourceStorage().addResource(resource1);
         MuseResource resource2 = new MockTask();
         resource2.setId("resA");
-        resource2.metadata().setMetadataField("path", "path1/path2/path3");
+        resource2.metadata().setMetadataField(FolderIntoMemoryResourceStorage.PATH_ATTRIBUTE_NAME, "path1/path2/path3");
         project.getResourceStorage().addResource(resource2);
 
         ResourceTreeNode node = new ResourcePathProjectNodeFactory().createNode(project);
