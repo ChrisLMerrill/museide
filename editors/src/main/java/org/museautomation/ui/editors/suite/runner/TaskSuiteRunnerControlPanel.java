@@ -58,7 +58,7 @@ public class TaskSuiteRunnerControlPanel
 		});
 		_button_area.getChildren().add(_stop_button);
 
-		_suite_timer = new TimerLabel("mm:ss");
+		_suite_timer = new TimerLabel("hh:mm:ss");
 		GridPane.setHalignment(_suite_timer, HPos.RIGHT);
 		_grid.add(_suite_timer, 2, 0);
 
