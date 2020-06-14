@@ -16,7 +16,7 @@ public class ProjectResourceTree
         {
         _tree_view = new FancyTreeView<>(ops_handler, true);
         _tree_view.getStylesheets().add(Styles.getDefaultTreeStyles());
-        _root_node = ProjectNodeFactories.getCurrentFactory().createProjectNode(project);
+        _root_node = ProjectNodeFactories.getCurrentFactory().createNode(project);
         project.addResourceListener(new ProjectResourceListener()
             {
             @Override
@@ -56,11 +56,11 @@ public class ProjectResourceTree
         return _tree_view;
         }
 
-    public ProjectNode getRootNode()
+    public ResourceTreeNode getRootNode()
         {
         return _root_node;
         }
 
-    private final ProjectNode _root_node;
-    private FancyTreeView<ResourceTreeNodeFacade> _tree_view;
+    private final ResourceTreeNode _root_node;
+    private final FancyTreeView<ResourceTreeNodeFacade> _tree_view;
     }

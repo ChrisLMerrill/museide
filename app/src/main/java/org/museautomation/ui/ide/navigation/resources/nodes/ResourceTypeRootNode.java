@@ -9,9 +9,9 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ProjectNode extends ResourceTreeNode
+public class ResourceTypeRootNode extends ResourceTreeNode
     {
-    ProjectNode(MuseProject project, List<ResourceTreeNode> nodes)
+    ResourceTypeRootNode(MuseProject project, List<ResourceTreeNode> nodes)
         {
         super(project);
         _children.addAll(nodes);
@@ -35,7 +35,7 @@ public class ProjectNode extends ResourceTreeNode
         for (ResourceTreeNode child : _children)
             if (child.notifyResourceAdded(added))
                 return true;
-        LOG.error("Resource was added to project, but was not add to any ResourceGroupNodes: " + added.getId());
+        LOG.error("Resource was added to project, but was not added to any ResourceGroupNodes: " + added.getId());
         return false;
         }
 
@@ -57,5 +57,5 @@ public class ProjectNode extends ResourceTreeNode
 
     private final List<ResourceTreeNode> _children = new ArrayList<>();
 
-    final static Logger LOG = LoggerFactory.getLogger(ProjectNode.class);
+    final static Logger LOG = LoggerFactory.getLogger(ResourceTypeRootNode.class);
     }

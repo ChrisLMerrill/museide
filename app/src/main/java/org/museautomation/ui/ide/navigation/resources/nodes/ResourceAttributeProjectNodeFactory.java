@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceTypeProjectNodeFactory implements ResourceTreeNodeFactory
+public class ResourceAttributeProjectNodeFactory implements ResourceTreeNodeFactory
     {
     @Override
     public ResourceTreeNode createNode(MuseProject project)

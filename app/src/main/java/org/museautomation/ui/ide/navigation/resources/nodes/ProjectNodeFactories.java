@@ -5,7 +5,7 @@ package org.museautomation.ui.ide.navigation.resources.nodes;
  */
 public class ProjectNodeFactories
     {
-    public static ProjectNodeFactory getCurrentFactory()
+    public static ResourceTreeNodeFactory getCurrentFactory()
         {
         return new ResourceTypeProjectNodeFactory();
         }

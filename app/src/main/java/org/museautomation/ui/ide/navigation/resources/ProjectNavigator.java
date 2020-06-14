@@ -207,9 +207,9 @@ public class ProjectNavigator
         return import_button;
         }
     
-    private void showAndEditResource(ResourceToken token)
+    private void showAndEditResource(ResourceToken<MuseResource> token)
         {
-        ProjectNode root = _tree.getRootNode();
+        ResourceTreeNode root = _tree.getRootNode();
         ResourceTreeNode node = root.findResourceNode(token);
         _tree.getTreeView().getSelectionModel().clearSelection();
         _tree.getTreeView().expandScrollToAndSelect(node);

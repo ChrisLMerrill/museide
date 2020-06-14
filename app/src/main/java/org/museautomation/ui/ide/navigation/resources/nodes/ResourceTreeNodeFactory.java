@@ -1,12 +1,11 @@
 package org.museautomation.ui.ide.navigation.resources.nodes;
 
 import org.museautomation.core.*;
-import org.museautomation.ui.ide.navigation.resources.nodes.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface ProjectNodeFactory
+public interface ResourceTreeNodeFactory
     {
-    ProjectNode createProjectNode(MuseProject project);
+    ResourceTreeNode createNode(MuseProject project);
     }
