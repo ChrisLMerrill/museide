@@ -33,7 +33,7 @@ public abstract class ResourceTreeNode
         _listeners.remove(listener);
         }
 
-    public ResourceTreeNode findResourceNode(ResourceToken token)
+    public ResourceTreeNode findResourceNode(ResourceToken<MuseResource> token)
         {
         for (ResourceTreeNode child : getChildren())
             {

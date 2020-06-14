@@ -18,18 +18,18 @@ public class CopyResourceAction extends UndoableAction
     /**
      * Convenience method for creating an single or multiple action from a list without caring about the size.
      */
-    public static UndoableAction create(List<ResourceToken> tokens, MuseProject project)
+    public static UndoableAction create(List<ResourceToken<MuseResource>> tokens, MuseProject project)
         {
         if (tokens.size() == 1)
             return new CopyResourceAction(tokens.get(0), project);
 
         CompoundAction compound = new CompoundAction();
-        for (ResourceToken token : tokens)
+        for (ResourceToken<MuseResource> token : tokens)
             compound.addAction(new CopyResourceAction(token, project));
         return compound;
         }
 
-    public CopyResourceAction(ResourceToken token, MuseProject project)
+    public CopyResourceAction(ResourceToken<MuseResource> token, MuseProject project)
         {
         _token = token;
         _project = project;
@@ -56,7 +56,7 @@ public class CopyResourceAction extends UndoableAction
     @Override
     protected boolean undoImplementation()
         {
-        ResourceToken token = _project.getResourceStorage().findResource(_new_id);
+        ResourceToken<MuseResource> token = _project.getResourceStorage().findResource(_new_id);
         if (token == null)
             {
             LOG.error("Unable to find the resource that was added: " + _new_id);
@@ -68,7 +68,7 @@ public class CopyResourceAction extends UndoableAction
         return false;
         }
 
-    private final ResourceToken _token;
+    private final ResourceToken<MuseResource> _token;
     private final MuseProject _project;
     private String _new_id;
 

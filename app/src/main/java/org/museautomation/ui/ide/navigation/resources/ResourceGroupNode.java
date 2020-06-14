@@ -2,16 +2,15 @@ package org.museautomation.ui.ide.navigation.resources;
 
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.resource.types.*;
 
 import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-class ResourceGroupNode extends ResourceTreeNode
+abstract class ResourceGroupNode extends ResourceTreeNode
     {
-    ResourceGroupNode(MuseProject project, ResourceType type)
+    ResourceGroupNode(MuseProject project)
         {
         super(project);
         _project.addResourceListener(new ProjectResourceListener()
@@ -19,40 +18,32 @@ class ResourceGroupNode extends ResourceTreeNode
             @Override
             public void resourceAdded(ResourceToken added)
                 {
-                final ResourceType added_type = added.getType();
-                if (added_type.equals(_type)
-                    || added_type.isSubtype() && ((ResourceSubtype)added_type).isSubtypeOf(_type))
-                    addChild(added);
+                ResourceNode node = resourceAddedToProject(added);
+                if (node != null)
+                    addChild(node);
                 }
 
             @Override
             public void resourceRemoved(ResourceToken removed)
                 {
-                for (ResourceTreeNode node : _children)
-                    if (node instanceof ResourceNode && ((ResourceNode)node).getResourceToken().equals(removed))
-                        {
-                        removeChild(removed);
-                        return;
-                        }
+                ResourceNode node = resourceRemovedFromProject(removed);
+                if (node != null)
+                    removeChild(node);
                 }
             });
-        _type = type;
         }
+
+    protected abstract ResourceNode resourceAddedToProject(ResourceToken<MuseResource> added);
+    protected abstract ResourceNode resourceRemovedFromProject(ResourceToken<MuseResource> removed);
 
     public void setProject(MuseProject project)
         {
         _project = project;
         }
 
-    public ResourceType getType()
+    public MuseProject getProject()
         {
-        return _type;
-        }
-
-    @Override
-    public String getTreeLabel()
-        {
-        return _type.getName() + "s";
+        return _project;
         }
 
     @Override
@@ -65,43 +56,36 @@ class ResourceGroupNode extends ResourceTreeNode
     public List<ResourceTreeNode> getChildren()
         {
         if (_children == null)
-            {
-            _children = new ArrayList<>();
-            List<ResourceToken<MuseResource>> resources = _project.getResourceStorage().findResources(new ResourceQueryParameters(_type));
-            resources.sort(Comparator.comparing(ResourceInfo::getId));
-            for (ResourceToken<MuseResource> resource : resources)
-                _children.add(new ResourceNode(resource, _project));
-            }
+            _children = getInitialChildList();
         return _children;
         }
 
-    private void addChild(ResourceToken<MuseResource> new_child)
+    protected abstract List<ResourceTreeNode> getInitialChildList();
+
+    private void addChild(ResourceNode new_node)
         {
         List<ResourceTreeNode> children = getChildren();
         int add_index = 0;
         for (int i = 0; i < children.size(); i++)
             {
-            String new_id = new_child.getId();
             ResourceNode child_node = (ResourceNode) children.get(i);
-            if (new_id.compareTo(child_node.getResourceToken().getId()) > 0)
+            if (new_node.getTreeLabel().compareTo(child_node.getTreeLabel()) > 0)
                 add_index++;
             else
                 break;
             }
-        ResourceNode new_node = new ResourceNode(new_child, _project);
         _children.add(add_index, new_node);
         for (ResourceTreeNodeListener listener : _listeners)
             listener.childAdded(add_index, new_node);
         }
 
-    private void removeChild(ResourceToken<MuseResource> remove_child)
+    private void removeChild(ResourceNode remove_node)
         {
         List<ResourceTreeNode> children = getChildren();
         for (int i = 0; i < children.size(); i++)
             {
-            String remove_id = remove_child.getId();
             ResourceNode child_node = (ResourceNode) children.get(i);
-            if (child_node.getResourceToken().getId().equals(remove_id))
+            if (child_node == remove_node)
                 {
                 _children.remove(i);
                 for (ResourceTreeNodeListener listener : _listeners)
@@ -111,7 +95,6 @@ class ResourceGroupNode extends ResourceTreeNode
             }
         }
 
-    private final ResourceType _type;
     private List<ResourceTreeNode> _children;
     }
 

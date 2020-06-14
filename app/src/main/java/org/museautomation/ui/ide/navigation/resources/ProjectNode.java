@@ -17,7 +17,7 @@ public class ProjectNode extends ResourceTreeNode
         // create the nodes
         List<ResourceGroupNode> nodes = new ArrayList<>();
         for (ResourceType type : _project.getResourceTypes().getPrimary())
-            nodes.add(new ResourceGroupNode(_project, type));
+            nodes.add(new ResourceTypeGroupNode(_project, type));
 
         // sort the nodes
         nodes.sort(Comparator.comparing(ResourceGroupNode::getTreeLabel));
@@ -44,7 +44,7 @@ public class ProjectNode extends ResourceTreeNode
         return _children;
         }
 
-    private List<ResourceTreeNode> _children = new ArrayList<>();
+    private final List<ResourceTreeNode> _children = new ArrayList<>();
     }
 
 

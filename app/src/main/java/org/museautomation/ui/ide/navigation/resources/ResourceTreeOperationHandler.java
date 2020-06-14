@@ -62,7 +62,7 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
     @Override
     public boolean handleCopy(ObservableList<TreeItem<ResourceTreeNodeFacade>> selected_items)
         {
-        List<ResourceToken> to_copy = new ArrayList<>();
+        List<ResourceToken<MuseResource>> to_copy = new ArrayList<>();
         for (TreeItem<ResourceTreeNodeFacade> item : selected_items)
             if (item.getValue().getModelNode() instanceof ResourceNode)
                 to_copy.add(((ResourceNode)item.getValue().getModelNode()).getResourceToken());
@@ -93,7 +93,7 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK)
             {
-            List<ResourceToken> to_delete = new ArrayList<>();
+            List<ResourceToken<MuseResource>> to_delete = new ArrayList<>();
             for (TreeItem<ResourceTreeNodeFacade> item : selected_items)
                 if (item.getValue().getModelNode() instanceof ResourceNode)
                     to_delete.add(((ResourceNode)item.getValue().getModelNode()).getResourceToken());
@@ -134,7 +134,8 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
                 ResourceGroupNode group = (ResourceGroupNode) selected_items.get(0).getValue().getModelNode();
                 CreateResourcePanel dialog = new CreateResourcePanel(_project, _undo);
                 Icons.setIcons(dialog.getDialog().getDialogPane());
-                dialog.setType(group.getType());
+                if (group instanceof ResourceTypeGroupNode)
+                    dialog.setType(((ResourceTypeGroupNode) group).getType());
                 dialog.getDialog().initOwner(_node.getScene().getWindow());
                 dialog.getDialog().show();
                 });

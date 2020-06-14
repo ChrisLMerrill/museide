@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class ResourceNode extends ResourceTreeNode
     {
-    public ResourceNode(ResourceToken resource, MuseProject project)
+    public ResourceNode(ResourceToken<MuseResource> resource, MuseProject project)
         {
         super(project);
         _token = resource;
@@ -34,7 +34,7 @@ public class ResourceNode extends ResourceTreeNode
         return Collections.emptyList();
         }
 
-    public ResourceToken getResourceToken()
+    public ResourceToken<MuseResource> getResourceToken()
         {
         return _token;
         }
@@ -45,14 +45,14 @@ public class ResourceNode extends ResourceTreeNode
         }
 
     @Override
-    public ResourceTreeNode findResourceNode(ResourceToken token)
+    public ResourceTreeNode findResourceNode(ResourceToken<MuseResource> token)
         {
         if (token.getId().equals(_token.getId()))
             return this;
         return null;
         }
 
-    private ResourceToken _token;
+    private final ResourceToken<MuseResource> _token;
     }
 
 

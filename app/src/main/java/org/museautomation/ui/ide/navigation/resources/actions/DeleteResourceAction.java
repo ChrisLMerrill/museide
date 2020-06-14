@@ -16,18 +16,18 @@ public class DeleteResourceAction extends UndoableAction
     /**
      * Convenience method for creating an single or multiple action from a list without caring about the size.
      */
-    public static UndoableAction create(List<ResourceToken> tokens, MuseProject project)
+    public static UndoableAction create(List<ResourceToken<MuseResource>> tokens, MuseProject project)
         {
         if (tokens.size() == 1)
             return new DeleteResourceAction(tokens.get(0), project);
 
         CompoundAction compound = new CompoundAction();
-        for (ResourceToken token : tokens)
+        for (ResourceToken<MuseResource> token : tokens)
             compound.addAction(new DeleteResourceAction(token, project));
         return compound;
         }
 
-    public DeleteResourceAction(ResourceToken token, MuseProject project)
+    public DeleteResourceAction(ResourceToken<MuseResource> token, MuseProject project)
         {
         _token = token;
         _project = project;
@@ -51,7 +51,7 @@ public class DeleteResourceAction extends UndoableAction
     @Override
     protected boolean undoImplementation()
         {
-        ResourceToken token;
+        ResourceToken<MuseResource> token;
         try
             {
             token = _project.getResourceStorage().addResource(_removed);
@@ -68,7 +68,7 @@ public class DeleteResourceAction extends UndoableAction
         return true;
         }
 
-    private final ResourceToken _token;
+    private final ResourceToken<MuseResource> _token;
     private final MuseProject _project;
 
     private MuseResource _removed = null;
