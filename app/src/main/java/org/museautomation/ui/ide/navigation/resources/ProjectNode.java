@@ -1,7 +1,6 @@
 package org.museautomation.ui.ide.navigation.resources;
 
 import org.museautomation.core.*;
-import org.museautomation.core.resource.types.*;
 
 import java.util.*;
 
@@ -10,19 +9,9 @@ import java.util.*;
  */
 public class ProjectNode extends ResourceTreeNode
     {
-    ProjectNode(MuseProject project)
+    ProjectNode(MuseProject project, List<ResourceGroupNode> nodes)
         {
         super(project);
-
-        // create the nodes
-        List<ResourceGroupNode> nodes = new ArrayList<>();
-        for (ResourceType type : _project.getResourceTypes().getPrimary())
-            nodes.add(new ResourceTypeGroupNode(_project, type));
-
-        // sort the nodes
-        nodes.sort(Comparator.comparing(ResourceGroupNode::getTreeLabel));
-
-        // add to children
         _children.addAll(nodes);
         }
 

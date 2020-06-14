@@ -14,7 +14,7 @@ public class ProjectResourceTree
         {
         _tree_view = new FancyTreeView<>(ops_handler, true);
         _tree_view.getStylesheets().add(Styles.getDefaultTreeStyles());
-        _root_node = new ProjectNode(project);
+        _root_node = ProjectNodeFactories.getCurrentFactory().createProjectNode(project);
         _tree_view.setRoot(new ResourceTreeNodeFacade(_root_node));
         _tree_view.getRoot().setExpanded(true);
         _tree_view.setShowRoot(false);
