@@ -24,7 +24,7 @@ class ResourceActionTests
         UndoStack undo = new UndoStack();
         CreateResourceAction action = new CreateResourceAction(new VariableList.VariableListResourceType(), "new_list", _project);
         action.execute(undo);
-        ResourceToken token = action.getToken();
+        ResourceToken<MuseResource> token = action.getToken();
 
         Assertions.assertNotNull(token, "didn't get a resource token");
         Assertions.assertNotNull(_project.getResourceStorage().getResource(token), "can't find new resource in the project");
@@ -54,7 +54,7 @@ class ResourceActionTests
     void copyMultipleResources()
         {
         UndoStack undo = new UndoStack();
-        List<ResourceToken> tokens = new ArrayList<>();
+        List<ResourceToken<MuseResource>> tokens = new ArrayList<>();
         tokens.add(_project.getResourceStorage().findResource(LIST1_ID));
         tokens.add(_project.getResourceStorage().findResource(LIST2_ID));
         UndoableAction action = CopyResourceAction.create(tokens, _project);
@@ -93,7 +93,7 @@ class ResourceActionTests
     void deleteMultipleResources()
         {
         UndoStack undo = new UndoStack();
-        List<ResourceToken> tokens = new ArrayList<>();
+        List<ResourceToken<MuseResource>> tokens = new ArrayList<>();
         tokens.add(_project.getResourceStorage().findResource(LIST1_ID));
         tokens.add(_project.getResourceStorage().findResource(LIST2_ID));
         UndoableAction action = DeleteResourceAction.create(tokens, _project);
