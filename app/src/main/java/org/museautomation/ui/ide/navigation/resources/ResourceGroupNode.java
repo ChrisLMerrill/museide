@@ -13,24 +13,42 @@ abstract class ResourceGroupNode extends ResourceTreeNode
     ResourceGroupNode(MuseProject project)
         {
         super(project);
-        _project.addResourceListener(new ProjectResourceListener()
-            {
-            @Override
-            public void resourceAdded(ResourceToken added)
-                {
-                ResourceNode node = resourceAddedToProject(added);
-                if (node != null)
-                    addChild(node);
-                }
+        }
 
-            @Override
-            public void resourceRemoved(ResourceToken removed)
-                {
-                ResourceNode node = resourceRemovedFromProject(removed);
-                if (node != null)
-                    removeChild(node);
-                }
-            });
+    @Override
+    public boolean notifyResourceAdded(ResourceToken<MuseResource> added)
+        {
+        ResourceNode node = resourceAddedToProject(added);
+        if (node != null)
+            {
+            addChild(node);
+            return true;
+            }
+        for (ResourceTreeNode child : getChildren())
+            {
+            boolean is_added = child.notifyResourceAdded(added);
+            if (is_added)
+                return true;
+            }
+        return false;
+        }
+
+    @Override
+    public boolean notifyResourceRemoved(ResourceToken<MuseResource> removed)
+        {
+        ResourceNode node = resourceRemovedFromProject(removed);
+        if (node != null)
+            {
+            removeChild(node);
+            return true;
+            }
+        for (ResourceTreeNode child : getChildren())
+            {
+            boolean is_removed = child.notifyResourceRemoved(removed);
+            if (is_removed)
+                return true;
+            }
+        return false;
         }
 
     protected abstract ResourceNode resourceAddedToProject(ResourceToken<MuseResource> added);

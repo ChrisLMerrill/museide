@@ -52,6 +52,18 @@ public class ResourceNode extends ResourceTreeNode
         return null;
         }
 
+    /**
+     * Nothing to do for simple nodes
+     */
+    @Override
+    public boolean notifyResourceAdded(ResourceToken<MuseResource> added) { return false; }
+
+    /**
+     * Nothing to do for simple nodes
+     */
+    @Override
+    public boolean notifyResourceRemoved(ResourceToken<MuseResource> removed) { return false; }
+
     private final ResourceToken<MuseResource> _token;
     }
 

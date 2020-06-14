@@ -3,6 +3,7 @@ package org.museautomation.ui.ide.navigation.resources;
 import javafx.scene.*;
 import net.christophermerrill.FancyFxTree.*;
 import org.museautomation.core.*;
+import org.museautomation.core.resource.*;
 import org.museautomation.ui.extend.javafx.*;
 
 /**
@@ -15,6 +16,20 @@ public class ProjectResourceTree
         _tree_view = new FancyTreeView<>(ops_handler, true);
         _tree_view.getStylesheets().add(Styles.getDefaultTreeStyles());
         _root_node = ProjectNodeFactories.getCurrentFactory().createProjectNode(project);
+        project.addResourceListener(new ProjectResourceListener()
+            {
+            @Override
+            public void resourceAdded(ResourceToken<MuseResource> added)
+                {
+                _root_node.notifyResourceAdded(added);
+                }
+
+            @Override
+            public void resourceRemoved(ResourceToken<MuseResource> removed)
+                {
+                _root_node.notifyResourceRemoved(removed);
+                }
+            });
         _tree_view.setRoot(new ResourceTreeNodeFacade(_root_node));
         _tree_view.getRoot().setExpanded(true);
         _tree_view.setShowRoot(false);

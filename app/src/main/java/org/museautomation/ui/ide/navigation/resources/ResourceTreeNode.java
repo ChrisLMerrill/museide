@@ -21,6 +21,19 @@ public abstract class ResourceTreeNode
     public abstract String getTreeIconGlyphName();
     public abstract List<ResourceTreeNode> getChildren();
 
+    /**
+     * Called to notify the node that a resource has been added to the project. It should return true if
+     * the resource has been handled by this node. Implementations should pass this call onto any
+     * compound children. When a child returns true, the node should return true.
+     */
+    public abstract boolean notifyResourceAdded(ResourceToken<MuseResource> added);
+    /**
+     * Called to notify the node that a resource has been removed from the project. It should return true if
+     * the resource has been handled by this node. Implementations should pass this call onto any
+     * compound children. When a child returns true, the node should return true.
+     */
+    public abstract boolean notifyResourceRemoved(ResourceToken<MuseResource> removed);
+
     public void addChildListener(ResourceTreeNodeListener listener)
         {
         if (_listeners.contains(listener))
