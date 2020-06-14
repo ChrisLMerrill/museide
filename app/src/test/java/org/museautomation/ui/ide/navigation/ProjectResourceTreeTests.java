@@ -28,8 +28,8 @@ public class ProjectResourceTreeTests extends ComponentTest
         _tree.expandAll();
         waitForUiEvents();
 
-        Assertions.assertTrue(exists(new MuseTask.TaskResourceType().getName() + "s"));  // the "Test" node is visible
-        Assertions.assertTrue(exists(TEST1_ID)); // the test id is visible
+        Assertions.assertTrue(exists(new MuseTask.TaskResourceType().getName() + "s"));  // the "Tasks" node is visible
+        Assertions.assertTrue(exists(TASK1_ID)); // the task id is visible
         }
 
     @Test
@@ -38,19 +38,19 @@ public class ProjectResourceTreeTests extends ComponentTest
         _tree.expandAll();
         waitForUiEvents();
 
-        doubleClickOn(TEST1_ID);
+        doubleClickOn(TASK1_ID);
 
         Assertions.assertEquals(_project, _editors._project_edited, "wrong project edited");
-        Assertions.assertEquals(_project.getResourceStorage().findResource(TEST1_ID), _editors._resource_edited, "wrong token edited");
+        Assertions.assertEquals(_project.getResourceStorage().findResource(TASK1_ID), _editors._resource_edited, "wrong token edited");
         }
 
     @Override
     public Node createComponentNode() throws IOException
         {
-        SteppedTask test = new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID));
-        test.setId(TEST1_ID);
+        SteppedTask task = new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID));
+        task.setId(TASK1_ID);
         _project = new SimpleProject();
-        _project.getResourceStorage().addResource(test);
+        _project.getResourceStorage().addResource(task);
 
         _editors = new MockResourceEditors();
         _tree = new ProjectResourceTree(_project, new ResourceTreeOperationHandler(_project, _editors, new UndoStack(), null));
@@ -67,7 +67,7 @@ public class ProjectResourceTreeTests extends ComponentTest
     private ProjectResourceTree _tree;
     private MockResourceEditors _editors;
 
-    private final static String TEST1_ID = "test1";
+    private final static String TASK1_ID = "task1";
 
     static private class MockResourceEditors implements ResourceEditors
         {
