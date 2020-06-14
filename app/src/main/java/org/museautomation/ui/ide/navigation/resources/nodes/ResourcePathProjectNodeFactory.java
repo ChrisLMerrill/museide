@@ -11,6 +11,12 @@ import java.util.*;
 public class ResourcePathProjectNodeFactory implements ResourceTreeNodeFactory
     {
     @Override
+    public String getName()
+        {
+        return "Path";
+        }
+
+    @Override
     public ResourceTreeNode createNode(MuseProject project)
         {
         ResourcePathGroupNode node = new ResourcePathGroupNode(project, new String[0]);

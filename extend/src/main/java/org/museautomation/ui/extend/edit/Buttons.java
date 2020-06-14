@@ -72,6 +72,16 @@ public class Buttons
         return createImageButton("FA:ARROW_DOWN", Color.DARKGRAY.darker().darker().darker(), "downarrow", "Move Down", 14);
         }
 
+    public static Button createMenu()
+        {
+        return createImageButton("FA:BARS", Color.DARKGRAY.darker().darker().darker(), "menu", "Menu", 14);
+        }
+
+    public static Button createMenu(int size)
+        {
+        return createImageButton("FA:BARS", Color.DARKGRAY.darker().darker().darker(), "menu", "Menu", size);
+        }
+
     public static Hyperlink createLinkWithIcon(String link_text, String glyph_name, String id, String tooltip, ContentDisplay icon_alignment)
         {
         Hyperlink link = new Hyperlink(link_text);

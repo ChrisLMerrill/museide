@@ -4,6 +4,7 @@ import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.*;
 import javafx.stage.*;
 import net.christophermerrill.ShadowboxFx.*;
 import org.controlsfx.control.*;
@@ -63,20 +64,39 @@ public class ProjectNavigator
             _tree = new ProjectResourceTree(_project, ops_handler);
             border_pane.setCenter(_tree.getNode());
 
+            GridPane label_box = new GridPane();
+            label_box.setPadding(new Insets(0, 0, 0, 5));
+
+            Button menu_button = Buttons.createMenu(20);
+            label_box.add(menu_button, 0, 0);
+            menu_button.setOnAction((event ->
+                {
+                Menu main_item = new Menu("Organize Resources By");
+                for (ResourceTreeNodeFactory factory : ResourceNodeFactories.getFactories())
+                    {
+                    CheckMenuItem item = new CheckMenuItem(factory.getName());
+                    if (factory.getName().equals(_tree.getFactory().getName()))
+                        item.setSelected(true);
+                    else
+                        item.setOnAction(e1 -> _tree.setFactory(factory));
+                    main_item.getItems().add(item);
+                    }
+                ContextMenu menu = new ContextMenu(main_item);
+                menu.show(menu_button, Side.BOTTOM, 0, 0);
+                }));
+
             Label project_label = new Label(" " + _project.getName());
             project_label.setTooltip(new Tooltip("Project location: " + ((FolderIntoMemoryResourceStorage)_project.getResourceStorage()).getBaseLocation().getAbsolutePath()));
             Styles.addStyle(project_label, "heading");
-
-            GridPane label_box = new GridPane();
-            label_box.getChildren().add(project_label);
             GridPane.setHgrow(project_label, Priority.ALWAYS);
             GridPane.setHalignment(project_label, HPos.LEFT);
+            label_box.add(project_label, 1, 0);
 
             if (_project_closer != null)
                 {
                 Button close_button = Buttons.createCancel(20);
                 close_button.setTooltip(new Tooltip("Close Project"));
-                label_box.add(close_button, label_box.getChildren().size(), 0);
+                label_box.add(close_button, 2, 0);
                 GridPane.setHgrow(close_button, Priority.NEVER);
                 GridPane.setHalignment(close_button, HPos.RIGHT);
                 GridPane.setMargin(close_button, new Insets(5));

@@ -14,9 +14,10 @@ public class ProjectResourceTree
     {
     public ProjectResourceTree(MuseProject project, ResourceTreeOperationHandler ops_handler)
         {
+        _project = project;
         _tree_view = new FancyTreeView<>(ops_handler, true);
         _tree_view.getStylesheets().add(Styles.getDefaultTreeStyles());
-        _root_node = ProjectNodeFactories.getCurrentFactory().createNode(project);
+        setFactory(ResourceNodeFactories.getCurrentFactory());
         project.addResourceListener(new ProjectResourceListener()
             {
             @Override
@@ -31,7 +32,6 @@ public class ProjectResourceTree
                 _root_node.notifyResourceRemoved(removed);
                 }
             });
-        _tree_view.setRoot(new ResourceTreeNodeFacade(_root_node));
         _tree_view.getRoot().setExpanded(true);
         _tree_view.setShowRoot(false);
         }
@@ -61,6 +61,20 @@ public class ProjectResourceTree
         return _root_node;
         }
 
-    private final ResourceTreeNode _root_node;
+    public ResourceTreeNodeFactory getFactory()
+        {
+        return _factory;
+        }
+
+    public void setFactory(ResourceTreeNodeFactory factory)
+        {
+        _factory = factory;
+        _root_node = _factory.createNode(_project);
+        _tree_view.setRoot(new ResourceTreeNodeFacade(_root_node));
+        }
+
+    private final MuseProject _project;
+    private ResourceTreeNode _root_node;
     private final FancyTreeView<ResourceTreeNodeFacade> _tree_view;
+    private ResourceTreeNodeFactory _factory;
     }

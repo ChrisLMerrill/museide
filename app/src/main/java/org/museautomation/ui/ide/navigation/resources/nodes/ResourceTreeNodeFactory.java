@@ -7,5 +7,6 @@ import org.museautomation.core.*;
  */
 public interface ResourceTreeNodeFactory
     {
+    String getName();
     ResourceTreeNode createNode(MuseProject project);
     }

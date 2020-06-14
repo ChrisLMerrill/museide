@@ -11,6 +11,12 @@ import java.util.*;
 public class ResourceTypeProjectNodeFactory implements ResourceTreeNodeFactory
     {
     @Override
+    public String getName()
+        {
+        return "Type";
+        }
+
+    @Override
     public ResourceTreeNode createNode(MuseProject project)
         {
         // create the nodes
