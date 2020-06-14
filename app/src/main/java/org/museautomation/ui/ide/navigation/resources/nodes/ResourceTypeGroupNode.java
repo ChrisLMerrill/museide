@@ -41,23 +41,29 @@ public class ResourceTypeGroupNode extends ResourceGroupNode
         }
 
     @Override
-    protected ResourceNode resourceAddedToProject(ResourceToken<MuseResource> added)
+    protected boolean resourceAddedToProject(ResourceToken<MuseResource> added)
         {
         final ResourceType added_type = added.getType();
         if (added_type.equals(_type)
             || added_type.isSubtype() && ((ResourceSubtype)added_type).isSubtypeOf(_type))
-            return new ResourceNode(added, getProject());
+            {
+            addChild(new ResourceNode(added, getProject()));
+            return true;
+            }
         else
-            return null;
+            return false;
         }
 
     @Override
-    protected ResourceNode resourceRemovedFromProject(ResourceToken<MuseResource> removed)
+    protected boolean resourceRemovedFromProject(ResourceToken<MuseResource> removed)
         {
         for (ResourceTreeNode node : getChildren())
             if (node instanceof ResourceNode && ((ResourceNode)node).getResourceToken().equals(removed))
-                return (ResourceNode) node;
-        return null;
+                {
+                removeChild(node);
+                return true;
+                }
+        return false;
         }
 
     private final ResourceType _type;
