@@ -11,6 +11,7 @@ import org.jetbrains.annotations.*;
 import org.museautomation.ui.ide.*;
 import org.museautomation.ui.ide.navigation.*;
 import org.museautomation.ui.ide.navigation.resources.actions.*;
+import org.museautomation.ui.ide.navigation.resources.nodes.*;
 import org.museautomation.ui.seideimport.*;
 import org.museautomation.ui.settings.*;
 import org.museautomation.core.*;

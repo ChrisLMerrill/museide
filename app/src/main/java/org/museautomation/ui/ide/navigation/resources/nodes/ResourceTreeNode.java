@@ -1,4 +1,4 @@
-package org.museautomation.ui.ide.navigation.resources;
+package org.museautomation.ui.ide.navigation.resources.nodes;
 
 import javafx.scene.*;
 import org.museautomation.core.*;

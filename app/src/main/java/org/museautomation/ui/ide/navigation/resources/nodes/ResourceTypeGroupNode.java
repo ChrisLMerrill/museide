@@ -1,4 +1,4 @@
-package org.museautomation.ui.ide.navigation.resources;
+package org.museautomation.ui.ide.navigation.resources.nodes;
 
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
@@ -9,9 +9,9 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-class ResourceTypeGroupNode extends ResourceGroupNode
+public class ResourceTypeGroupNode extends ResourceGroupNode
     {
-    ResourceTypeGroupNode(MuseProject project, ResourceType type)
+    public ResourceTypeGroupNode(MuseProject project, ResourceType type)
         {
         super(project);
         _type = type;
@@ -62,5 +62,3 @@ class ResourceTypeGroupNode extends ResourceGroupNode
 
     private final ResourceType _type;
     }
-
-

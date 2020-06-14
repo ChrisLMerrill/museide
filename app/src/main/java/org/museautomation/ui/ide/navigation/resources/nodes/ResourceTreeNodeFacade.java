@@ -1,4 +1,4 @@
-package org.museautomation.ui.ide.navigation.resources;
+package org.museautomation.ui.ide.navigation.resources.nodes;
 
 import javafx.scene.*;
 import net.christophermerrill.FancyFxTree.*;
@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class ResourceTreeNodeFacade implements FancyTreeNodeFacade<ResourceTreeNode>
     {
-    ResourceTreeNodeFacade(ResourceTreeNode node)
+    public ResourceTreeNodeFacade(ResourceTreeNode node)
         {
         _node = node;
         _listener = new ResourceTreeNodeListener()
@@ -123,10 +123,8 @@ public class ResourceTreeNodeFacade implements FancyTreeNodeFacade<ResourceTreeN
 	    return Collections.emptyList();
 	    }
 
-    private ResourceTreeNode _node;
+    private final ResourceTreeNode _node;
     private List<FancyTreeNodeFacade<ResourceTreeNode>> _children;
     private FancyTreeItemFacade _item;
     private ResourceTreeNodeListener _listener;
     }
-
-

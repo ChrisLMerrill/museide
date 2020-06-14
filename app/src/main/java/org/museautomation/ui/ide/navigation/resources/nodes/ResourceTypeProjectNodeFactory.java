@@ -1,7 +1,8 @@
-package org.museautomation.ui.ide.navigation.resources;
+package org.museautomation.ui.ide.navigation.resources.nodes;
 
 import org.museautomation.core.*;
 import org.museautomation.core.resource.types.*;
+import org.museautomation.ui.ide.navigation.resources.*;
 
 import java.util.*;
 

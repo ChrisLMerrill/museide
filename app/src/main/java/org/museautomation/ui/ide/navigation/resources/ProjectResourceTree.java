@@ -5,6 +5,7 @@ import net.christophermerrill.FancyFxTree.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.ui.extend.javafx.*;
+import org.museautomation.ui.ide.navigation.resources.nodes.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -63,5 +64,3 @@ public class ProjectResourceTree
     private final ProjectNode _root_node;
     private FancyTreeView<ResourceTreeNodeFacade> _tree_view;
     }
-
-

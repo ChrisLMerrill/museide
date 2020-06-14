@@ -12,6 +12,7 @@ import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.ui.extend.actions.*;
+import org.museautomation.ui.ide.navigation.resources.nodes.*;
 
 import java.util.*;
 
@@ -155,5 +156,3 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
     private List<ResourceTreeNodeFacade> _selections = Collections.emptyList();
     private UndoableAction _paste_action = null;
     }
-
-
