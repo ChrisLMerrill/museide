@@ -92,7 +92,7 @@ public abstract class ResourceGroupNode extends ResourceTreeNode
         List<ResourceTreeNode> children = getChildren();
         for (int i = 0; i < children.size(); i++)
             {
-            ResourceNode child_node = (ResourceNode) children.get(i);
+            ResourceTreeNode child_node = children.get(i);
             if (child_node == remove_node)
                 {
                 _children.remove(i);
