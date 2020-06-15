@@ -2,9 +2,11 @@ package org.museautomation.ui.ide.navigation.resources;
 
 import javafx.application.*;
 import javafx.event.*;
+import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.museautomation.core.resource.storage.*;
 import org.museautomation.ui.extend.*;
 import org.museautomation.ui.ide.navigation.resources.actions.*;
 import org.museautomation.core.*;
@@ -31,6 +33,9 @@ public class CreateResourcePanel
         _grid.getStylesheets().add(Styles.get("ide"));
         _grid.setVgap(5);
         _grid.setHgap(5);
+        _grid.setPadding(new Insets(10));
+        _grid.setMinWidth(250);
+        _grid.setMinHeight(150);
 
         Label type_label = new Label("Type:");
         _grid.add(type_label, 0, 0);
@@ -45,13 +50,20 @@ public class CreateResourcePanel
         _id_field.setId(ID_FIELD);
         _grid.add(_id_field, 1, 1);
         new NotBlankTextValidator().attachTo(_id_field);
-        _id_field.textProperty().addListener((observable, oldValue, newValue) ->
-            {
-            validate();
-            });
+        _id_field.textProperty().addListener((observable, oldValue, newValue) -> validate());
+        GridPane.setHgrow(_id_field, Priority.ALWAYS);
+
+        Label path_label = new Label("Path: ");
+        _grid.add(path_label, 0, 2);
+
+        _path_chooser = new ChoiceBox<>();
+        for (String path : ProjectStructureSettings.get(_project).getSubfolders())
+            _path_chooser.getItems().add(path);
+        _grid.add(_path_chooser, 1, 2);
 
         _error_field = new Label();
-        _grid.add(_error_field, 0, 2, 2, 1);
+        _grid.add(_error_field, 0, 3, 2, 1);
+        GridPane.setHgrow(_error_field, Priority.ALWAYS);
         }
 
     public Dialog getDialog()
@@ -108,7 +120,7 @@ public class CreateResourcePanel
     public CreateResourceAction getAction()
         {
         if (validate())
-            return new CreateResourceAction(_type_selector.getSelection(), _id_field.getText(), _project);
+            return new CreateResourceAction(_type_selector.getSelection(), _id_field.getText(), _project, _path_chooser.getValue());
         else
             return null;
         }
@@ -152,9 +164,10 @@ public class CreateResourcePanel
     private final MuseProject _project;
     private final UndoStack _undo;
 
-    private GridPane _grid = new GridPane();
-    private TextField _id_field;
+    private final GridPane _grid = new GridPane();
     private ResourceTypeAndSubtypeSelector _type_selector;
+    private TextField _id_field;
+    private ChoiceBox<String> _path_chooser;
     private Dialog _dialog;
     private ButtonType _create_button_type;
     private Label _error_field = null;
