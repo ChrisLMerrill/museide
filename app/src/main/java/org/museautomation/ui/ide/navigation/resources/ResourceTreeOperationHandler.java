@@ -134,6 +134,8 @@ public class ResourceTreeOperationHandler extends FancyTreeOperationHandler<Reso
                 {
                 ResourceGroupNode group = (ResourceGroupNode) selected_items.get(0).getValue().getModelNode();
                 CreateResourcePanel dialog = new CreateResourcePanel(_project, _undo);
+                if (group instanceof ResourcePathGroupNode)
+                    dialog.setPath(((ResourcePathGroupNode)group).getPath());
                 Icons.setIcons(dialog.getDialog().getDialogPane());
                 if (group instanceof ResourceTypeGroupNode)
                     dialog.setType(((ResourceTypeGroupNode) group).getType());

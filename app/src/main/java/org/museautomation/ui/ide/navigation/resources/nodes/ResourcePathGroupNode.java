@@ -28,6 +28,18 @@ public class ResourcePathGroupNode extends ResourceGroupNode
         return _label;
         }
 
+    public String getPath()
+        {
+        StringBuilder builder = new StringBuilder();
+        for (String p : _path)
+            {
+            if (builder.length() > 0)
+                builder.append("/");
+            builder.append(p);
+            }
+        return builder.toString();
+        }
+
     @Override
     protected List<ResourceTreeNode> getInitialChildList()
         {

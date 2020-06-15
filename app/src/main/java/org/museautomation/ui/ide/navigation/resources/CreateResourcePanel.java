@@ -118,6 +118,11 @@ public class CreateResourcePanel
         validate();
         }
 
+    public void setPath(String path)
+        {
+        _path_chooser.getSelectionModel().select(path);
+        }
+
     public CreateResourceAction getAction()
         {
         if (validate())
