@@ -56,7 +56,8 @@ public class CreateResourcePanel
         Label path_label = new Label("Path: ");
         _grid.add(path_label, 0, 2);
 
-        _path_chooser = new ChoiceBox<>();
+        _path_chooser = new ComboBox<>();
+        _path_chooser.editableProperty().setValue(true);
         for (String path : ProjectStructureSettings.get(_project).getSubfolders())
             _path_chooser.getItems().add(path);
         _grid.add(_path_chooser, 1, 2);
@@ -167,7 +168,7 @@ public class CreateResourcePanel
     private final GridPane _grid = new GridPane();
     private ResourceTypeAndSubtypeSelector _type_selector;
     private TextField _id_field;
-    private ChoiceBox<String> _path_chooser;
+    private ComboBox<String> _path_chooser;
     private Dialog _dialog;
     private ButtonType _create_button_type;
     private Label _error_field = null;
