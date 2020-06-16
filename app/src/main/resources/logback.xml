@@ -1,6 +1,6 @@
 <configuration>
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>${user.home}/.muse/museide.log</file>
+    <file>${user.home}/.muse/museide-log.txt</file>
 
     <encoder>
       <pattern>%date %level [%file:%line] %msg%n</pattern>
