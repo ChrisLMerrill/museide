@@ -106,6 +106,11 @@ public class IdeApplication extends Application
         Closer.get().closeAll();
         }
 
+    static
+        {
+        System.setProperty("prism.lcdtext","false");  // fonts look much better on MacOS with this setting
+        }
+
     public IdeTabs getTabs()
         {
         return _editors;
