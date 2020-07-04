@@ -15,6 +15,7 @@ public class TimerLabel extends Label
         {
         _format = format;
         _formatter = new SimpleDateFormat(_format, Locale.getDefault());
+        _formatter.setTimeZone(TimeZone.getTimeZone("GMT+0"));
         }
 
     public void setInitalValue(long inital_value)
@@ -69,7 +70,7 @@ public class TimerLabel extends Label
         Platform.runLater(() ->
             {
             long elapsed = getElapsed();
-            setText(_formatter.format(new Date(elapsed - TimeZone.getDefault().getRawOffset())));
+            setText(_formatter.format(new Date(elapsed)));
             });
         }
 
