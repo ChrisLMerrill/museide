@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.*;
 import net.christophermerrill.ShadowboxFx.*;
 import org.jetbrains.annotations.*;
+import org.museautomation.core.util.*;
 import org.museautomation.ui.extend.*;
 import org.museautomation.ui.extend.components.*;
 import org.museautomation.ui.extend.icons.*;
@@ -108,14 +109,17 @@ public class IdeApplication extends Application
 
     static
         {
-        System.setProperty("prism.lcdtext","false");  // fonts look much better on MacOS with this setting
+        if (OperatingSystem.get() == OperatingSystem.macOS)
+            System.setProperty("prism.lcdtext","false");  // fonts look MUCH better on MacOS with this setting
         }
 
+    @SuppressWarnings("unused")  // used by extending apps
     public IdeTabs getTabs()
         {
         return _editors;
         }
 
+    @SuppressWarnings("unused")  // used by extending apps
     public static IdeApplication getInstance()
         {
         return APP;
