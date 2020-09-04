@@ -38,6 +38,7 @@ class ParamsTab
 
         ScrollPane scroller = new ScrollPane();
         scroller.setStyle("-fx-background-color:transparent;");
+        scroller.setFitToWidth(true);
         scroller.setContent(initial_values_editor.getNode());
         params_pane.setCenter(scroller);
         _tab.setContent(params_pane);

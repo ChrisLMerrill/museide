@@ -29,7 +29,13 @@ public class WebDriverProviderListEditor extends BaseResourceEditor
         grid.setPadding(new Insets(5));
         grid.setVgap(5);
         grid.setHgap(5);
-        _main.setCenter(grid);
+
+        ScrollPane scroller = new ScrollPane();
+        scroller.setStyle("-fx-background-color:transparent;");
+        scroller.setFitToWidth(true);
+        scroller.setContent(grid);
+
+        _main.setCenter(scroller);
         _rows = new GridPaneRows(grid);
 
         _add_button = new MenuButton("Add", Glyphs.create("FA:PLUS"));
