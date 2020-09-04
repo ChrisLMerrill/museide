@@ -25,7 +25,7 @@ class ParamsTab
         BorderPane params_pane = new BorderPane();
         params_pane.setPadding(new Insets(5));
 
-        Label heading = new Label("Default parameters for the test:");
+        Label heading = new Label("Default parameters for the task:");
         params_pane.setTop(heading);
         ValueSourceMapEditor initial_values_editor = new ValueSourceMapEditor(project, undo_stack);
 
@@ -36,7 +36,10 @@ class ParamsTab
         fake_source.setSourceMap(task.getDefaultVariables());
         initial_values_editor.setSource(fake_source);
 
-        params_pane.setCenter(initial_values_editor.getNode());
+        ScrollPane scroller = new ScrollPane();
+        scroller.setStyle("-fx-background-color:transparent;");
+        scroller.setContent(initial_values_editor.getNode());
+        params_pane.setCenter(scroller);
         _tab.setContent(params_pane);
         _tab.closableProperty().setValue(false);
         }
