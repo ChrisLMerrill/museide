@@ -42,19 +42,19 @@ public abstract class BaseResourceEditor implements MuseResourceEditor
     @Override
     public Parent getNode()
         {
-        if (_notifier == null)
+        if (_border_pane == null)
             {
             _border_pane = new BorderPane();
-            _notifier = new NotificationPane(_border_pane);
 
             Node button_bar = createButtonBar();
             _border_pane.setTop(button_bar);
 
             Parent main_area = getEditorArea();
 //            _scene.getStylesheets().add(Styles.find("ide"));
-            _border_pane.setCenter(main_area);
+            _notifier = new NotificationPane(main_area);
+            _border_pane.setCenter(_notifier);
             }
-        return _notifier;
+        return _border_pane;
         }
 
     private Scene createScene()
