@@ -35,9 +35,9 @@ import java.util.concurrent.atomic.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // invoked via reflection that finds MuseResourceEditors dynamically
-public class StepTestEditor extends BaseResourceEditor implements SteppedTaskProvider, InteractiveTaskStateListener
+public class TaskEditor extends BaseResourceEditor implements SteppedTaskProvider, InteractiveTaskStateListener
     {
-    public StepTestEditor()
+    public TaskEditor()
         {
         _controller.addListener(this);
         _controller.addInputProvider(provider);
@@ -70,25 +70,30 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
     @Override
     protected Parent getEditorArea()
         {
-        _event_table = createEventTable();
-
         _splitter = new SplitPane();
         _splitter.setOrientation(Orientation.VERTICAL);
+        _splitter.setDividerPositions(TaskEditorSettings.get().getSplitterPos());
 
         _splitter.getItems().add(_step_tree.getNode());
-
-        Tab step_tab = new Tab("Steps");
-        step_tab.setContent(_splitter);
-        step_tab.closableProperty().setValue(false);
 
         ParamsTab params_tab = new ParamsTab(getProject(), getUndoStack(), _task);
 
         MetadataTab metadata_tab = new MetadataTab(getUndoStack());
         metadata_tab.setsetResource(_task);
 
-        TabPane tabs = new TabPane(step_tab, params_tab.getTab(), metadata_tab.getTab());
-        tabs.sideProperty().setValue(Side.LEFT);
-        return tabs;
+        _event_tab = new Tab("Events");
+        _event_table = createEventTable();
+        _event_tab.setContent(_event_table);
+
+        _tabs = new TabPane(params_tab.getTab(), metadata_tab.getTab(), _event_tab);
+        _tabs.sideProperty().setValue(Side.TOP);
+        _splitter.getItems().add(_tabs);
+        _splitter.getDividers().get(0).positionProperty().addListener((observable, was, value) ->
+        {
+            TaskEditorSettings.get().setSplitterPos(value.doubleValue());
+        });
+
+        return _splitter;
         }
 
     @Override
@@ -121,7 +126,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
             if (_controller.getState().equals(InteractiveTaskState.PAUSED))
                 _controller.resume();
             else
-                _controller.run(StepTestEditor.this);
+                _controller.run(TaskEditor.this);
             });
 
         Button step = new Button("Step", Glyphs.create("FA:STEP_FORWARD"));
@@ -131,7 +136,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
         step.setOnAction(event ->
             {
             if (_controller.getState().equals(InteractiveTaskState.IDLE))
-                _controller.runOneStep(StepTestEditor.this);
+                _controller.runOneStep(TaskEditor.this);
             else
                 _controller.step();
             });
@@ -159,6 +164,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
     private Node createEventTable()
         {
         EventTable table = new EventTable(getProject());
+        table.setEmptyEventsHint("No events yet. Run the task to see some events.");
         EventTableController event_table_controller = new EventTableController(table, _controller);
         event_table_controller.setTask(_task);
 
@@ -181,17 +187,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
 
     private void showEventLog()
         {
-        _splitter.getItems().add(_event_table);
-        _splitter.setDividerPositions(_divider_pos);
-        }
-
-    private void hideEventLog()
-        {
-        if (_splitter.getItems().size() > 1)
-            {
-            _divider_pos = _splitter.getDividerPositions()[0];
-            _splitter.getItems().remove(_splitter.getItems().size() - 1);
-            }
+        _tabs.getSelectionModel().select(_event_tab);
         }
 
     @Override
@@ -201,7 +197,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
             {
             TaskRunner runner = _controller.getTestRunner();
             _context = runner.getExecutionContext();
-            Platform.runLater(StepTestEditor.this::showEventLog);
+            Platform.runLater(TaskEditor.this::showEventLog);
             }
         else if (state.equals(InteractiveTaskState.IDLE))
             {
@@ -211,17 +207,10 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
                 TaskResult result = TaskResult.find(_context);
                 NotificationPane notifier = getNotifier();
                 notifier.getActions().clear();
-                notifier.setOnHidden(event ->
+                notifier.getActions().add(new Action("Close", event ->
                     {
                     event.consume();
                     notifier.hide();
-                    hideEventLog();
-                    });
-                notifier.getActions().add(new Action("Reset Editor", event ->
-                    {
-                    event.consume();
-                    notifier.hide();
-                    hideEventLog();
                     }));
                 if (result == null)
                     {
@@ -239,6 +228,7 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
                     notifier.setGraphic(Glyphs.create("FA:REMOVE", Color.RED));
                     }
                 notifier.show();
+                new TimedNotifierHider(notifier, 5000);
                 });
             }
         }
@@ -260,8 +250,9 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
 
     private SplitPane _splitter;
     private StepTree2 _step_tree;
-    private double _divider_pos = 0.7;
     private Node _event_table;
+    private TabPane _tabs;
+    private Tab _event_tab;
 
     private final InteractiveTestControllerImpl _controller = new InteractiveTestControllerImpl();
 
@@ -298,5 +289,5 @@ public class StepTestEditor extends BaseResourceEditor implements SteppedTaskPro
             }
         };
 
-    final static Logger LOG = LoggerFactory.getLogger(StepTestEditor.class);
+    final static Logger LOG = LoggerFactory.getLogger(TaskEditor.class);
     }

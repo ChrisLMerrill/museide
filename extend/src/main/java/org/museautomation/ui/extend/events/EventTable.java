@@ -22,7 +22,7 @@ public class EventTable
     public EventTable(MuseProject project)
         {
         _event_types = EventTypes.get(project);
-        _table.setPlaceholder(new Label("Select a test result to view the Event Log"));
+        _table.setPlaceholder(new Label("(no events)"));
 
         TableColumn<MuseEvent, Long> time_column = new TableColumn<>();
         _table.getColumns().add(time_column);
@@ -127,6 +127,11 @@ public class EventTable
             _events.add(event);
             _table.scrollTo(_events.size() - 1);
             });
+        }
+
+    public void setEmptyEventsHint(String hint)
+        {
+        _table.setPlaceholder(new Label(hint));
         }
 
     public void clear()

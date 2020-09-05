@@ -24,6 +24,7 @@ public class TaskSuiteResultsView
         _splitter.getItems().add(tests_list.getNode());
 
         _event_table = new EventTable(project);
+        _event_table.setEmptyEventsHint("Select a task result to view the events");
         _splitter.getItems().add(_event_table.getNode());
 
         tests_list.addSelectionListener(result ->

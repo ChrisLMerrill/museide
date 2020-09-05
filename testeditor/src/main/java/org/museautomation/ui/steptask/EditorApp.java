@@ -36,7 +36,7 @@ public class EditorApp extends Application
         MuseProject project = new SimpleProject(storage);
         project.open();
         MuseResource resource = project.getResourceStorage().getResource(test_param);
-        StepTestEditor editor = new StepTestEditor();
+        TaskEditor editor = new TaskEditor();
         if (editor.canEdit(resource))
             {
             editor.editResource(project, resource);
