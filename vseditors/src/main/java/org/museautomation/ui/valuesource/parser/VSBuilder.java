@@ -77,7 +77,7 @@ public class VSBuilder extends ValueSourceBaseListener
         while (!(stack_item.equals(ParseStackMarker.ElementExpression)))
             {
             if (stack_item instanceof ValueSourceConfiguration)
-                arguments.add(0, (ValueSourceConfiguration)stack_item);
+                arguments.add(0, (ValueSourceConfiguration)stack_item); // insert at beginning, since we are popping from a stack, to pass in correct order to the ExpressionSupport
             else
                 _error = String.format("Did not expect to see a %s on the stack: %s", stack_item.getClass().getSimpleName(), stack_item.toString());
             stack_item = _parse_stack.pop();

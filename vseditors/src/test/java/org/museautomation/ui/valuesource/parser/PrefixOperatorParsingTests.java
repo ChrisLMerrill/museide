@@ -33,6 +33,17 @@ public class PrefixOperatorParsingTests
         }
 
     @Test
+    public void parseVariableWithSpaceInName() throws ExpressionParsingException
+        {
+        String var_name = "var number 1";
+        ValueSourceConfiguration configuration = new ValueSourceExpressionParser(_project).parse("$\"" + var_name + "\"");
+        Assertions.assertEquals(VariableValueSource.TYPE_ID, configuration.getType());
+        ValueSourceConfiguration name_source = configuration.getSource();
+        Assertions.assertEquals(StringValueSource.TYPE_ID, name_source.getType());
+        Assertions.assertEquals(var_name, name_source.getValue());
+        }
+
+    @Test
     public void parseSystemVariableSource() throws ExpressionParsingException
         {
         String var_name = "sysvar1";

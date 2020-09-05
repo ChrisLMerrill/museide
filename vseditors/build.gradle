@@ -15,7 +15,7 @@ javafx {
 dependencies {
     api 'org.museautomation:muse-core:[0.22,)'
     api 'org.museautomation:ide-extend:[0.7,)'
-    implementation 'org.museautomation:muse-parser:[0.14,)'
+    implementation 'org.museautomation:muse-parser:[0.16,)'
     implementation 'org.openjfx:javafx-controls:14.0.1'
                                            
     testImplementation 'net.christophermerrill:TestFxUtils:[2.0,)'

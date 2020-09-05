@@ -39,7 +39,7 @@ elementLookupExpression
     ;
 
 elementExpression
-    : '<' Identifier (':' singleExpression)* '>'
+    : '<' Identifier (':' singleExpression (',' singleExpression)*)? '>'
     ;
 
 parenthesizedExpression
@@ -160,4 +160,3 @@ fragment DecimalDigit
 fragment HexDigit
     : [0-9a-fA-F]
     ;
-

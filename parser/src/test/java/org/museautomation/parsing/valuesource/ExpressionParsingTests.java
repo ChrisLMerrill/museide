@@ -56,6 +56,7 @@ class ExpressionParsingTests
         String _type = null;
         String _qualifier = null;
         String _qualifier2 = null;
+        String _qualifier3 = null;
         }
 
     @Test
@@ -103,7 +104,7 @@ class ExpressionParsingTests
         final String type = "type";
         final String qualifier = "\"qualifier\"";
         final String qualifier2 = "\"q2\"";
-        String string_to_parse = String.format("<%s:%s:%s>", type, qualifier, qualifier2);
+        String string_to_parse = String.format("<%s:%s,%s>", type, qualifier, qualifier2);
         final ElementHolder holder = new ElementHolder();
         ValueSourceBaseListener listener = new ValueSourceBaseListener()
             {
@@ -119,6 +120,33 @@ class ExpressionParsingTests
         Assertions.assertEquals(type, holder._type);
         Assertions.assertEquals(qualifier, holder._qualifier);
         Assertions.assertEquals(qualifier2, holder._qualifier2);
+        }
+
+    @Test
+    void elementExpression3Args() throws ExpressionParsingException
+        {
+        final String type = "type";
+        final String qualifier = "\"qualifier\"";
+        final String qualifier2 = "\"q2\"";
+        final String qualifier3 = "\"q3\"";
+        String string_to_parse = String.format("<%s:%s,%s,%s>", type, qualifier, qualifier2, qualifier3);
+        final ElementHolder holder = new ElementHolder();
+        ValueSourceBaseListener listener = new ValueSourceBaseListener()
+            {
+            @Override
+            public void exitElementExpression(ValueSourceParser.ElementExpressionContext context)
+                {
+                holder._type = context.getChild(1).getText();
+                holder._qualifier = context.getChild(3).getText();
+                holder._qualifier2 = context.getChild(5).getText();
+                holder._qualifier3 = context.getChild(7).getText();
+                }
+            };
+        ValueSourceStringExpressionParsing.walk(string_to_parse, listener);
+        Assertions.assertEquals(type, holder._type);
+        Assertions.assertEquals(qualifier, holder._qualifier);
+        Assertions.assertEquals(qualifier2, holder._qualifier2);
+        Assertions.assertEquals(qualifier3, holder._qualifier3);
         }
 
     static class ElementLookupHolder
