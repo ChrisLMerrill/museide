@@ -174,11 +174,16 @@ public class StepTreeOperations extends FancyTreeOperationHandler<StepConfigurat
 		DragOverInfo info = new DragOverInfo();
 		if (dragboard.getContent(DataFormat.PLAIN_TEXT) != null)
 			{
-			info = super.dragOver(dragboard, onto_node);
-			if (!_project.getStepDescriptors().get(onto_node.getModelNode()).isCompound())
+            List<StepConfiguration> dropped_steps = getStepConfigurationsFromDragboard(dragboard);
+            if (dropped_steps.contains(onto_node.getModelNode()))
+                return info;
+            for (StepConfiguration step : dropped_steps)
+                if (step.isAncestorOf(onto_node.getModelNode()))
+                    return info;
+            info = super.dragOver(dragboard, onto_node);
+            if (!_project.getStepDescriptors().get(onto_node.getModelNode()).isCompound())
                 info.removeDropLocation(DropLocation.ON);
-            return info;
-			}
+            }
         else
             LOG.info("StepList is null :(");
 		return info;
@@ -189,19 +194,8 @@ public class StepTreeOperations extends FancyTreeOperationHandler<StepConfigurat
 		{
 		if (dragboard.getContent(DataFormat.PLAIN_TEXT) != null)
 			{
-            List<Long> dropped_step_ids = ClipboardSerializer.listOfLongsfromString((String) dragboard.getContent(DataFormat.PLAIN_TEXT));
-			List<StepConfiguration> dropped_steps = new ArrayList<>();
-			for (Long id : dropped_step_ids)
-				{
-				final StepConfiguration step = _root.findByStepId(id);
-				if (step == null)
-					{
-					LOG.error(String.format("Unable to find step %d in the root", id));
-					return false;
-					}
-				dropped_steps.add(step);
-				}
-			if (dropped_steps.size() == 0)
+            List<StepConfiguration> dropped_steps = getStepConfigurationsFromDragboard(dragboard);
+            if (dropped_steps.size() == 0)
 				return false;
 			StepConfiguration parent;
 			int add_at_index;
@@ -253,7 +247,24 @@ public class StepTreeOperations extends FancyTreeOperationHandler<StepConfigurat
 		return false;
 		}
 
-	@Override
+    private List<StepConfiguration> getStepConfigurationsFromDragboard(Dragboard dragboard)
+        {
+        List<Long> dropped_step_ids = ClipboardSerializer.listOfLongsfromString((String) dragboard.getContent(DataFormat.PLAIN_TEXT));
+        List<StepConfiguration> dropped_steps = new ArrayList<>();
+        for (Long id : dropped_step_ids)
+            {
+            final StepConfiguration step = _root.findByStepId(id);
+            if (step == null)
+                {
+                LOG.error(String.format("Unable to find step %d in the root", id));
+                return dropped_steps;
+                }
+            dropped_steps.add(step);
+            }
+        return dropped_steps;
+        }
+
+    @Override
 	public ContextMenu getContextMenu(ObservableList<TreeItem<StepConfigurationFacade>> selected_items)
 		{
 		ContextMenu menu = new ContextMenu();
