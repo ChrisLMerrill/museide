@@ -2,6 +2,7 @@ package org.museautomation.ui.editors.driver;
 
 import javafx.scene.*;
 import javafx.scene.layout.*;
+import org.museautomation.core.*;
 import org.museautomation.selenium.*;
 import org.museautomation.ui.extend.actions.*;
 
@@ -15,7 +16,7 @@ import org.museautomation.ui.extend.actions.*;
 public class UnEditableDriverProviderEditor implements WebdriverProviderEditor
     {
     @Override
-    public void edit(WebDriverProvider provider, UndoStack undo)
+    public void edit(WebDriverProvider provider, UndoStack undo, MuseProject project)
         {
         _provider = provider;
         }
@@ -38,7 +39,5 @@ public class UnEditableDriverProviderEditor implements WebdriverProviderEditor
 
     private WebDriverProvider _provider;
 
-    private HBox _box = new HBox();
+    private final HBox _box = new HBox();
     }
-
-

@@ -4,6 +4,7 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.museautomation.core.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.providers.*;
 import org.museautomation.ui.extend.actions.*;
@@ -22,7 +23,7 @@ public class RemoteDriverProviderEditor implements WebdriverProviderEditor
         }
 
     @Override
-    public void edit(WebDriverProvider provider, UndoStack undo)
+    public void edit(WebDriverProvider provider, UndoStack undo, MuseProject project)
         {
         if (!(provider instanceof RemoteDriverProvider))
             throw new IllegalArgumentException("can only edit a RemoteDriverProvider");
@@ -79,7 +80,7 @@ public class RemoteDriverProviderEditor implements WebdriverProviderEditor
     private UndoStack _undo;
     private TextField _url_field;
 
-    private GridPane _grid;
+    private final GridPane _grid;
 
     RemoteDriverProvider.ChangeListener _listener = (old_url, new_url) ->
         {

@@ -46,6 +46,7 @@ public class WebDriverProviderListEditor extends BaseResourceEditor
         BorderPane.setAlignment(_add_button, Pos.CENTER_LEFT);
         }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public void editResource(MuseProject project, MuseResource resource)
         {
@@ -98,7 +99,7 @@ public class WebDriverProviderListEditor extends BaseResourceEditor
         else
             editor = new UnEditableDriverProviderEditor();
 
-        editor.edit(provider, getUndoStack());
+        editor.edit(provider, getUndoStack(), getProject());
         EditorRow row = new EditorRow(_rows, row_index);
         row.setEditor(editor);
 
@@ -143,11 +144,11 @@ public class WebDriverProviderListEditor extends BaseResourceEditor
 
     private WebDriverProviderList _list;
 
-    private BorderPane _main;
-    private GridPaneRows _rows;
-    private MenuButton _add_button;
+    private final BorderPane _main;
+    private final GridPaneRows _rows;
+    private final MenuButton _add_button;
 
-    class EditorRow extends GridPaneRow
+    static class EditorRow extends GridPaneRow
         {
         EditorRow(GridPaneRows rows, int row)
             {

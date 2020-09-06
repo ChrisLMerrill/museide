@@ -1,6 +1,7 @@
 package org.museautomation.ui.editors.driver;
 
 import javafx.scene.*;
+import org.museautomation.core.*;
 import org.museautomation.selenium.*;
 import org.museautomation.ui.extend.actions.*;
 
@@ -12,7 +13,7 @@ public interface WebdriverProviderEditor
     /**
      * Edit the provider.
      */
-    void edit(WebDriverProvider provider, UndoStack stack);
+    void edit(WebDriverProvider provider, UndoStack stack, MuseProject project);
 
     /**
      * Get the JavaFX Node for the editor

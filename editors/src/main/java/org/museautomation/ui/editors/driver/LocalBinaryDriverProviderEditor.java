@@ -4,10 +4,13 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.museautomation.core.*;
 import org.museautomation.core.util.*;
+import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.providers.*;
 import org.museautomation.ui.extend.actions.*;
+import org.museautomation.ui.valuesource.*;
 
 import java.util.*;
 
@@ -24,14 +27,14 @@ public class LocalBinaryDriverProviderEditor implements WebdriverProviderEditor
         }
 
     @Override
-    public void edit(WebDriverProvider provider, UndoStack undo)
+    public void edit(WebDriverProvider provider, UndoStack undo, MuseProject project)
         {
         if (!(provider instanceof BaseLocalDriverProvider))
             throw new IllegalArgumentException("can't edit a " + provider.getClass().getSimpleName());
         _provider = (BaseLocalDriverProvider) provider;
         _undo = undo;
 
-        createFields();
+        createFields(project);
         }
 
     @Override
@@ -52,7 +55,7 @@ public class LocalBinaryDriverProviderEditor implements WebdriverProviderEditor
         return _provider;
         }
 
-    private void createFields()
+    private void createFields(MuseProject project)
         {
         Platform.runLater(() ->
             {
@@ -90,14 +93,17 @@ public class LocalBinaryDriverProviderEditor implements WebdriverProviderEditor
 
             label = new Label("Arguments:");
             _grid.add(label, 0, 2);
-            _arguments_field = new TextField();
+            _arguments_field = new DefaultInlineVSE(project, _undo);
+            _arguments_field.setSource(_provider.getArgumentSource());
+/*
             _arguments_field.focusedProperty().addListener((observable, was_focused, is_focused) ->
                 {
                 if (was_focused && !is_focused && !Objects.equals(_arguments_field.getText(), argumentsAsString(_provider.getArguments())))
                     new ChangeLocalDriverProviderArguments(_provider, argumentsAsArray(_arguments_field.getText())).execute(_undo);
                 });
             fillArgumentsField(_provider.getArguments());
-            _grid.add(_arguments_field, 1, 2);
+*/
+            _grid.add(_arguments_field.getNode(), 1, 2);
 
             label = new Label("Operating System:");
             _grid.add(label, 0, 3);
@@ -116,37 +122,6 @@ public class LocalBinaryDriverProviderEditor implements WebdriverProviderEditor
             _grid.add(_os_type_field, 1, 3);
             });
         }
-
-    private void fillArgumentsField(String[] arguments)
-	    {
-	    _arguments_field.setText(argumentsAsString(arguments));
-	    }
-
-    private String argumentsAsString(String[] arguments)
-	    {
-	    if (arguments == null)
-	    	return "";
-	    StringBuilder argument_string = new StringBuilder();
-	    for (String argument : _provider.getArguments())
-		    {
-		    argument_string.append(argument);
-		    argument_string.append(" ");
-		    }
-	    return argument_string.toString();
-	    }
-
-    private String[] argumentsAsArray(String arg_string)
-	    {
-	    StringTokenizer tokenizer = new StringTokenizer(arg_string, " ");
-	    List<String> arguments = new ArrayList<>();
-	    while (tokenizer.hasMoreTokens())
-		    arguments.add(tokenizer.nextToken());
-
-	    if (arguments.size() > 0)
-	        return arguments.toArray(new String[arguments.size()]);
-	    else
-	    	return null;
-	    }
 
     private PathType getCurrentPathType()
         {
@@ -170,12 +145,12 @@ public class LocalBinaryDriverProviderEditor implements WebdriverProviderEditor
     private UndoStack _undo;
     private TextField _path_field;
     private ChoiceBox<PathType> _path_type_field;
-    private TextField _arguments_field;
+    private DefaultInlineVSE _arguments_field;
     private ChoiceBox<OperatingSystem> _os_type_field;
 
-    private GridPane _grid;
+    private final GridPane _grid;
 
-    private BaseLocalDriverProvider.ChangeListener _listener = new BaseLocalDriverProvider.ChangeListener()
+    private final BaseLocalDriverProvider.ChangeListener _listener = new BaseLocalDriverProvider.ChangeListener()
         {
         @Override
         public void absolutePathChanged(String old_path, String new_path)
@@ -207,10 +182,17 @@ public class LocalBinaryDriverProviderEditor implements WebdriverProviderEditor
             }
 
         @Override
+        public void argumentSourceChanged(ValueSourceConfiguration old_args, ValueSourceConfiguration new_args)
+            {
+            }
+
+/*
+        @Override
         public void argumentsChanged(String[] old_args, String[] new_args)
 	        {
 	        _arguments_field.setText(argumentsAsString(new_args));
 	        }
+*/
         };
 
     public final static String PATH_FIELD_ID = "kbdpe-path";
@@ -239,6 +221,6 @@ public class LocalBinaryDriverProviderEditor implements WebdriverProviderEditor
             }
 
 
-        private String _label;
+        private final String _label;
         }
     }
