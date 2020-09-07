@@ -268,7 +268,7 @@ public class ValueSourceMapEditor implements StackableEditor
 		@Override
 		protected Node createAdvancedNode()
 			{
-			ValueSourceEditorStack editor_stack = new ValueSourceEditorStack(new EditInProgress<ValueSourceConfiguration>()
+			ValueSourceEditorStack editor_stack = new ValueSourceEditorStack(new EditInProgress<>()
 				{
 				@Override
 				public void cancel()
@@ -311,7 +311,7 @@ public class ValueSourceMapEditor implements StackableEditor
 			_descriptor = descriptor;
 
 			_name_label = new Label(descriptor.getDisplayName());
-			_name_label.setTooltip(new Tooltip(descriptor.getDescription()));  // TODO why does this not work?
+			_name_label.setTooltip(new Tooltip(descriptor.getDescription()));
 			setNode(_name_label, 0);
 
 			_editor = new DefaultInlineVSE(_project, _undo_stack);
@@ -349,7 +349,7 @@ public class ValueSourceMapEditor implements StackableEditor
 		@Override
 		protected Node createAdvancedNode()
 			{
-			ValueSourceEditorStack editor_stack = new ValueSourceEditorStack(new EditInProgress<ValueSourceConfiguration>()
+			ValueSourceEditorStack editor_stack = new ValueSourceEditorStack(new EditInProgress<>()
 				{
 				@Override
 				public void cancel()
@@ -487,19 +487,19 @@ public class ValueSourceMapEditor implements StackableEditor
 					}
 			}
 
-		private Map<ValueSourceConfiguration, Integer> _removed_sources = new HashMap<>();   // this is used to remember the location of removed rows, so an undo can restore them
+		private final Map<ValueSourceConfiguration, Integer> _removed_sources = new HashMap<>();   // this is used to remember the location of removed rows, so an undo can restore them
 		}
 
-	private MuseProject _project;
-	private UndoStack _undo_stack;
+	private final MuseProject _project;
+	private final UndoStack _undo_stack;
 	private EditorStack _editor_stack;
 	private ContainsNamedSources _container;
 	private SubsourceDescriptor[] _descriptors = new SubsourceDescriptor[0];
-	private List<String> _hidden_names = new ArrayList<>();
+	private final List<String> _hidden_names = new ArrayList<>();
 	private boolean _allow_custom_sources = true;
 
-	private GridPane _grid = new GridPane();
-	private GridPaneRows _grid_rows = new GridPaneRows(_grid);
+	private final GridPane _grid = new GridPane();
+	private final GridPaneRows _grid_rows = new GridPaneRows(_grid);
 	private Button _add_button;
 	private MyChangeListener _change_listener = new MyChangeListener();
 
