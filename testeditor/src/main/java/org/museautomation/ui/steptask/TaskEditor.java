@@ -214,12 +214,12 @@ public class TaskEditor extends BaseResourceEditor implements SteppedTaskProvide
                     }));
                 if (result == null)
                     {
-                    notifier.setText("Test stopped (cannot find result to evaluate).");
+                    notifier.setText("Task ended (cannot find result to evaluate).");
                     notifier.setGraphic(Glyphs.create("FA:POWER_OFF", Color.BLACK));
                     }
                 else if (result.isPass())
                     {
-                    notifier.setText("Test passed.");
+                    notifier.setText("Task completed successfully.");
                     notifier.setGraphic(Glyphs.create("FA:CHECK", Color.GREEN));
                     }
                 else
