@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import net.christophermerrill.testfx.*;
 import org.junit.jupiter.api.*;
+import org.museautomation.core.*;
+import org.museautomation.core.project.*;
 import org.museautomation.core.util.OperatingSystem;
 import org.museautomation.selenium.providers.*;
 import org.museautomation.ui.extend.actions.*;
@@ -25,7 +27,7 @@ public class WebdriverProviderEditorTests extends ComponentTest
         remote.setUrl("url1");
 
         UndoStack undo = new UndoStack();
-        editor.edit(remote, undo);
+        editor.edit(remote, undo, _project);
         waitForUiEvents();
         Assertions.assertEquals("url1", textOf(id(RemoteDriverProviderEditor.URL_FIELD_ID)));
 
@@ -53,7 +55,7 @@ public class WebdriverProviderEditorTests extends ComponentTest
         chrome.setOs(OperatingSystem.Windows);
         chrome.setRelativePath(start_path);
 
-        editor.edit(chrome, undo);
+        editor.edit(chrome, undo, _project);
         waitForUiEvents();
 
         // check path shown correctly
@@ -105,7 +107,7 @@ public class WebdriverProviderEditorTests extends ComponentTest
         chrome.setOs(OperatingSystem.Windows);
         chrome.setAbsolutePath(start_path);
 
-        editor.edit(chrome, undo);
+        editor.edit(chrome, undo, _project);
         waitForUiEvents();
 
         // switch path type to relative
@@ -124,4 +126,5 @@ public class WebdriverProviderEditorTests extends ComponentTest
         }
 
     private BorderPane _root = new BorderPane();
+    private MuseProject _project = new SimpleProject();
     }

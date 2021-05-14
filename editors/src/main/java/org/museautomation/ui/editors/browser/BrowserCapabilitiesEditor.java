@@ -145,7 +145,7 @@ public class BrowserCapabilitiesEditor extends BaseResourceEditor
                 if (!Objects.equals(new_value, _version_field.getValue()))
                     _version_field.valueProperty().set(new_value.toString());
                 }
-            else if (CapabilityType.PLATFORM.equals(name))  // TODO research if PLATFORM_NAME should be used
+            else if (CapabilityType.PLATFORM.equals(name))  // TODO use PLATFORM_NAME should be used
                 {
                 if (!Objects.equals(new_value, _platform_field.getValue()))
                     _platform_field.valueProperty().set(new_value.toString());
