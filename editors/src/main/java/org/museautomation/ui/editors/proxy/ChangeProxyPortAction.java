@@ -1,6 +1,6 @@
 package org.museautomation.ui.editors.proxy;
 
-import org.museautomation.selenium.*;
+import org.museautomation.builtins.network.*;
 import org.museautomation.ui.extend.actions.*;
 
 /**
@@ -8,7 +8,7 @@ import org.museautomation.ui.extend.actions.*;
  */
 class ChangeProxyPortAction extends UndoableAction
     {
-    ChangeProxyPortAction(ProxyConfiguration proxy, Integer new_port)
+    ChangeProxyPortAction(NetworkProxyConfiguration proxy, Integer new_port)
         {
         _proxy = proxy;
         _new_port = new_port;
@@ -29,8 +29,8 @@ class ChangeProxyPortAction extends UndoableAction
         return true;
         }
 
-    private ProxyConfiguration _proxy;
-    private Integer _new_port;
+    private final NetworkProxyConfiguration _proxy;
+    private final Integer _new_port;
     private Integer _old_port;
     }
 

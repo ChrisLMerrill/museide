@@ -1,6 +1,6 @@
 package org.museautomation.ui.editors.proxy;
 
-import org.museautomation.selenium.*;
+import org.museautomation.builtins.network.*;
 import org.museautomation.ui.extend.actions.*;
 
 /**
@@ -8,7 +8,7 @@ import org.museautomation.ui.extend.actions.*;
  */
 class ChangeProxyHostnameAction extends UndoableAction
     {
-    ChangeProxyHostnameAction(ProxyConfiguration proxy, String new_hostname)
+    ChangeProxyHostnameAction(NetworkProxyConfiguration proxy, String new_hostname)
         {
         _proxy = proxy;
         _new_hostname = new_hostname;
@@ -29,8 +29,8 @@ class ChangeProxyHostnameAction extends UndoableAction
         return true;
         }
 
-    private ProxyConfiguration _proxy;
-    private String _new_hostname;
+    private final NetworkProxyConfiguration _proxy;
+    private final String _new_hostname;
     private String _old_hostname;
     }
 

@@ -4,11 +4,8 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import net.christophermerrill.testfx.*;
 import org.junit.jupiter.api.*;
+import org.museautomation.builtins.network.*;
 import org.museautomation.core.project.*;
-import org.museautomation.selenium.*;
-import org.museautomation.ui.editors.browser.*;
-
-import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -18,7 +15,7 @@ public class ProxyConfigurationEditorTests extends ComponentTest
     @Test
     void displayAndChangeFields()
         {
-        ProxyConfiguration original = createHttpProxy();
+        NetworkProxyConfiguration original = createHttpProxy();
         _editor.editResource(new SimpleProject(), original);
         waitForUiEvents();
 
@@ -26,10 +23,10 @@ public class ProxyConfigurationEditorTests extends ComponentTest
 
         @SuppressWarnings("rawtypes")
         ComboBox combo = this.lookup(id(ProxyConfigurationEditor.TYPE_FIELD_ID)).queryComboBox();
-        interact(() -> combo.getSelectionModel().select(ProxyConfiguration.ProxyConfigType.None.name()));
+        interact(() -> combo.getSelectionModel().select(NetworkProxyConfiguration.ProxyConfigType.None.name()));
 //        fillComboAndTabAway(id(ProxyConfigurationEditor.TYPE_FIELD_ID), ProxyConfiguration.ProxyConfigType.None.name());
-        ProxyConfiguration changed = createHttpProxy();
-        changed.setProxyType(ProxyConfiguration.ProxyConfigType.None);
+        NetworkProxyConfiguration changed = createHttpProxy();
+        changed.setProxyType(NetworkProxyConfiguration.ProxyConfigType.None);
         checkDisplayed(changed);
         Assertions.assertEquals(changed, original);
 
@@ -58,16 +55,16 @@ public class ProxyConfigurationEditorTests extends ComponentTest
         checkDisplayed(original);
         }
 
-    private ProxyConfiguration createHttpProxy()
+    private NetworkProxyConfiguration createHttpProxy()
         {
-        ProxyConfiguration proxy = new ProxyConfiguration();
-        proxy.setProxyType(ProxyConfiguration.ProxyConfigType.Fixed);
+        NetworkProxyConfiguration proxy = new NetworkProxyConfiguration();
+        proxy.setProxyType(NetworkProxyConfiguration.ProxyConfigType.Fixed);
         proxy.setHostname("proxyhost.com");
         proxy.setPort(1234);
         return proxy;
         }
 
-    private void checkDisplayed(ProxyConfiguration proxy)
+    private void checkDisplayed(NetworkProxyConfiguration proxy)
         {
         Assertions.assertEquals(proxy.getProxyType().name(), textOf(id(ProxyConfigurationEditor.TYPE_FIELD_ID)));
         Assertions.assertEquals(proxy.getHostname(), textOf(id(ProxyConfigurationEditor.HOSTNAME_FIELD_ID)));

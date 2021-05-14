@@ -5,8 +5,8 @@ import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.museautomation.builtins.network.*;
 import org.museautomation.core.*;
-import org.museautomation.selenium.*;
 import org.museautomation.ui.extend.components.*;
 import org.museautomation.ui.extend.edit.*;
 import org.slf4j.*;
@@ -40,7 +40,7 @@ public class ProxyConfigurationEditor extends BaseResourceEditor
             {
             try
                 {
-                ProxyConfiguration.ProxyConfigType new_type = ProxyConfiguration.ProxyConfigType.valueOf(new_value);
+                NetworkProxyConfiguration.ProxyConfigType new_type = NetworkProxyConfiguration.ProxyConfigType.valueOf(new_value);
                 if (!Objects.equals(new_type, _proxy.getProxyType()))
                     new ChangeProxyTypeAction(_proxy, new_type).execute(getUndoStack());
                 }
@@ -117,7 +117,7 @@ public class ProxyConfigurationEditor extends BaseResourceEditor
     @Override
     public boolean canEdit(MuseResource resource)
         {
-        return resource instanceof ProxyConfiguration;
+        return resource instanceof NetworkProxyConfiguration;
         }
 
     @Override
@@ -126,7 +126,7 @@ public class ProxyConfigurationEditor extends BaseResourceEditor
         super.editResource(project, resource);
         if (_proxy != null)
             _proxy.removeChangeListener(_listener);
-        _proxy = (ProxyConfiguration) resource;
+        _proxy = (NetworkProxyConfiguration) resource;
         fillFields();
         }
 
@@ -134,11 +134,12 @@ public class ProxyConfigurationEditor extends BaseResourceEditor
         {
         Platform.runLater(() ->
             {
-            _type_field.getItems().addAll(Arrays.stream(ProxyConfiguration.ProxyConfigType.values()).map(ProxyConfiguration.ProxyConfigType::name).collect(Collectors.toList()));
+            _type_field.getItems().addAll(Arrays.stream(NetworkProxyConfiguration.ProxyConfigType.values()).map(NetworkProxyConfiguration.ProxyConfigType::name).collect(Collectors.toList()));
             _type_field.getSelectionModel().select(_proxy.getProxyType().toString());
 
             _hostname_field.setText(_proxy.getHostname());
-            _port_field.setText(Integer.toString(_proxy.getPort()));
+//            if (_proxy.getPort() != null)
+                _port_field.setText(Integer.toString(_proxy.getPort()));
             _url_field.setText(_proxy.getPacUrl());
 
             _proxy.addChangeListener(_listener);
@@ -157,7 +158,7 @@ public class ProxyConfigurationEditor extends BaseResourceEditor
         _type_field.requestFocus();
         }
 
-    private ProxyConfiguration _proxy;
+    private NetworkProxyConfiguration _proxy;
 
     private final GridPane _grid;
     private ComboBox<String> _type_field;
@@ -167,7 +168,7 @@ public class ProxyConfigurationEditor extends BaseResourceEditor
 //    private TextField _exceptions_field;
     private final ProxyConfigChangeListener _listener = new ProxyConfigChangeListener();
 
-    private class ProxyConfigChangeListener implements ProxyConfiguration.ChangeListener
+    private class ProxyConfigChangeListener implements NetworkProxyConfiguration.ChangeListener
         {
         public void hostnameChanged(String old_value, String new_hostname)
             {
@@ -192,7 +193,7 @@ public class ProxyConfigurationEditor extends BaseResourceEditor
                 _port_field.setText(new_port.toString());
             }
 
-        public void typeChanged(ProxyConfiguration.ProxyConfigType old_value, ProxyConfiguration.ProxyConfigType new_type)
+        public void typeChanged(NetworkProxyConfiguration.ProxyConfigType old_value, NetworkProxyConfiguration.ProxyConfigType new_type)
             {
             if (!Objects.equals(_type_field.getSelectionModel().getSelectedItem(), new_type.name()))
                 _type_field.getSelectionModel().select(new_type.name());

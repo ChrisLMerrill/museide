@@ -1,6 +1,6 @@
 package org.museautomation.ui.editors.proxy;
 
-import org.museautomation.selenium.*;
+import org.museautomation.builtins.network.*;
 import org.museautomation.ui.extend.actions.*;
 
 /**
@@ -8,7 +8,7 @@ import org.museautomation.ui.extend.actions.*;
  */
 class ChangeProxyPacUrlAction extends UndoableAction
     {
-    ChangeProxyPacUrlAction(ProxyConfiguration proxy, String new_url)
+    ChangeProxyPacUrlAction(NetworkProxyConfiguration proxy, String new_url)
         {
         _proxy = proxy;
         _new_url = new_url;
@@ -29,8 +29,8 @@ class ChangeProxyPacUrlAction extends UndoableAction
         return true;
         }
 
-    private ProxyConfiguration _proxy;
-    private String _new_url;
+    private final NetworkProxyConfiguration _proxy;
+    private final String _new_url;
     private String _old_url;
     }
 

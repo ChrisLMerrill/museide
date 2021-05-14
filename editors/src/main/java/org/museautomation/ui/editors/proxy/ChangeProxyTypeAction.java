@@ -1,6 +1,6 @@
 package org.museautomation.ui.editors.proxy;
 
-import org.museautomation.selenium.*;
+import org.museautomation.builtins.network.*;
 import org.museautomation.ui.extend.actions.*;
 
 /**
@@ -8,7 +8,7 @@ import org.museautomation.ui.extend.actions.*;
  */
 class ChangeProxyTypeAction extends UndoableAction
     {
-    ChangeProxyTypeAction(ProxyConfiguration proxy, ProxyConfiguration.ProxyConfigType new_type)
+    ChangeProxyTypeAction(NetworkProxyConfiguration proxy, NetworkProxyConfiguration.ProxyConfigType new_type)
         {
         _proxy = proxy;
         _new_type = new_type;
@@ -29,9 +29,9 @@ class ChangeProxyTypeAction extends UndoableAction
         return true;
         }
 
-    private ProxyConfiguration _proxy;
-    private ProxyConfiguration.ProxyConfigType _new_type;
-    private ProxyConfiguration.ProxyConfigType _old_type;
+    private final NetworkProxyConfiguration _proxy;
+    private final NetworkProxyConfiguration.ProxyConfigType _new_type;
+    private NetworkProxyConfiguration.ProxyConfigType _old_type;
     }
 
 
